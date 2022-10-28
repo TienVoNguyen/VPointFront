@@ -1,6 +1,10 @@
 <template>
   <el-container>
+
+
     <h3 style="color: #6c757d" align="center">Quản lý người dùng</h3><br>
+    <br>
+    <el-button type="success" @click="removeValidate(true)" style="width: 20%">Thêm nhân viên mới</el-button>
     <br>
     <el-table
         border
@@ -40,15 +44,6 @@
           </p>
         </template>
       </el-table-column>
-      <!--      <el-table-column-->
-      <!--          width="100"-->
-      <!--          label="V-point">-->
-      <!--        <template v-slot="scope">-->
-      <!--          <p height="50px">-->
-      <!--            {{scope.row.marks.reduce((total, mark)=>{return total += mark.point},0)}}-->
-      <!--          </p>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
       <el-table-column
           align="center" class="w-100" style="width: 200px">
 

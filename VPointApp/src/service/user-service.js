@@ -14,6 +14,13 @@ export class UserService {
         return axios.get(dataURL, {params, headers: authHeader()});
     }
 
+    static getAllByYear(params) {
+        let dataURL = `${this.serverURL}/listByYear`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
+
+
+
     static deleteUser(userId){
         let dataURL = `${this.serverURL}/delete/${userId}`
         return axios.delete(dataURL, { headers: authHeader() })
