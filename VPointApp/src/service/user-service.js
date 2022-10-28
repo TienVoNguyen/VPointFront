@@ -56,4 +56,14 @@ export class UserService {
         return axios.get(dataURL, {headers: authHeader()});
     }
 
+    static getUserByName(params) {
+        let dataURL = `${this.serverURL}/getUserByName`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
+
+    static getUserByCateId(params) {
+        let dataURL = `${this.serverURL}/getUserByCate`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
+
 }

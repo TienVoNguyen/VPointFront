@@ -1,6 +1,9 @@
 <template>
   <el-container>
     <div class="text-center">
+      <h2 style="color: #6c757d">Quản lý điểm V-Point</h2>
+      <br>
+      <br>
       <h4 style="color: #6c757d"> Chọn năm: <span style="">
         <select class="form-control" v-model="selectedYear" @change="retrievePointList" style="width: 200px; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
@@ -33,11 +36,12 @@
       </el-table-column>
 
       <el-table-column
+          vertical-align="middle"
           align="center"
           width="150"
           label="V-point">
         <template v-slot="scope">
-          <p height="50px">
+          <p height="50px"><br>
             {{scope.row.password.length > 10? 0: scope.row.password}}
           </p>
         </template>
@@ -422,6 +426,7 @@ export default {
 
 
     refreshList() {
+
       this.retrieveUserList();
       this.currentIndex = -1;
     },
@@ -430,6 +435,7 @@ export default {
     },
     handlePageChange(value) {
       this.page = value;
+      this.retrievePointList()
       this.retrieveUserList();
     },
     getRequestParams(page) {
