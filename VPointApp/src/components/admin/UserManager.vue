@@ -1,6 +1,39 @@
 <template>
   <el-container>
+
+
     <h3 style="color: #6c757d" align="center">Quản lý người dùng</h3><br>
+    <br>
+
+
+    <div class="row input-group mb-3">
+      <div class="col-6">
+        <div class="text-left input-group-prepend">
+          <h5 style="color: #6c757d"> Nhóm: <span style="">
+        <select class="input-group-text" v-model="CateId" @change="getUser(CateId)" style="width: 300px; display: inherit; align-items: center;" >
+          <option v-bind:value="''">Tất cả nhân sự</option>
+          <option v-for="d in departments" v-bind:value="d.id"  v-bind:key ="d.id" >
+            {{ d.name }}
+          </option>
+        </select>
+      </span>
+
+          </h5>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="text-right input-group-prepend">
+          <h5 style="color: #6c757d"> Nhập để tìm kiếm: <span style="">
+        <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName" @keyup="get(fullName)">
+      </span>
+          </h5>
+        </div>
+      </div>
+    </div>
+
+
+    <br>
+    <el-button type="success" @click="removeValidateCreate(true)" style="width: 20%">Thêm nhân viên mới</el-button>
     <br>
     <el-table
         border
@@ -40,15 +73,6 @@
           </p>
         </template>
       </el-table-column>
-      <!--      <el-table-column-->
-      <!--          width="100"-->
-      <!--          label="V-point">-->
-      <!--        <template v-slot="scope">-->
-      <!--          <p height="50px">-->
-      <!--            {{scope.row.marks.reduce((total, mark)=>{return total += mark.point},0)}}-->
-      <!--          </p>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
       <el-table-column
           align="center" class="w-100" style="width: 200px">
 
@@ -170,6 +194,86 @@
         <!--      <pre>{{userForm1}}</pre>-->
   </span>
     </el-dialog>
+
+
+    <el-dialog  title="Tạo nhân sự mới" :visible.sync="dialogFormVisible2" width="70%">
+      <el-form :model="userForm1" id="userForm" >
+        <div class="row text-start" >
+          <div class="col-4">
+            <el-form-item prop="fullname">
+              <label for="fullname">Họ và tên</label>
+              <el-input name= "fullname" v-model="userForm1.fullname" autocomplete="off"></el-input>
+              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small>
+            </el-form-item>
+          </div>
+          <div class="col-2">
+            <el-form-item prop="staffId">
+              <label for="staffId">Mã nhân sự</label>
+              <el-input name= "staffId" v-model="userForm1.staffId" autocomplete="off"></el-input>
+              <small v-if="errId !== null" style="color: red">{{errId}}</small>
+            </el-form-item>
+
+          </div>
+          <div class="col-3">
+            <el-form-item   prop="department">
+              <label for="a">Phòng ban</label> <br>
+              <el-select style="width: 100%" v-model="userForm1.department" placeholder="Vui lòng chọn phòng ban">
+
+                <el-option   v-for="item in departments"
+                             :key="item.id"
+                             :label="item.name"
+                             :value="item.id"></el-option>
+              </el-select>
+              <small v-if="errDpm !== null" style="color: red">{{errDpm}}</small>
+            </el-form-item>
+          </div>
+          <div class="col-3">
+            <el-form-item prop="role">
+              <label for="">Quyền truy cập</label>
+              <el-select style="width: 100%" v-model="userForm1.role" placeholder="Chọn quyền truy cập" >
+                <el-option v-for="item in roles"
+                           :key="item.id"
+                           :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
+                           :value="item.id"></el-option>
+              </el-select>
+              <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
+            </el-form-item>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-6 text-start">
+            <el-form-item prop="email">
+              <label for="email">Email đăng nhập</label>
+              <el-input type="email" name= "email" v-model="userForm1.email" autocomplete="off"></el-input>
+              <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>
+            </el-form-item>
+
+          </div>
+          <div class="col-3" >
+            <el-form-item prop="password">
+              <label for="">Nhập mật khẩu</label>
+              <el-input name= "password" type="password" v-model="userForm1.password" autocomplete="off"></el-input>
+              <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
+            </el-form-item>
+          </div>
+          <div class="col-3">
+            <el-form-item  prop="confirmPassword">
+              <label for="">Nhập lại mật khẩu</label>
+              <el-input name= "confirmPassword" type="password" v-model="userForm1.confirmPassword" autocomplete="off"></el-input>
+              <small v-if="errorsPass !== null" style="color: red">{{errorsPass}}</small>
+            </el-form-item>
+
+          </div>
+        </div>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="removeValidate(false)">Cancel</el-button>
+    <el-button type="primary"  @click.prevent="handleRegister">Confirm</el-button>
+        <!--      <pre>{{userForm1}}</pre>-->
+  </span>
+    </el-dialog>
   </el-container>
 
 
@@ -185,7 +289,18 @@ export default {
   name: 'UserManager',
   data : function() {
     return {
-      listUser: '',
+      CateId: '',
+      fullName: '',
+      userForm1: {
+        staffId: '',
+        fullname: '',
+        password: '',
+        confirmPassword: '',
+        email: '',
+        department: '',
+        role: []
+      },
+      listUser: [],
       listU: '',
       point: [],
       currentIndex: -1,
@@ -198,10 +313,9 @@ export default {
       curEmail: '',
       user: '',
       user1: '',
-      dialogTableVisible: false,
       dialogFormVisible: false,
       dialogFormVisible1: false,
-      dialogTableVisible1: false,
+      dialogFormVisible2: false,
       message: '',
       roles: [],
       errId: '',
@@ -218,6 +332,10 @@ export default {
       check1: true,
       checkId: true,
       checkEmail: true,
+      checkName: true,
+      checkDpm: true,
+      checkRole: true,
+      checkPass: true,
 
       changePass: {
         newPassword: '',
@@ -278,6 +396,20 @@ export default {
           this.errDpm = '',
           this.errRole = ''
     },
+
+    removeValidateCreate(check){
+
+      this.dialogFormVisible2 = check,
+          this.message = '',
+          this.errId = '',
+          this.errP1 = '',
+          this.errorsPass = '',
+          this.errorsName = '',
+          this.matchName = '',
+          this.errorEmail = '',
+          this.errDpm = '',
+          this.errRole = ''
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -296,6 +428,160 @@ export default {
       console.log(this.count)
       console.log(this.listUser)
     },
+
+    async handleRegister() {
+      let response = await authService.getAllUser()
+      this.listU = response.data;
+
+      for (let i = 0; i < this.listU.length; i++) {
+        if (this.userForm1.staffId === this.listU[i].staffId) {
+          this.errId = 'Mã nhân sự đã tồn tại'
+          this.checkId = false;
+          break
+        } else {
+          this.checkId = true;
+        }
+      }
+
+      if (!this.userForm1.staffId) {
+        this.errId = 'Hãy nhập mã nhân sự'
+
+        this.checkId = false;
+      }
+
+      if (this.userForm1.staffId && this.checkId === true) {
+        this.errId = ''
+
+      }
+
+      if (!this.userForm1.department) {
+        this.checkDpm = false;
+        this.errDpm = 'Hãy chọn phòng ban'
+      } else {
+        this.errDpm = ''
+        this.checkDpm = true
+      }
+
+      if (this.userForm1.role.length === 0) {
+        this.checkRole = false;
+        this.errRole = 'Hãy chọn quyền truy cập'
+      } else {
+        this.checkRole = true;
+        this.errRole = ''
+      }
+
+      for (let i = 0; i < this.listU.length; i++) {
+        if (this.userForm1.email === this.listU[i].email) {
+          this.errorEmail = 'Email này đã tồn tại trong hệ thống'
+          this.checkEmail = false;
+          break
+        } else {
+
+          this.checkEmail = true;
+        }
+      }
+
+      if (!this.userForm1.email) {
+        this.errorEmail = 'Vui lòng nhập email nhân viên'
+
+        this.checkEmail = false;
+      } else if (!this.validEmail(this.userForm1.email)) {
+        this.errorEmail = 'Vui lòng nhập đúng định dạng email'
+        this.checkEmail = false;
+      } else if (this.validEmail(this.userForm1.email) && this.userForm1.email && this.checkEmail === true) {
+        this.errorEmail = ''
+        this.checkEmail = true
+      }
+
+
+      if (!this.userForm1.fullname) {
+        this.errorsName = 'Vui lòng nhập tên nhân viên'
+        this.check1 = false;
+      } else {
+        this.errorsName = ''
+        this.check1 = true;
+      }
+
+
+      if (this.userForm1.password !== this.userForm1.confirmPassword) {
+        this.errorsPass = 'Mật khẩu không trùng khớp'
+        this.checkPass = false
+      }
+
+
+      if (!this.userForm1.password && this.userForm1.confirmPassword || !this.userForm1.password && !this.userForm1.confirmPassword) {
+        this.errP1 = 'Vui lòng nhập mật khẩu'
+        this.checkPass = false;
+      } else if (!this.validPass(this.userForm1.password)) {
+        this.errP1 = 'Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'
+        this.checkPass = false;
+      } else {
+        this.errP1 = ''
+        this.checkPass = true;
+      }
+
+      if (this.userForm1.password && !this.userForm1.confirmPassword) {
+        this.errorsPass = 'Vui lòng xác nhận mật khẩu'
+        this.checkPass = false;
+      } else if (this.userForm1.password !== this.userForm1.confirmPassword) {
+        this.errorsPass = 'Mật khẩu không trùng khớp'
+        this.checkPass = false;
+      } else if (this.userForm1.password === this.userForm1.confirmPassword && this.validPass(this.userForm1.password)) {
+        this.errorsPass = ''
+        this.checkPass = true;
+      }
+
+
+      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkDpm === true && this.checkPass === true && this.checkRole === true) {
+        let form = document.querySelector('#userForm');
+        let formdata = new FormData(form);
+        formdata.append("department.id", this.userForm1.department)
+        formdata.append("role", this.userForm1.role)
+        console.log(formdata);
+        authService.createUser(formdata)
+            .then(
+                async data => {
+                  if (this.listUser.length === 10){
+                    this.page += 1
+                  }
+                  const params = this.getRequestParams(
+                      this.page
+                  );
+                  console.log(params)
+                  let response = await userService.getAll(params)
+                  this.listUser = response.data.content;
+                  this.count = response.data.totalPages;
+                  this.a = data.message;
+                  // let response = authService.getAllUser()
+                  // this.user = response.data;
+                  this.dialogFormVisible2 = false;
+                  this.checkId = false;
+                  this.checkEmail = false;
+                  swal.fire({
+                        toast: true,
+                        title: "Xong!",
+                        icon: "success",
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                      }
+                  )
+                }, () => {
+                  this.dialogFormVisible2 = true;
+                  swal.fire({
+                    toast: true,
+                    title: "Đã có lỗi xảy ra!",
+                    icon: "error",
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                });
+      } else {
+        this.message = 'Vui lòng điền đầy đủ thông tin'
+      }
+    },
+
     findByIdUser : async function (userId) {
       let response = await userService.findById(userId);
       if (response) {
@@ -405,67 +691,69 @@ export default {
 
     },
 
-    editUser(userId){
-      if (!this.user.fullName){
+    async editUser(userId) {
+
+      let response = await authService.getAllUser()
+      this.listU = response.data;
+      if (!this.user.fullName) {
         this.errorsName = 'Vui lòng nhập tên nhân viên'
         this.check1 = false;
       } else {
         this.errorsName = ''
+        this.check1 = true;
       }
-      for (let i = 0; i < this.listUser.length; i++) {
-        if (this.user.staffId === this.listUser[i].staffId && this.user.staffId !== this.curStaffId){
+      for (let i = 0; i < this.listU.length; i++) {
+        if (this.user.staffId === this.listU[i].staffId && this.user.staffId !== this.curStaffId) {
           this.errId = 'Mã nhân sự đã tồn tại'
-          this.check1 = false;
           this.checkId = false;
           break
         } else {
           this.checkId = true;
-          this.check1 = true;
           this.errId = ''
         }
       }
-      if (!this.user.staffId){
+      if (!this.user.staffId) {
         this.errId = 'Hãy nhập mã nhân sự'
         this.check1 = false;
         this.checkId = false;
       }
-      for (let i = 0; i < this.listUser.length; i++) {
-        if (this.user.email === this.listUser[i].email && this.user.email !== this.curEmail){
+      for (let i = 0; i < this.listU.length; i++) {
+        if (this.user.email === this.listU[i].email && this.user.email !== this.curEmail) {
           this.errorEmail = 'Email này đã tồn tại trong hệ thống'
-          this.check1 = false;
           this.checkEmail = false;
           break
         } else {
-          this.check1 = true;
           this.checkEmail = true;
         }
       }
-      if (!this.user.email){
+      if (!this.user.email) {
         this.errorEmail = 'Vui lòng nhập email nhân viên'
-        this.check1 = false;
         this.checkEmail = false;
       } else if (!this.validEmail(this.user.email)) {
         this.errorEmail = 'Vui lòng nhập đúng định dạng email'
         this.checkEmail = false;
-      } else if (this.validEmail(this.user.email) && this.user.email && this.checkEmail === true){
+      } else if (this.validEmail(this.user.email) && this.user.email && this.checkEmail === true) {
         this.errorEmail = ''
-        this.check1 = true;
+        this.checkEmail = true;
       }
-      if (!this.user.department){
-        this.check1 = false;
+      if (!this.user.department) {
+        this.checkDpm = false;
         this.errDpm = 'Hãy chọn phòng ban'
       } else {
         this.errDpm = ''
-        this.check1 = true;
+        this.checkDpm = true;
       }
-      if (this.user.role.length === 0){
-        this.check1 = false;
+      if (this.user.role.length === 0) {
+        this.checkDpm = false;
         this.errRole = 'Hãy chọn quyền truy cập'
+      } else if (this.user.role.length > 1) {
+        this.checkDpm = false;
+        this.errRole = 'Chỉ chọn 1 quyền truy cập'
       } else {
         this.errRole = ''
-        this.check1 = true;
+        this.checkDpm = true;
       }
-      if (this.check1 === true && this.checkId === true && this.checkEmail === true){
+      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkRole === true && this.checkDpm === true) {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);
         formdata.append("department.id", this.user.department.id)
@@ -527,6 +815,55 @@ export default {
         params["p"] = page - 1;
       }
       return params;
+    },
+    getDpmParams(CateId) {
+      let params = {};
+
+      params["CateId"] = CateId;
+
+      return params;
+    },
+
+    getUser(params){
+      console.log(params)
+      if (params === ''){
+        this.retrieveUserList()
+      }else {
+        this.getUserListByDpm(params)
+      }
+    },
+
+    getNameParams(fullName) {
+      let params = {};
+      if (fullName) {
+        params["fullName"] = fullName;
+      }
+      return params;
+    },
+
+    get(params){
+      if (this.fullName === ''){
+        this.retrieveUserList()
+      }else {
+        this.getUserListByName(params)
+      }
+    },
+
+    async getUserListByDpm(params) {
+      let param1 = this.getDpmParams(params)
+      let response = await userService.getUserByCateId(param1)
+      this.listUser = response.data;
+      this.count = response.data.totalPages;
+    },
+
+    async getUserListByName(params) {
+      let param1 = this.getNameParams(params)
+      let response = await userService.getUserByName(param1)
+      this.listUser = response.data;
+      this.count = response.data.totalPages;
+      // console.log(this.point)
+      console.log(this.count)
+      console.log(this.listUser)
     },
   }
 };

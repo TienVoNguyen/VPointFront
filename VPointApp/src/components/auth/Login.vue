@@ -82,10 +82,10 @@ export default {
   },
   created() {
 
-    if (this.loggedIn && this.currentUser.roles.length === 2) {
+    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
       this.$router.push('/admin/home');
     }
-    if (this.loggedIn && this.currentUser.roles.length === 1) {
+    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER") {
 
       this.$router.push('/user/home');
     }
@@ -168,3 +168,4 @@ input {
   color: rgba(249, 3, 3, 0.9);
 }
 </style>
+

@@ -33,7 +33,7 @@ const router = new Router({
                     component: () => import("@/components/admin/ImportExcel"),
                 },
                 {
-                    path: 'detail/:idUser',
+                    path: 'detail/:idUser/:year',
                     name: 'detail',
                     component: () => import("@/components/admin/Detail"),
                 },
