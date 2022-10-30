@@ -6,7 +6,7 @@
         <a class="navbar-brand w-100 mr-0" href="#" style="line-height: 25px;">
           <div class="d-table m-auto">
             <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 20%;"
-                 src="https://vmgmedia.vn/Content/images/logo/01.png" alt="Shards Dashboard">
+                 src="https://vmgmedia.vn/Content/images/logo/01.png" alt="VMG Logo">
           </div>
         </a>
         <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
