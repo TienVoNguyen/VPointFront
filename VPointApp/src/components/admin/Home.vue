@@ -1,18 +1,28 @@
 <template>
   <el-container>
     <div class="text-center">
-      <h2 style="color: #6c757d">Quản lý điểm V-Point</h2>
-      <br>
-      <br>
-      <h4 style="color: #6c757d"> Chọn năm: <span style="">
-        <select class="form-control" v-model="selectedYear" @change="retrievePointList" style="width: 200px; display: inherit; align-items: center" >
+      <h2 style="color: #6c757d">Quản lý điểm V-Point năm <span style="">
+        <select  v-model="selectedYear" @change="retrievePointList" style="width: 120px; color: #6c757d; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
             {{ y }}
           </option>
         </select>
-      </span>
+      </span></h2>
+      <br>
+      <br>
+    </div>
+    <br>
+    <div class="text-left input-group-prepend">
+      <p style="color: #6c757d"> Xem: <span style="">
+        <select class="input-group-text" v-model="size" @change="retrievePointList" style="width: 62px; display: inherit; align-items: center;" >
+          <option v-bind:value="10">10</option>
+          <option v-bind:value="15">15</option>
+          <option v-bind:value="20">20</option>
+          <option v-bind:value="30">30</option>
+        </select>
+      </span> mục
 
-      </h4>
+      </p>
     </div>
 
     <el-table border align="center"
@@ -46,7 +56,7 @@
           </p>
         </template>
       </el-table-column>
-      <el-table-column
+      <el-table-column align="center"
           label="Tùy chọn">
         <template v-slot="scope">
           <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default" class="el-icon-plus"></i></el-button>
@@ -185,6 +195,7 @@ export default {
   data : function() {
     return {
       pointU:'',
+      size: 10,
       year: [],
       selectedYear: this.formatYear(new Date()),
       listPoint: [],
@@ -219,8 +230,6 @@ export default {
   },
   async created() {
     this.getRoleId()
-    console.log(this.roleId)
-    console.log(this.selectedYear, "a")
     await this.retrieveUserList();
     await this.retrievePointList()
 
@@ -285,7 +294,8 @@ export default {
     },
     async retrieveUserList() {
       const params = this.getRequestParams(
-          this.page
+          this.page,
+          this.size
       );
       console.log(params)
       let response = await userService.getAll(params)
@@ -348,7 +358,8 @@ export default {
               let response = await userService.deleteUser(userId);
               if (response) {
                 const params = this.getRequestParams(
-                    this.page
+                    this.page,
+                    this.size
                 );
                 console.log(params)
                 let response = await userService.getAll(params)
@@ -392,7 +403,8 @@ export default {
             .then(
                 async data => {
                   const params = this.getRequestParams(
-                      this.page
+                      this.page,
+                      this.size
                   );
                   console.log(params)
                   let response = await authService.getUserPage(params)
@@ -438,10 +450,11 @@ export default {
       this.retrievePointList()
       this.retrieveUserList();
     },
-    getRequestParams(page) {
+    getRequestParams(page, size) {
       let params = {};
       if (page) {
         params["p"] = page - 1;
+        params["size"] = size
       }
       return params;
     },
