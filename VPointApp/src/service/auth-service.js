@@ -63,6 +63,10 @@ class AuthService {
         let dataURL = `${API_URL}userChangePassword/${idUser}`
         return axios.post(dataURL, changePass, {headers: authHeader()})
     }
+    adminGetYear() {
+        let dataURL = `${API_URL}adminGetYear`
+        return axios.get(dataURL, { headers: authHeader()});
+    }
 }
 
 export default new AuthService();

@@ -1,6 +1,19 @@
 <template>
   <el-container>
+    <div class="text-center">
+      <h2 style="color: #6c757d">Quản lý điểm V-Point</h2>
+      <br>
+      <br>
+      <h4 style="color: #6c757d"> Chọn năm: <span style="">
+        <select class="form-control" v-model="selectedYear" @change="retrievePointList" style="width: 200px; display: inherit; align-items: center" >
+          <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
+            {{ y }}
+          </option>
+        </select>
+      </span>
 
+      </h4>
+    </div>
 
     <el-table border align="center"
               :data="listUser"
@@ -8,7 +21,7 @@
       <el-table-column align="center"
                        prop="staffId"
                        label="Mã nhân viên"
-                       width="320">
+                       width="200">
       </el-table-column>
       <el-table-column align="center"
                        prop="fullName"
@@ -23,12 +36,13 @@
       </el-table-column>
 
       <el-table-column
+          vertical-align="middle"
           align="center"
           width="150"
           label="V-point">
         <template v-slot="scope">
-          <p height="50px">
-            {{scope.row.marks.reduce((total, mark)=>{return total += mark.point},0)}}
+          <p height="50px"><br>
+            {{scope.row.password.length > 10? 0: scope.row.password}}
           </p>
         </template>
       </el-table-column>
@@ -36,7 +50,7 @@
           label="Tùy chọn">
         <template v-slot="scope">
           <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default" class="el-icon-plus"></i></el-button>
-          <el-button class="btn btn-warning" type="text"><router-link :to="`detail/${scope.row.id}`" style="color: white"><i size="default" class="el-icon-view"></i></router-link></el-button>
+          <el-button class="btn btn-warning" type="text"><router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white"><i size="default" class="el-icon-view"></i></router-link></el-button>
 
           <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default" class="el-icon-delete"></i></el-button>
         </template>
@@ -164,26 +178,26 @@ import  {UserService as userService} from "@/service/user-service";
 import swal from 'sweetalert2'
 import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
+import moment from "moment";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'HomeComponent',
   data : function() {
     return {
-      listUser: '',
+      pointU:'',
+      year: [],
+      selectedYear: this.formatYear(new Date()),
+      listPoint: [],
+      listUser: [],
       listU: '',
       point: [],
       currentIndex: -1,
       page: 1,
       count: 0,
-      itemCount: 6,
       categoryCode: '',
       errorMessage: '',
-      curStaffId: '',
-      curEmail: '',
       user: '',
       user1: '',
-      dialogTableVisible: false,
-      dialogFormVisible: false,
       dialogFormVisible1: false,
       dialogTableVisible1: false,
       message: '',
@@ -193,17 +207,9 @@ export default {
       errP1: '',
       errorsPass: '',
       departments: [],
-      errorsName: '',
-      matchName: '',
-      errorEmail: '',
-      errDpm: '',
-      errRole: '',
       checkButton: true,
       selected: '',
       check1: true,
-      checkId: true,
-      checkRole: true,
-      checkEmail: true,
 
       changePass: {
         newPassword: '',
@@ -214,9 +220,16 @@ export default {
   async created() {
     this.getRoleId()
     console.log(this.roleId)
-    await this.retrieveUserList()
+    console.log(this.selectedYear, "a")
+    await this.retrieveUserList();
+    await this.retrievePointList()
+
     let response = await authService.getAllUser()
     this.listU = response.data;
+    let response3 = await authService.adminGetYear()
+    for (let i = 0; i < response3.data.length; i++) {
+      this.year.push(this.formatYear(response3.data[i].date))
+    }
     let response1 = await authService.getAllRole()
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
@@ -235,6 +248,11 @@ export default {
     },
   },
   methods: {
+    formatYear(value){
+      if (value) {
+        return moment(String(value)).format('YYYY')
+      }
+    },
     getRoleId() {
       for (let i = 0; i < this.currentUser.roles.length; i++) {
         if (this.currentUser.roles[i].authority === 'ROLE_ADMIN') {
@@ -246,38 +264,19 @@ export default {
       }
     },
 
-    validEmail: function (email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
-
     validPass: function (pass) {
       var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
       return re.test(pass);
     },
 
     removeValidate1(userId) {
-      // this.findByIdUser(userId)
-      // this.dialogFormVisible1 = check
-      // this.errP1 = ''
-      // this.errorsPass = ''
-      this.$router.push(`mark/${userId}`); 
-    },
-
-
-    removeValidate(check, userId){
       this.findByIdUser(userId)
-      this.dialogFormVisible = check
-      this.message = ''
-      this.errId = ''
+      // this.dialogFormVisible1 = check
       this.errP1 = ''
       this.errorsPass = ''
-      this.errorsName = ''
-      this.matchName = ''
-      this.errorEmail = ''
-      this.errDpm = ''
-      this.errRole = ''
+      this.$router.push(`mark/${userId}`);
     },
+
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -292,9 +291,35 @@ export default {
       let response = await userService.getAll(params)
       this.listUser = response.data.content;
       this.count = response.data.totalPages;
-      console.log(this.point)
       console.log(this.count)
       console.log(this.listUser)
+    },
+    async retrievePointList() {
+      await this.retrieveUserList()
+      const params = this.getRequestParamsYear(
+          this.selectedYear
+      );
+      console.log(params)
+      let response = await userService.getAllByYear(params)
+      this.listPoint = response.data;
+      for (let i = 0; i < this.listUser.length; i++) {
+        for (let j = 0; j < this.listPoint.length; j++) {
+          if (this.listUser[i].staffId === this.listPoint[j].staffId){
+            this.listUser[i].password = this.listPoint[j].sum
+          }
+        }
+      }
+      // this.listUser.forEach(user => {
+      //   this.listPoint.forEach(upoint => {
+      //     if(user.staffId === upoint.staffId) {
+      //       user.password = upoint.sum
+      //     }else {
+      //       user.password = 0
+      //     }
+      //   })
+      // })
+      console.log(this.listPoint)
+
     },
     findByIdUser : async function (userId) {
       let response = await userService.findById(userId);
@@ -369,9 +394,6 @@ export default {
                   const params = this.getRequestParams(
                       this.page
                   );
-                  // if (this.listUser.length === 10){
-                  //   this.params += 1
-                  // }
                   console.log(params)
                   let response = await authService.getUserPage(params)
                   console.log(response)
@@ -400,119 +422,11 @@ export default {
                   });
                 });
       }
-
-
     },
 
-    editUser(userId){
-      if (!this.user.fullName){
-        this.errorsName = 'Vui lòng nhập tên nhân viên'
-        this.check1 = false;
-      } else {
-        this.errorsName = ''
-      }
-      for (let i = 0; i < this.listUser.length; i++) {
-        if (this.user.staffId === this.listUser[i].staffId && this.user.staffId !== this.curStaffId){
-          this.errId = 'Mã nhân sự đã tồn tại'
-          this.check1 = false;
-          this.checkId = false;
-          break
-        } else {
-          this.checkId = true;
-          this.check1 = true;
-          this.errId = ''
-        }
-      }
 
-      if (!this.user.staffId){
-        this.errId = 'Hãy nhập mã nhân sự'
-        this.check1 = false;
-        this.checkId = false;
-      }
-      for (let i = 0; i < this.listUser.length; i++) {
-        if (this.user.email === this.listUser[i].email && this.user.email !== this.curEmail){
-          this.errorEmail = 'Email này đã tồn tại trong hệ thống'
-          this.check1 = false;
-          this.checkEmail = false;
-          break
-        } else {
-          this.check1 = true;
-          this.checkEmail = true;
-        }
-      }
-      if (!this.user.email){
-        this.errorEmail = 'Vui lòng nhập email nhân viên'
-        this.check1 = false;
-        this.checkEmail = false;
-      } else if (!this.validEmail(this.user.email)) {
-        this.errorEmail = 'Vui lòng nhập đúng định dạng email'
-        this.checkEmail = false;
-      } else if (this.validEmail(this.user.email) && this.user.email && this.checkEmail === true){
-        this.errorEmail = ''
-        this.check1 = true;
-      }
-      if (!this.user.department){
-        this.check1 = false;
-        this.errDpm = 'Hãy chọn phòng ban'
-      } else {
-        this.errDpm = ''
-        this.check1 = true;
-      }
-      if (this.user.role.length === 0){
-        this.checkRole = false;
-        this.errRole = 'Hãy chọn quyền truy cập'
-      } else if (this.user.role.length > 1){
-        this.checkRole = false;
-        this.errRole = 'Chỉ chọn 1 quyền'
-      } else {
-        this.errRole = ''
-        this.checkRole = true;
-      }
-      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkRole === true){
-        let form = document.querySelector('#userForm');
-        let formdata = new FormData(form);
-        formdata.append("department.id", this.user.department.id)
-        let roles = [];
-        this.user.role.forEach(r => {
-          roles.push(r.id)
-        })
-        console.log(roles)
-        formdata.append("role", roles)
-        authService.editUser(userId, formdata)
-            .then(
-                async data => {
-                  const params = this.getRequestParams(
-                      this.page
-                  );
-                  console.log(params)
-                  let response = await authService.getUserPage(params)
-                  console.log(response)
-                  this.listUser = response.data.content
-                  this.count = response.data.totalPages;
-                  this.a = data.message,
-                      this.dialogFormVisible = false;
-                  swal.fire({
-                    toast: true,
-                    title: "Xong!",
-                    icon: "success",
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                  })
-                }, () => {
-                  this.dialogFormVisible = true;
-                  swal.fire({
-                    toast: true,
-                    title: "Đã có lỗi xảy ra!",
-                    icon: "error",
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                  });
-                });
-      }
-    },
     refreshList() {
+
       this.retrieveUserList();
       this.currentIndex = -1;
     },
@@ -521,6 +435,7 @@ export default {
     },
     handlePageChange(value) {
       this.page = value;
+      this.retrievePointList()
       this.retrieveUserList();
     },
     getRequestParams(page) {
@@ -528,6 +443,11 @@ export default {
       if (page) {
         params["p"] = page - 1;
       }
+      return params;
+    },
+    getRequestParamsYear(year) {
+      let params = {};
+        params["year"] = year;
       return params;
     },
   }

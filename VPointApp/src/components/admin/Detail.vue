@@ -9,7 +9,7 @@
 
     <div class="text-center">
       <h4 style="color: #6c757d"> Chọn năm: <span style="">
-        <select class="form-control" v-model="selected" @change="get(selected)" style="width: 200px; display: inherit; align-items: center" >
+        <select class="form-control" v-model="selected" @change="getVpointByYear(selected)" style="width: 200px; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
             {{ y }}
           </option>
@@ -69,7 +69,7 @@ export default {
       Point: [],
       search: '',
       year: [],
-      selected: '',
+      selected: this.$route.params.year,
       sum: 0
     }
   },
@@ -100,9 +100,8 @@ export default {
     },
 
     async getVPoint() {
-      let date = new Date();
-      this.selected = date.getFullYear()
-      let response = await userService.getVpoint(this.idUser)
+      let params = this.getRequestParams(this.selected)
+      let response = await userService.getVpointByYear(this.idUser, params)
       this.Point = response.data
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
@@ -113,16 +112,8 @@ export default {
       }
     },
 
-    get(params){
-      this.sum = ''
-      this.getVpointByYear(params)
-    },
-
     async getVpointByYear(params) {
-      if (this.currentUser != null) {
-        console.log(this.currentUser)
-        this.idUser = this.currentUser.id;
-      }
+      this.sum = ''
       let params1 = this.getRequestParams(params)
       let response = await userService.getVpointByYear(this.idUser, params1)
       this.Point = response.data
