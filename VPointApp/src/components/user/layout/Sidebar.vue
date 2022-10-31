@@ -60,7 +60,9 @@
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
+
                   <el-button type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
+
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <el-button type="text" @click="logOut">Đăng xuất</el-button>
@@ -70,6 +72,8 @@
           </a>
         </li>
       </ul>
+
+      <profile :toggeProfile="dialogProfileVisible"></profile>
       <nav class="nav">
         <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left"
            data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
@@ -105,8 +109,10 @@
 <script>
 
 import authService from "@/service/auth-service";
+
 import swal from "sweetalert2";
 import login from "@/components/auth/Login";
+
 
 export default {
   name: "SidebarComponent",
@@ -114,7 +120,9 @@ export default {
     return {
       dialogTableVisible: false,
       dialogFormVisible: false,
+
       oldPass: '',
+
       errorsPass: '',
       errP1: '',
       check1: true,
@@ -128,7 +136,10 @@ export default {
     };
 
   },
-  components: login,
+  components: {
+    login,
+    profile
+  },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
