@@ -60,7 +60,7 @@
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                  <el-button type="text" @click="dialogFormVisible1 = true">Đổi mật khẩu</el-button>
+                  <el-button type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <el-button type="text" @click="logOut">Đăng xuất</el-button>
@@ -78,82 +78,55 @@
       </nav>
     </nav>
 
-    <el-dialog title="Đổi mật khẩu" :visible.sync="dialogFormVisible1">
-      <el-form :model="form">
-        <el-form-item label="Promotion name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+    <el-dialog title="Đổi mật khẩu" :visible.sync="dialogFormVisible">
+      <el-form>
+        <el-form-item label="Nhập mật cũ">
+          <el-input v-model="changePass.oldPassword" type="password" autocomplete="off"></el-input>
+          <small v-if="oldPass != null" style="color: red">{{oldPass}}</small>
         </el-form-item>
-        <el-form-item label="Zones" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="Please select a zone">
-            <el-option label="Zone No.1" value="shanghai"></el-option>
-            <el-option label="Zone No.2" value="beijing"></el-option>
-          </el-select>
+        <el-form-item label="Nhập mật khẩu mới">
+          <el-input v-model="changePass.newPassword" type="password" autocomplete="off"></el-input>
+          <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
+        </el-form-item>
+        <el-form-item label="Xác nhận mật khẩu mới">
+          <el-input v-model="changePass.confirmNewPassword" type="password" autocomplete="off"></el-input>
+          <small v-if="errorsPass != null" style="color: red">{{errorsPass}}</small>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible1 = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible1 = false">Confirm</el-button>
-      </span>
+    <el-button type="primary" @click.prevent="RepassUser(currentUser.id)">Confirm</el-button>
+        <!--        <pre>{{changePass}}</pre>-->
+  </span>
     </el-dialog>
 
   </div>
 
 </template>
 <script>
-import login from "@/components/auth/Login";
+
 import authService from "@/service/auth-service";
+import swal from "sweetalert2";
+import login from "@/components/auth/Login";
 
 export default {
   name: "SidebarComponent",
   data: function () {
     return {
-      userForm1: {
-        staffId: '',
-        fullname: '',
-        password: '',
-        confirmPassword: '',
-        email: '',
-        department: '',
-        role: []
-      },
       dialogTableVisible: false,
       dialogFormVisible: false,
-      dialogFormVisible1: false,
-      dialogTableVisible1: false,
-      user: [],
-      roles: [],
+      oldPass: '',
       errorsPass: '',
-      department: [],
-      errorsName: '',
-      matchName: '',
-      errorEmail: '',
+      errP1: '',
       check1: true,
       formLabelWidth: '120px',
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+      changePass: {
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+
       },
     };
-  },
-  created: async function () {
-    try {
-      let response = await authService.getAllUser()
-      this.user = response.data;
-      let response1 = await authService.getAllRole()
-      this.roles = response1.data;
-      let response2 = await authService.getAllDepartment()
-      this.department = response2.data;
-      console.log(this.department)
-      console.log(this.currentUser)
-    } catch (error) {
-      console.log(error)
-    }
+
   },
   components: login,
   computed: {
@@ -165,23 +138,61 @@ export default {
     },
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+    removeValidate1(check) {
+      this.dialogFormVisible = check
+      this.oldPass = ''
+      this.errP1 = ''
+      this.errorsPass = ''
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    validPass: function (pass) {
+      var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+      return re.test(pass);
     },
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
     },
-    handleRegister() {
-      let form = document.querySelector('#userForm');
-      let formdata = new FormData(form);
-      formdata.append("department.id", this.userForm1.department)
-      formdata.append("role", this.userForm1.role)
-      console.log(formdata);
-      authService.createUser(formdata);
+    RepassUser(userId) {
+      if (!this.changePass.newPassword && this.changePass.confirmNewPassword || !this.changePass.newPassword && !this.changePass.confirmNewPassword) {
+        this.errP1 = 'Vui lòng nhập mật khẩu'
+        this.check1 = false;
+      } else if (!this.validPass(this.changePass.newPassword)) {
+        this.errP1 = 'Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'
+      } else {
+        this.errP1 = ''
+        this.check1 = true;
+      }
+      if (this.changePass.newPassword && !this.changePass.confirmNewPassword) {
+        this.errorsPass = 'Vui lòng xác nhận mật khẩu'
+        this.check1 = false;
+      } else if (this.changePass.newPassword !== this.changePass.confirmNewPassword) {
+        this.errorsPass = 'Mật khẩu không trùng khớp'
+        this.check1 = false;
+      } else if (this.changePass.newPassword === this.changePass.confirmNewPassword) {
+        this.errorsPass = ''
+        this.check1 = true;
+      }
+      if (this.check1 === true) {
+        authService.userRepass(userId, this.changePass)
+            .then(
+                async data => {
+                  this.a = data.message,
+                      this.dialogFormVisible1 = false;
+                  await swal.fire({
+                        toast: true,
+                        title: "Xong!",
+                        icon: "success",
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                      }
+                  )
+                },
+                () => {
+                  this.oldPass = 'Mật khẩu cũ không chính xác'
+                  this.dialogFormVisible = true;
+                });
+      }
     }
   }
 }

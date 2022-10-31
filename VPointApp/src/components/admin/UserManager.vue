@@ -8,8 +8,9 @@
 
     <div class="row input-group mb-3">
       <div class="col-6">
+
         <div class="text-left input-group-prepend">
-          <h5 style="color: #6c757d"> Nhóm: <span style="">
+          <p style="color: #6c757d"> Nhóm: <span style="">
         <select class="input-group-text" v-model="CateId" @change="getUser(CateId)" style="width: 300px; display: inherit; align-items: center;" >
           <option v-bind:value="''">Tất cả nhân sự</option>
           <option v-for="d in departments" v-bind:value="d.id"  v-bind:key ="d.id" >
@@ -17,24 +18,46 @@
           </option>
         </select>
       </span>
-
-          </h5>
+          </p>
         </div>
       </div>
       <div class="col-6">
-        <div class="text-right input-group-prepend">
-          <h5 style="color: #6c757d"> Nhập để tìm kiếm: <span style="">
+        <div class="text-right">
+          <p style="color: #6c757d"> Nhập để tìm kiếm: <span style="">
         <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName" @keyup="get(fullName)">
       </span>
-          </h5>
+          </p>
         </div>
       </div>
     </div>
 
 
     <br>
-    <el-button type="success" @click="removeValidateCreate(true)" style="width: 20%">Thêm nhân viên mới</el-button>
-    <br>
+
+
+<div class="row">
+  <div class="col-6">
+    <div class="text-left input-group-prepend">
+      <p style="color: #6c757d"> Xem: <span style="">
+        <select class="input-group-text" v-model="size" @change="retrieveUserList" style="width: 62px; display: inherit; align-items: center;" >
+          <option v-bind:value="10">10</option>
+          <option v-bind:value="15">15</option>
+          <option v-bind:value="20">20</option>
+          <option v-bind:value="30">30</option>
+        </select>
+      </span> mục
+      </p>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="text-right">
+      <el-button type="danger" @click="removeValidateCreate(true)" style="width: 35%">Thêm nhân viên mới</el-button>
+    </div>
+  </div>
+
+
+</div>
+
     <el-table
         border
         :data="listUser"
@@ -300,6 +323,7 @@ export default {
         department: '',
         role: []
       },
+      size: 10,
       listUser: [],
       listU: '',
       point: [],
@@ -418,7 +442,8 @@ export default {
     },
     async retrieveUserList() {
       const params = this.getRequestParams(
-          this.page
+          this.page,
+          this.size
       );
       console.log(params)
       let response = await userService.getAll(params)
@@ -545,7 +570,8 @@ export default {
                     this.page += 1
                   }
                   const params = this.getRequestParams(
-                      this.page
+                      this.page,
+                      this.size
                   );
                   console.log(params)
                   let response = await userService.getAll(params)
@@ -654,7 +680,8 @@ export default {
             .then(
                 async data => {
                   const params = this.getRequestParams(
-                      this.page
+                      this.page,
+                      this.size
                   );
                   // if (this.listUser.length === 10){
                   //   this.params += 1
@@ -809,10 +836,11 @@ export default {
       console.log(this.page)
       this.retrieveUserList();
     },
-    getRequestParams(page) {
+    getRequestParams(page, size) {
       let params = {};
       if (page) {
         params["p"] = page - 1;
+        params["size"] = size
       }
       return params;
     },

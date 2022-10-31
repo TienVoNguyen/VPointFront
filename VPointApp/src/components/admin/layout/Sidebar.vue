@@ -60,7 +60,7 @@
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                  <el-button type="text" @click="dialogFormVisible1 = true">Đổi mật khẩu</el-button>
+                  <el-button type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <el-button type="text" @click="logOut">Đăng xuất</el-button>
