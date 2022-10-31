@@ -1,27 +1,35 @@
 <template>
-  <div>
-    <table class="table table-bordered" :data="Point">
+
+  <div class="container">
+    <h3 style="color: black">Điểm V-Point tháng {{month}} năm {{year}}</h3>
+    <br><br>
+    <table class="table table-bordered"  :data="Point">
       <tr >
-        <th scope="col">Stt</th>
-        <th scope="col">Mục</th>
-        <th scope="col">Hạng mục</th>
-        <th scope="col">Điểm V-Point</th>
+        <th >Stt</th>
+        <th >Mục</th>
+        <th >Hạng mục</th>
+        <th >Điểm V-Point</th>
+        <th >Tổng điểm theo mục</th>
       </tr>
       <tr >
-        <th scope="row" rowspan="2">1</th>
+        <th rowspan="2">1</th>
         <td rowspan="2">Hiệu suất công việc</td>
         <td>KPI cá nhân hàng tháng</td>
         <td>{{td1}}</td>
+        <td rowspan="2">{{ td1 + td2}}</td>
       </tr>
       <tr>
+
         <td>Nhân viên xuất sắc, bộ phận xuất sắc</td>
         <td>{{td2}}</td>
+
       </tr>
       <tr>
         <td rowspan="2">02</td>
         <td rowspan="2">Làm việc nhóm</td>
         <td>Điểm bcs bộ phận</td>
         <td>{{td3}}</td>
+        <td rowspan="2">{{td3 + td4}}</td>
       </tr>
       <tr>
         <td>Hoạt động chung</td>
@@ -32,11 +40,13 @@
         <td>Đào tạo và phát triển</td>
         <td>Đào tạo</td>
         <td>{{td5}}</td>
+        <td>{{td5}}</td>
       </tr>
       <tr>
         <td>04</td>
         <td>Sáng tạo</td>
         <td>Cải tiến đổi mới</td>
+        <td>{{td6}}</td>
         <td>{{td6}}</td>
       </tr>
       <tr>
@@ -44,6 +54,7 @@
         <td rowspan="2">Tuân thủ</td>
         <td>Tôi yêu VMG</td>
         <td>{{td7}}</td>
+        <td rowspan="2">{{td7 + td8}}</td>
       </tr>
       <tr>
         <td>Kỷ luật</td>
@@ -51,11 +62,13 @@
       </tr>
       <tr >
         <td>06</td>
-        <td colspan="2" ><h4>Tổng điểm</h4></td>
+        <td colspan="3" style="background-color: #dc3545"><h4>Tổng điểm</h4></td>
         <td>{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
       </tr>
     </table>
   </div>
+
+
 </template>
 
 <script>

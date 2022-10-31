@@ -2,14 +2,26 @@
   <el-container class="background">
     <div class="text-center">
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
-      <h4 style="color: #6c757d; margin-bottom: 2rem"> Chọn năm: <span >
-        <select class="form-control" v-model="selectedYear" @change="retrievePointList" style="width: 200px; display: inherit; align-items: center" >
-          <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
+      <h4 style="color: #6c757d; margin-bottom: 2rem"> Chọn năm: <span>
+        <select class="form-control" v-model="selectedYear" @change="retrievePointList"
+                style="width: 200px; display: inherit; align-items: center">
+          <option v-for="y in year" v-bind:value="y" v-bind:key="y">
             {{ y }}
           </option>
         </select>
-      </span>
-      </h4>
+      </span></h4>
+    </div>
+    <div class="text-left input-group-prepend">
+      <p style="color: #6c757d"> Xem: <span style="">
+        <select class="input-group-text" v-model="size" @change="retrievePointList"
+                style="width: 62px; display: inherit; align-items: center;">
+          <option v-bind:value="10">10</option>
+          <option v-bind:value="15">15</option>
+          <option v-bind:value="20">20</option>
+          <option v-bind:value="30">30</option>
+        </select>
+      </span> mục
+      </p>
     </div>
 
     <el-table border align="center"
@@ -39,17 +51,25 @@
           label="V-point">
         <template v-slot="scope">
           <p height="50px"><br>
-            {{scope.row.password.length > 10? 0: scope.row.password}}
+            {{ scope.row.password.length > 10 ? 0 : scope.row.password }}
           </p>
         </template>
       </el-table-column>
-      <el-table-column
-          label="Tùy chọn">
+      <el-table-column align="center"
+                       label="Tùy chọn">
         <template v-slot="scope">
-          <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default" class="el-icon-plus"></i></el-button>
-          <el-button class="btn btn-warning" type="text"><router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white"><i size="default" class="el-icon-view"></i></router-link></el-button>
+          <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default"
+                                                                                                   class="el-icon-plus"></i>
+          </el-button>
+          <el-button class="btn btn-warning" type="text">
+            <router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white"><i size="default"
+                                                                                                class="el-icon-view"></i>
+            </router-link>
+          </el-button>
 
-          <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default" class="el-icon-delete"></i></el-button>
+          <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default"
+                                                                                             class="el-icon-delete"></i>
+          </el-button>
         </template>
       </el-table-column>
 
@@ -72,11 +92,11 @@
       <el-form>
         <el-form-item label="Nhập mật khẩu mới">
           <el-input v-model="changePass.newPassword" autocomplete="off"></el-input>
-          <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
+          <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
         </el-form-item>
         <el-form-item label="Xác nhận mật khẩu mới">
           <el-input v-model="changePass.confirmNewPass" autocomplete="off"></el-input>
-          <small v-if="errorsPass != null" style="color: red">{{errorsPass}}</small>
+          <small v-if="errorsPass != null" style="color: red">{{ errorsPass }}</small>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -86,35 +106,35 @@
     </el-dialog>
 
 
-    <el-dialog  title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%">
-      <el-form :model="user" id="userForm" >
-        <div class="row text-start" >
+    <el-dialog title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%">
+      <el-form :model="user" id="userForm">
+        <div class="row text-start">
           <div class="col-6">
             <el-form-item prop="fullname">
               <label for="fullname">Họ và tên</label>
-              <el-input name= "fullname" v-model="user.fullName" autocomplete="off"></el-input>
-              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small>
+              <el-input name="fullname" v-model="user.fullName" autocomplete="off"></el-input>
+              <small v-if="errorsName !== null" style="color: red">{{ errorsName }}</small>
             </el-form-item>
           </div>
           <div class="col-3">
             <el-form-item prop="staffId">
               <label for="staffId">Mã nhân sự</label>
-              <el-input name= "staffId" v-model="user.staffId" autocomplete="off"></el-input>
-              <small v-if="errId !== null" style="color: red">{{errId}}</small>
+              <el-input name="staffId" v-model="user.staffId" autocomplete="off"></el-input>
+              <small v-if="errId !== null" style="color: red">{{ errId }}</small>
             </el-form-item>
 
           </div>
           <div class="col-3">
-            <el-form-item   prop="department">
+            <el-form-item prop="department">
               <label for="a">Phòng ban</label> <br>
               <el-select style="width: 100%" v-model="user.department" value-key="id">
-                <el-option   v-for="item in departments"
-                             :key="item.id"
-                             :label="item.name"
-                             :value="item"
+                <el-option v-for="item in departments"
+                           :key="item.id"
+                           :label="item.name"
+                           :value="item"
                 ></el-option>
               </el-select>
-              <small v-if="errDpm !== null" style="color: red">{{errDpm}}</small>
+              <small v-if="errDpm !== null" style="color: red">{{ errDpm }}</small>
             </el-form-item>
           </div>
         </div>
@@ -124,8 +144,8 @@
           <div class="col-6 text-start">
             <el-form-item prop="email">
               <label for="email">Email đăng nhập</label>
-              <el-input type="email" name= "email" v-model="user.email" autocomplete="off"></el-input>
-              <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>
+              <el-input type="email" name="email" v-model="user.email" autocomplete="off"></el-input>
+              <small v-if="errorEmail != null" style="color: red">{{ errorEmail }}</small>
             </el-form-item>
 
           </div>
@@ -138,24 +158,24 @@
                            :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
                            :value="item"></el-option>
               </el-select>
-              <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
+              <small v-if="errRole !== null" style="color: red">{{ errRole }}</small>
             </el-form-item>
           </div>
         </div>
 
         <div style="display: none">
           <div class="col-3">
-            <el-form-item prop="password" >
+            <el-form-item prop="password">
               <label for="">Nhập mật khẩu</label>
-              <el-input name= "password" type="password" v-model="user.password" autocomplete="off"></el-input>
-              <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
+              <el-input name="password" type="password" v-model="user.password" autocomplete="off"></el-input>
+              <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
             </el-form-item>
           </div>
           <div class="col-3">
-            <el-form-item  prop="confirmPassword">
+            <el-form-item prop="confirmPassword">
               <label for="">Nhập lại mật khẩu</label>
-              <el-input name= "confirmPassword" type="password" v-model="user.password" autocomplete="off"></el-input>
-              <small v-if="errorsPass !== null" style="color: red">{{errorsPass}}</small>
+              <el-input name="confirmPassword" type="password" v-model="user.password" autocomplete="off"></el-input>
+              <small v-if="errorsPass !== null" style="color: red">{{ errorsPass }}</small>
             </el-form-item>
 
           </div>
@@ -163,7 +183,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
 <!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
-    <el-button type="primary"  @click.prevent="editUser(user.id)">Confirm</el-button>
+    <el-button type="primary" @click.prevent="editUser(user.id)">Confirm</el-button>
         <!--      <pre>{{userForm1}}</pre>-->
   </span>
     </el-dialog>
@@ -171,17 +191,19 @@
 
 </template>
 <script>
-import  {UserService as userService} from "@/service/user-service";
+import {UserService as userService} from "@/service/user-service";
 import swal from 'sweetalert2'
 import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
 import moment from "moment";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'HomeComponent',
-  data : function() {
+  data: function () {
     return {
-      pointU:'',
+      pointU: '',
+      size: 10,
       year: [],
       selectedYear: this.formatYear(new Date()),
       listPoint: [],
@@ -216,8 +238,6 @@ export default {
   },
   async created() {
     this.getRoleId()
-    console.log(this.roleId)
-    console.log(this.selectedYear, "a")
     await this.retrieveUserList();
     await this.retrievePointList()
 
@@ -245,7 +265,7 @@ export default {
     },
   },
   methods: {
-    formatYear(value){
+    formatYear(value) {
       if (value) {
         return moment(String(value)).format('YYYY')
       }
@@ -255,7 +275,7 @@ export default {
         if (this.currentUser.roles[i].authority === 'ROLE_ADMIN') {
           this.roleId = 'ROLE_ADMIN'
         }
-        if( this.currentUser.roles[i].authority !== 'ROLE_ADMIN') {
+        if (this.currentUser.roles[i].authority !== 'ROLE_ADMIN') {
           this.roleId = 'ROLE_USER'
         }
       }
@@ -282,7 +302,8 @@ export default {
     },
     async retrieveUserList() {
       const params = this.getRequestParams(
-          this.page
+          this.page,
+          this.size
       );
       console.log(params)
       let response = await userService.getAll(params)
@@ -301,7 +322,7 @@ export default {
       this.listPoint = response.data;
       for (let i = 0; i < this.listUser.length; i++) {
         for (let j = 0; j < this.listPoint.length; j++) {
-          if (this.listUser[i].staffId === this.listPoint[j].staffId){
+          if (this.listUser[i].staffId === this.listPoint[j].staffId) {
             this.listUser[i].password = this.listPoint[j].sum
           }
         }
@@ -318,7 +339,7 @@ export default {
       console.log(this.listPoint)
 
     },
-    findByIdUser : async function (userId) {
+    findByIdUser: async function (userId) {
       let response = await userService.findById(userId);
       if (response) {
         this.user = response.data
@@ -330,7 +351,7 @@ export default {
         this.selected = this.user.department.id
       }
     },
-    deleteUser : async function (userId){
+    deleteUser: async function (userId) {
       swal.fire({
         title: 'Bạn có chắc muốn xóa người này?',
         text: 'Thao tác này không thể hoàn tác lại!',
@@ -345,7 +366,8 @@ export default {
               let response = await userService.deleteUser(userId);
               if (response) {
                 const params = this.getRequestParams(
-                    this.page
+                    this.page,
+                    this.size
                 );
                 console.log(params)
                 let response = await userService.getAll(params)
@@ -362,8 +384,8 @@ export default {
       );
     },
 
-    RepassUser(userId){
-      if (!this.changePass.newPassword && this.changePass.confirmNewPass || !this.changePass.newPassword && !this.changePass.confirmNewPass){
+    RepassUser(userId) {
+      if (!this.changePass.newPassword && this.changePass.confirmNewPass || !this.changePass.newPassword && !this.changePass.confirmNewPass) {
         this.errP1 = 'Vui lòng nhập mật khẩu'
         this.check1 = false;
       } else if (!this.validPass(this.changePass.newPassword)) {
@@ -373,23 +395,24 @@ export default {
         this.check1 = true;
       }
 
-      if (this.changePass.newPassword && !this.changePass.confirmNewPass){
+      if (this.changePass.newPassword && !this.changePass.confirmNewPass) {
         this.errorsPass = 'Vui lòng xác nhận mật khẩu'
         this.check1 = false;
-      } else if (this.changePass.newPassword !== this.changePass.confirmNewPass){
+      } else if (this.changePass.newPassword !== this.changePass.confirmNewPass) {
         this.errorsPass = 'Mật khẩu không trùng khớp'
         this.check1 = false;
-      } else if (this.changePass.newPassword === this.changePass.confirmNewPass){
+      } else if (this.changePass.newPassword === this.changePass.confirmNewPass) {
         this.errorsPass = ''
         this.check1 = true;
       }
 
-      if (this.check1 === true){
+      if (this.check1 === true) {
         authService.adminRepass(userId, this.changePass)
             .then(
                 async data => {
                   const params = this.getRequestParams(
-                      this.page
+                      this.page,
+                      this.size
                   );
                   console.log(params)
                   let response = await authService.getUserPage(params)
@@ -407,7 +430,7 @@ export default {
                         timer: 3000
                       }
                   )
-                },  () => {
+                }, () => {
                   this.dialogFormVisible1 = true;
                   swal.fire({
                     toast: true,
@@ -435,16 +458,17 @@ export default {
       this.retrievePointList()
       this.retrieveUserList();
     },
-    getRequestParams(page) {
+    getRequestParams(page, size) {
       let params = {};
       if (page) {
         params["p"] = page - 1;
+        params["size"] = size
       }
       return params;
     },
     getRequestParamsYear(year) {
       let params = {};
-        params["year"] = year;
+      params["year"] = year;
       return params;
     },
   }
