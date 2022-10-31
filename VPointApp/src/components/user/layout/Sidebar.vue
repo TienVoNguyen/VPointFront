@@ -105,7 +105,6 @@
 
 </template>
 <script>
-import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
 import profile from "@/components/share/Profile.vue";
 
@@ -163,7 +162,6 @@ export default {
     }
   },
   components: {
-    login,
     profile
   },
   computed: {
