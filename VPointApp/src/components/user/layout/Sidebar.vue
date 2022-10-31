@@ -60,6 +60,9 @@
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
+                  <el-button type="text" @click="dialogProfileVisible = true">Thông tin cá nhân</el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
                   <el-button type="text" @click="dialogFormVisible1 = true">Đổi mật khẩu</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
@@ -70,6 +73,8 @@
           </a>
         </li>
       </ul>
+
+      <profile :toggeProfile="dialogProfileVisible"></profile>
       <nav class="nav">
         <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left"
            data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
@@ -102,6 +107,7 @@
 <script>
 import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
+import profile from "@/components/share/Profile.vue";
 
 export default {
   name: "SidebarComponent",
@@ -120,6 +126,7 @@ export default {
       dialogFormVisible: false,
       dialogFormVisible1: false,
       dialogTableVisible1: false,
+      dialogProfileVisible: false,
       user: [],
       roles: [],
       errorsPass: '',
@@ -155,7 +162,10 @@ export default {
       console.log(error)
     }
   },
-  components: login,
+  components: {
+    login,
+    profile
+  },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
