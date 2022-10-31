@@ -25,12 +25,12 @@ const router = new Router({
                 {
                     path: 'home',
                     name: 'home',
-                    component: () => import("@/components/admin/Home"),
+                    component: () => import("@/components/admin/layout/HomeComponent"),
                 },
                 {
-                    path: 'importexcel',
-                    name: 'importexcel',
-                    component: () => import("@/components/admin/ImportExcel"),
+                    path: 'v-point-manager',
+                    name: 'VPointManager',
+                    component: () => import("@/components/admin/VPointManager"),
                 },
                 {
                     path: 'detail/:idUser/:year',

@@ -1,17 +1,14 @@
 <template>
-  <el-container>
+  <el-container class="background">
     <div class="text-center">
-      <h2 style="color: #6c757d">Quản lý điểm V-Point</h2>
-      <br>
-      <br>
-      <h4 style="color: #6c757d"> Chọn năm: <span style="">
+      <h2 class="vpointheader">Quản lý điểm V-Point</h2>
+      <h4 style="color: #6c757d; margin-bottom: 2rem"> Chọn năm: <span >
         <select class="form-control" v-model="selectedYear" @change="retrievePointList" style="width: 200px; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
             {{ y }}
           </option>
         </select>
       </span>
-
       </h4>
     </div>
 
@@ -455,4 +452,20 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.background {
+  background: #FFFFFF;
+}
+
+.vpointheader {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  color: #246CD9;
+}
 </style>
