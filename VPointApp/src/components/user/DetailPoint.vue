@@ -83,14 +83,14 @@ export default {
       idUser: '',
       year : this.$route.params.year,
       month: this.$route.params.month,
-      td1: '',
-      td2: '',
-      td3: '',
-      td4: '',
-      td5: '',
-      td6: '',
-      td7: '',
-      td8: '',
+      td1: 0,
+      td2: 0,
+      td3: 0,
+      td4: 0,
+      td5: 0,
+      td6: 0,
+      td7: 0,
+      td8: 0,
     }
   },
 
@@ -126,7 +126,19 @@ export default {
           this.td1 = this.Point[i].point
         }
         if (this.Point[i].item.id === 2){
-          this.td2 = this.Point[i].point
+          this.td2 = this.td2 + this.Point[i].point
+        }
+        if (this.Point[i].item.id === 16){
+          this.td2 = this.td2 + this.Point[i].point
+        }
+        if (this.Point[i].item.id === 17){
+          this.td2 = this.td2 + this.Point[i].point
+        }
+        if (this.Point[i].item.id === 9){
+          this.td2 = this.td2 + this.Point[i].point
+        }
+        if (this.Point[i].item.id === 10){
+          this.td2 = this.td2 + this.Point[i].point
         }
         if (this.Point[i].item.id === 3){
           this.td3 = this.Point[i].point
