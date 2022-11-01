@@ -100,9 +100,15 @@
           align="center" class="w-100" style="width: 200px">
 
         <template v-slot="scope">
-          <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default" class="el-icon-edit"></i></el-button>
-          <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i size="default" class="el-icon-key"></i></el-button>
-          <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)" v-if="currentUser.id !== scope.row.id"><i size="default" class="el-icon-delete"></i></el-button>
+          <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
+            <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default" class="el-icon-edit"></i></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
+            <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i size="default" class="el-icon-key"></i></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
+            <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)" v-if="currentUser.id !== scope.row.id"><i size="default" class="el-icon-delete"></i></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>

@@ -95,8 +95,10 @@
       <el-table-column align="center"
           label="Tùy chọn">
         <template v-slot="scope">
-          <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default" class="el-icon-plus"></i></el-button>
-          <el-button class="btn btn-warning" type="text"><router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white"><i size="default" class="el-icon-view"></i></router-link></el-button>
+          <el-tooltip class="item" effect="dark" content="Thêm điểm" placement="top"><el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default" class="el-icon-plus"></i></el-button></el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Chi tiết điểm" placement="top"><el-button class="btn btn-warning" type="text"><router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white"><i size="default" class="el-icon-view"></i></router-link></el-button></el-tooltip>
+
+
         </template>
       </el-table-column>
 
