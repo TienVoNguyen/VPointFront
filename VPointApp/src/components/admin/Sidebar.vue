@@ -128,7 +128,6 @@
 
 <script>
 import authService from "@/service/auth-service";
-import login from "@/views/Login";
 import swal from 'sweetalert2'
 
 export default {
@@ -191,8 +190,6 @@ export default {
       console.log(error)
     }
   },
-
-  components: login,
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;

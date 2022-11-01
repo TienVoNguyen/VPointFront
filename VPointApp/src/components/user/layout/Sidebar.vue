@@ -60,9 +60,10 @@
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-
+                  <el-button type="text" @click="dialogProfileVisible = true">Thông tin cá nhân</el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
                   <el-button type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
-
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <el-button type="text" @click="logOut">Đăng xuất</el-button>
@@ -73,7 +74,7 @@
         </li>
       </ul>
 
-      <profile :toggeProfile="dialogProfileVisible"></profile>
+      <profile :toggeProfile="dialogProfileVisible" v-on:closeProfile="handleProfile"></profile>
       <nav class="nav">
         <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left"
            data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
@@ -107,12 +108,9 @@
 
 </template>
 <script>
-
 import authService from "@/service/auth-service";
-
 import swal from "sweetalert2";
 import Profile from "@/components/share/Profile";
-
 
 export default {
   name: "SidebarComponent",
@@ -120,6 +118,7 @@ export default {
     return {
       dialogTableVisible: false,
       dialogFormVisible: false,
+      dialogProfileVisible: false,
 
       oldPass: '',
 
@@ -148,6 +147,9 @@ export default {
     },
   },
   methods: {
+    handleProfile() {
+      this.dialogProfileVisible = false;
+    },
     removeValidate1(check) {
       this.dialogFormVisible = check
       this.oldPass = ''

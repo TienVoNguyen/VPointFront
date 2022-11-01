@@ -62,7 +62,7 @@ import moment from "moment";
 import {UserService as userService} from "@/service/user-service";
 
 export default {
-  name: "AdminSeeDetail",
+  name: "DetailComponent",
   data() {
     return {
       idUser : this.$route.params.idUser,

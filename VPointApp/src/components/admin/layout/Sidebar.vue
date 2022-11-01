@@ -104,7 +104,6 @@
 </template>
 <script>
 import swal from "sweetalert2";
-import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
 
 export default {
@@ -139,7 +138,6 @@ export default {
       console.log(error)
     }
   },
-  components: login,
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;

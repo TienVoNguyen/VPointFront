@@ -3,6 +3,7 @@ import Router from "vue-router";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import UserLayout from "@/components/user/layout/UserLayout";
 import AddMark from "@/components/admin/Add";
+import UserManager from "@/components/admin/UserManager";
 
 Vue.use(Router);
 
@@ -19,7 +20,7 @@ const router = new Router({
         },
         {
             path: '/admin',
-            redirect: 'home',
+            redirect: 'admin/home',
             component: AdminLayout,
             children: [
                 {
@@ -43,9 +44,9 @@ const router = new Router({
                     component: () => import("@/components/admin/DetailPoint"),
                 },
                 {
-                    path: 'manager',
+                    path: 'user-manager',
                     name: 'UserManager',
-                    component: () => import("@/components/admin/UserManager")
+                    component: UserManager
                 },
                 {
                     path: 'mark/:id',
@@ -61,7 +62,7 @@ const router = new Router({
         },
         {
             path: '/user',
-            redirect: 'home',
+            redirect: 'user/home',
             component: UserLayout,
             children: [
                 {

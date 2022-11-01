@@ -9,13 +9,12 @@
       >
       <el-row justify="">
         <el-col>
-          <p>Mã nhân viên: {{user.staff_id}}</p>
-          <p>Họ tên: {{user.name}}</p>
-          <p>Giới tính: {{user.gender}}</p>
-          <p>Ngày sinh: {{user.date}}</p>
-          <p>Email: {{user.mail}}</p>
-          <p>Số diện thoại: {{user.phone}}</p>
-          <p>Bộ phận: {{user.department}}</p>
+          <p><span class="text-title">Mã nhân viên:  </span> <span class="text-content"> {{user.staff_id}} </span></p>
+          <p><span class="text-title">Họ tên:        </span> <span class="text-content"> {{user.name}} </span></p>
+          <p><span class="text-title">Giới tính:     </span> <span class="text-content"> {{user.gender}} </span></p>
+          <p><span class="text-title">Email:         </span> <span class="text-content"> {{user.mail}} </span></p>
+          <p><span class="text-title">Số diện thoại: </span> <span class="text-content"> {{user.phone}} </span></p>
+          <p><span class="text-title">Bộ phận:       </span> <span class="text-content"> {{user.department}} </span></p>
           <!-- <el-table :data="user">
             <el-table-column property="staff_id" width="150"></el-table-column>
             <el-table-column property="name" width="200"></el-table-column>
@@ -47,16 +46,17 @@ export default {
   },
   methods: {
     getProfileUser(id) {
-      UserService.getProfileUser(id)
+      UserService.getProfileUserById(id)
         .then(response => {
           this.user = response.data;
+          this.user.gender = this.user.gender == 'MALE' ? 'Nam' : 'Nữ';
         })
         .catch(error => {
           console.log(error);
         })
     },
     handleProfile() {
-
+      this.$emit('closeProfile');
     }
   },
   created() {
@@ -68,7 +68,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+p {
+  text-align: left;
+  font-size: 16px;
+}
+
+.text-title {
+  padding-left: 90px;
+  display: inline-block;
+  width: 220px;
+}
+
+.text-content {
+  font-weight: bold;
+}
 
 .profile {
   z-index: 100;

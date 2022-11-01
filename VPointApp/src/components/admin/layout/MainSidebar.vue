@@ -32,10 +32,10 @@
           default-active="1"
           class="el-menu-vertical-demo menuMain">
         <router-link to="/admin/home" style="text-decoration: none;">
-        <el-menu-item @click="changeColor($event)" index="1">
-          <i class="el-icon-s-home"></i>
-          <span>Trang chủ</span>
-        </el-menu-item>
+          <el-menu-item @click="changeColor($event)" index="1">
+            <i class="el-icon-s-home"></i>
+            <span>Trang chủ</span>
+          </el-menu-item>
         </router-link>
         <router-link to="/admin/importexcel" style="text-decoration: none;">
           <el-menu-item @click="changeColor($event)" index="2">
@@ -45,15 +45,15 @@
         </router-link>
         <router-link to="/admin/v-point-manager" style="text-decoration: none;">
           <el-menu-item @click="changeColor($event)" index="3">
-            <i  class="el-icon-tickets text-white"></i>
+            <i class="el-icon-tickets text-white"></i>
             <span>Quản lý V-Point</span>
           </el-menu-item>
         </router-link>
-        <router-link to="/admin/manager " style="text-decoration: none;">
-        <el-menu-item index="4">
-          <i class="fa-solid fa-user-gear text-white"></i>
-          <span>&nbsp;&nbsp;Quản lý người dùng</span>
-        </el-menu-item>
+        <router-link to="/admin/user-manager" style="text-decoration: none;">
+          <el-menu-item @click="changeColor($event)" index="4">
+            <i class="fa-solid fa-user-gear text-white"></i>
+            <span>&nbsp;&nbsp;Quản lý người dùng</span>
+          </el-menu-item>
         </router-link>
       </el-menu>
     </div>
@@ -69,7 +69,7 @@ export default {
       [menu][0].__vue__.$children.forEach(el => {
         if (el.$children[0] === event) {
           event.$el.children[0].classList.remove('text-white')
-        }else {
+        } else {
           // el.children[0].classList.add('text-white')
           el.$el.children[0].children[0].classList.add('text-white')
         }
