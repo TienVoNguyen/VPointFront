@@ -124,7 +124,7 @@
 
     <!--     //change pass -->
 
-    <el-dialog title="Đổi mật khẩu" :visible.sync="dialogFormVisible1">
+    <el-dialog class="text-center" title="Đổi mật khẩu" style="color: #00a2bf" :visible.sync="dialogFormVisible1" width="30%">
       <el-form>
         <el-form-item label="Nhập mật khẩu mới">
           <el-input v-model="changePass.newPassword" type="password" autocomplete="off"></el-input>
@@ -137,7 +137,6 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button type="primary" @click.prevent="RepassUser(user.id)">Confirm</el-button>
-        <!--        <pre>{{changePass}}</pre>-->
   </span>
     </el-dialog>
 
