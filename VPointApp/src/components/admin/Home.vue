@@ -9,6 +9,30 @@
         </select>
       </span></h2>
       <br>
+      <div class="row input-group mb-3">
+        <div class="col-6">
+
+          <div class="text-left input-group-prepend">
+            <p style="color: #6c757d"> Nhóm: <span style="">
+        <select class="input-group-text" v-model="CateId" @change="getUser(CateId)" style="width: 300px; display: inherit; align-items: center;" >
+          <option v-bind:value="''">Tất cả nhân sự</option>
+          <option v-for="d in departments" v-bind:value="d.id"  v-bind:key ="d.id" >
+            {{ d.name }}
+          </option>
+        </select>
+      </span>
+            </p>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="text-right">
+            <p style="color: #6c757d"> Nhập để tìm kiếm: <span style="">
+        <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName" @keyup="get(fullName)">
+      </span>
+            </p>
+          </div>
+        </div>
+      </div>
       <br>
     </div>
     <br>
@@ -78,114 +102,11 @@
       </el-pagination>
     </el-footer>
 
-
-    <!--     //change pass -->
-
-    <el-dialog title="Đổi mật khẩu" :visible.sync="dialogFormVisible1">
-      <el-form>
-        <el-form-item label="Nhập mật khẩu mới">
-          <el-input v-model="changePass.newPassword" autocomplete="off"></el-input>
-          <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
-        </el-form-item>
-        <el-form-item label="Xác nhận mật khẩu mới">
-          <el-input v-model="changePass.confirmNewPass" autocomplete="off"></el-input>
-          <small v-if="errorsPass != null" style="color: red">{{errorsPass}}</small>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click.prevent="RepassUser(user.id)">Confirm</el-button>
-        <!--        <pre>{{changePass}}</pre>-->
-  </span>
-    </el-dialog>
-
-
-    <el-dialog  title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%">
-      <el-form :model="user" id="userForm" >
-        <div class="row text-start" >
-          <div class="col-6">
-            <el-form-item prop="fullname">
-              <label for="fullname">Họ và tên</label>
-              <el-input name= "fullname" v-model="user.fullName" autocomplete="off"></el-input>
-              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small>
-            </el-form-item>
-          </div>
-          <div class="col-3">
-            <el-form-item prop="staffId">
-              <label for="staffId">Mã nhân sự</label>
-              <el-input name= "staffId" v-model="user.staffId" autocomplete="off"></el-input>
-              <small v-if="errId !== null" style="color: red">{{errId}}</small>
-            </el-form-item>
-
-          </div>
-          <div class="col-3">
-            <el-form-item   prop="department">
-              <label for="a">Phòng ban</label> <br>
-              <el-select style="width: 100%" v-model="user.department" value-key="id">
-                <el-option   v-for="item in departments"
-                             :key="item.id"
-                             :label="item.name"
-                             :value="item"
-                ></el-option>
-              </el-select>
-              <small v-if="errDpm !== null" style="color: red">{{errDpm}}</small>
-            </el-form-item>
-          </div>
-        </div>
-
-        <div class="row">
-
-          <div class="col-6 text-start">
-            <el-form-item prop="email">
-              <label for="email">Email đăng nhập</label>
-              <el-input type="email" name= "email" v-model="user.email" autocomplete="off"></el-input>
-              <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>
-            </el-form-item>
-
-          </div>
-          <div class="col-6">
-            <el-form-item prop="role">
-              <label for="">Quyền truy cập</label>
-              <el-select style="width: 100%" v-model="user.role" multiple value-key="id">
-                <el-option v-for="item in roles"
-                           :key="item.id"
-                           :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
-                           :value="item"></el-option>
-              </el-select>
-              <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
-            </el-form-item>
-          </div>
-        </div>
-
-        <div style="display: none">
-          <div class="col-3">
-            <el-form-item prop="password" >
-              <label for="">Nhập mật khẩu</label>
-              <el-input name= "password" type="password" v-model="user.password" autocomplete="off"></el-input>
-              <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
-            </el-form-item>
-          </div>
-          <div class="col-3">
-            <el-form-item  prop="confirmPassword">
-              <label for="">Nhập lại mật khẩu</label>
-              <el-input name= "confirmPassword" type="password" v-model="user.password" autocomplete="off"></el-input>
-              <small v-if="errorsPass !== null" style="color: red">{{errorsPass}}</small>
-            </el-form-item>
-
-          </div>
-        </div>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-<!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
-    <el-button type="primary"  @click.prevent="editUser(user.id)">Confirm</el-button>
-        <!--      <pre>{{userForm1}}</pre>-->
-  </span>
-    </el-dialog>
   </el-container>
 
 </template>
 <script>
 import  {UserService as userService} from "@/service/user-service";
-import swal from 'sweetalert2'
 import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
 import moment from "moment";
@@ -194,6 +115,9 @@ export default {
   name: 'HomeComponent',
   data : function() {
     return {
+      CateId: '',
+      fullName: '',
+      UserId: '',
       pointU:'',
       size: 10,
       year: [],
@@ -205,30 +129,13 @@ export default {
       currentIndex: -1,
       page: 1,
       count: 0,
-      categoryCode: '',
-      errorMessage: '',
-      user: '',
-      user1: '',
-      dialogFormVisible1: false,
-      dialogTableVisible1: false,
-      message: '',
-      roleId: '',
       roles: [],
-      errId: '',
-      errP1: '',
-      errorsPass: '',
       departments: [],
-      checkButton: true,
-      selected: '',
-      check1: true,
 
-      changePass: {
-        newPassword: '',
-        confirmNewPass: '',
-      },
     }
   },
   async created() {
+    this.UserId = this.currentUser.id
     this.getRoleId()
     await this.retrieveUserList();
     await this.retrievePointList()
@@ -273,10 +180,6 @@ export default {
       }
     },
 
-    validPass: function (pass) {
-      var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-      return re.test(pass);
-    },
 
     removeValidate1(userId) {
       this.findByIdUser(userId)
@@ -286,12 +189,6 @@ export default {
       this.$router.push(`mark/${userId}`);
     },
 
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
     async retrieveUserList() {
       const params = this.getRequestParams(
           this.page,
@@ -319,15 +216,6 @@ export default {
           }
         }
       }
-      // this.listUser.forEach(user => {
-      //   this.listPoint.forEach(upoint => {
-      //     if(user.staffId === upoint.staffId) {
-      //       user.password = upoint.sum
-      //     }else {
-      //       user.password = 0
-      //     }
-      //   })
-      // })
       console.log(this.listPoint)
 
     },
@@ -343,98 +231,7 @@ export default {
         this.selected = this.user.department.id
       }
     },
-    deleteUser : async function (userId){
-      swal.fire({
-        title: 'Bạn có chắc muốn xóa người này?',
-        text: 'Thao tác này không thể hoàn tác lại!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d63049',
-        cancelButtonColor: '#33dd91',
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Quay lại',
-      }).then(async (result) => {
-            if (result.isConfirmed) {
-              let response = await userService.deleteUser(userId);
-              if (response) {
-                const params = this.getRequestParams(
-                    this.page,
-                    this.size
-                );
-                console.log(params)
-                let response = await userService.getAll(params)
-                this.listUser = response.data.content
-                this.count = response.data.totalPages;
-              }
-              await swal.fire(
-                  'Đã xóa',
-                  '',
-                  'success'
-              );
-            }
-          }
-      );
-    },
 
-    RepassUser(userId){
-      if (!this.changePass.newPassword && this.changePass.confirmNewPass || !this.changePass.newPassword && !this.changePass.confirmNewPass){
-        this.errP1 = 'Vui lòng nhập mật khẩu'
-        this.check1 = false;
-      } else if (!this.validPass(this.changePass.newPassword)) {
-        this.errP1 = 'Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'
-      } else {
-        this.errP1 = ''
-        this.check1 = true;
-      }
-
-      if (this.changePass.newPassword && !this.changePass.confirmNewPass){
-        this.errorsPass = 'Vui lòng xác nhận mật khẩu'
-        this.check1 = false;
-      } else if (this.changePass.newPassword !== this.changePass.confirmNewPass){
-        this.errorsPass = 'Mật khẩu không trùng khớp'
-        this.check1 = false;
-      } else if (this.changePass.newPassword === this.changePass.confirmNewPass){
-        this.errorsPass = ''
-        this.check1 = true;
-      }
-
-      if (this.check1 === true){
-        authService.adminRepass(userId, this.changePass)
-            .then(
-                async data => {
-                  const params = this.getRequestParams(
-                      this.page,
-                      this.size
-                  );
-                  console.log(params)
-                  let response = await authService.getUserPage(params)
-                  console.log(response)
-                  this.listUser = response.data.content
-                  this.count = response.data.totalPages;
-                  this.a = data.message,
-                      this.dialogFormVisible1 = false;
-                  await swal.fire({
-                        toast: true,
-                        title: "Xong!",
-                        icon: "success",
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000
-                      }
-                  )
-                },  () => {
-                  this.dialogFormVisible1 = true;
-                  swal.fire({
-                    toast: true,
-                    title: "Đã có lỗi xảy ra!",
-                    icon: "error",
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                  });
-                });
-      }
-    },
 
 
     refreshList() {
@@ -462,6 +259,51 @@ export default {
       let params = {};
         params["year"] = year;
       return params;
+    },
+    getDpmParams(CateId) {
+      let params = {};
+
+      params["CateId"] = CateId;
+
+      return params;
+    },
+
+    getUser(params){
+      if (params === ''){
+        this.retrieveUserList()
+      }else {
+        this.getUserListByDpm(params)
+      }
+    },
+
+    getNameParams(fullName) {
+      let params = {};
+      if (fullName) {
+        params["fullName"] = fullName;
+      }
+      return params;
+    },
+
+    get(params){
+      if (this.fullName === ''){
+        this.retrieveUserList()
+      }else {
+        this.getUserListByName(params)
+      }
+    },
+
+    async getUserListByDpm(params) {
+      let param1 = this.getDpmParams(params)
+      let response = await userService.getUserByCateId(param1)
+      this.listUser = response.data;
+      this.count = response.data.totalPages;
+    },
+
+    async getUserListByName(params) {
+      let param1 = this.getNameParams(params)
+      let response = await userService.getUserByName(param1)
+      this.listUser = response.data;
+      this.count = response.data.totalPages;
     },
   }
 };
