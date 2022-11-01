@@ -66,4 +66,9 @@ export class UserService {
         return axios.get(dataURL, {params, headers: authHeader()});
     }
 
+    static getProfileUserById(id) {
+        let dataURL = `${this.serverURL}/user/profile/${id}`;
+        return axios.get(dataURL, {headers: authHeader()});
+    }
+
 }

@@ -129,6 +129,12 @@ export default {
         if (this.Point[i].item.id === 17){
           this.td2 = this.td2 + this.Point[i].point
         }
+        if (this.Point[i].item.id === 9){
+          this.td2 = this.td2 + this.Point[i].point
+        }
+        if (this.Point[i].item.id === 10){
+          this.td2 = this.td2 + this.Point[i].point
+        }
         if (this.Point[i].item.id === 3){
           this.td3 = this.Point[i].point
         }

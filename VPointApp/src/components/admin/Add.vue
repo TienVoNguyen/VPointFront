@@ -1,6 +1,7 @@
 <template>
   <el-main>
     <div style="margin: 20px;"></div>
+    <p class="text-title">Nhập dữ liệu tính điểm VPoint</p>
     <el-form :label-position="labelPosition" :rules="rules" label-width="100px" :model="mark" ref="mark">
       <el-form-item class="inline profile" >
         <el-row :gutter="20" type="flex" justify="space-around">
@@ -381,10 +382,10 @@ import swal from 'sweetalert2'
             if (this.date === null) {
               let nowDate = Date.now();
               this.mark.year = nowDate.getFullYear();
-              this.mark.month = nowDate.getMonth();
+              this.mark.month = nowDate.getMonth() + 1;
             }
             let date = new Date(this.date);
-            this.mark.month = date.getMonth();
+            this.mark.month = date.getMonth() + 1;
             this.mark.year = date.getFullYear();
             this.mark.staff_id = this.user.staff_id;
             console.log(12, this.mark.month);
@@ -434,7 +435,7 @@ import swal from 'sweetalert2'
       },
       handleData(data) {
         data = new Date(data)
-        this.mark.month = data.getMonth();
+        this.mark.month = data.getMonth() + 1;
         this.mark.year = data.getFullYear();
         let dataReq = {
           userId: this.user.id,
@@ -516,5 +517,19 @@ import swal from 'sweetalert2'
     line-height: 24px;
 
     color: #000000;
+  }
+
+  .text-title {
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 41px;
+    /* identical to box height */
+
+
+    color: #246CD9;
+
   }
 </style>
