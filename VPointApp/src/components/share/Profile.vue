@@ -31,7 +31,6 @@ export default {
     return {
       user: null,
       id: null,
-      // toggeProfile: false,
     }
   },
   methods: {
