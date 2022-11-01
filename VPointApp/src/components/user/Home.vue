@@ -15,7 +15,39 @@
         </div>
         <br>
         <br>
-        <br>
+        <el-form :model="user" id="userForm" class="text-left">
+          <div class="row text-start" >
+            <div class="col-1"></div>
+            <div class="col-10">
+              <div class="row text-start" >
+                <div class="col-4 ">
+                  <el-form-item prop="fullname">
+                    <label for="fullname" >Họ và tên:</label>
+                    <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+                  </el-form-item>
+                </div>
+                <div class="col-4">
+                  <el-form-item prop="staffId">
+                    <label for="staffId">Mã nhân sự:</label>
+                    <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+                  </el-form-item>
+
+                </div>
+                <div class="col-4 text-start">
+                  <el-form-item prop="email">
+                    <label for="email">Email đăng nhập:</label>
+                    <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+                  </el-form-item>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-1"></div>
+
+
+
+          </div>
+        </el-form>
       </div>
       <div class="col col-lg-12" align="center">
         <el-table align="center"
@@ -64,6 +96,7 @@ export default {
       selected: new Date().getFullYear(),
       year: [],
       page: '',
+      user: '',
       sum: 0
     }
   },
@@ -77,7 +110,10 @@ export default {
     },
   },
   created() {
+    this.idUser = this.currentUser.id
+    console.log(this.idUser)
     this.getVPoint()
+    this.findByIdUser(this.idUser)
   },
 
   methods: {
@@ -90,6 +126,13 @@ export default {
     formatMonth(value){
       if (value) {
         return moment(String(value)).format('MM')
+      }
+    },
+
+    findByIdUser : async function (userId) {
+      let response = await userService.findById(userId);
+      if (response) {
+        this.user = response.data
       }
     },
 

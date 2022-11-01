@@ -102,7 +102,7 @@
         <template v-slot="scope">
           <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default" class="el-icon-edit"></i></el-button>
           <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i size="default" class="el-icon-key"></i></el-button>
-          <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default" class="el-icon-delete"></i></el-button>
+          <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)" v-if="currentUser.id !== scope.row.id"><i size="default" class="el-icon-delete"></i></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -136,7 +136,7 @@
     </el-dialog>
 
 
-    <el-dialog  title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%">
+    <el-dialog  title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%" class="text-left">
       <el-form :model="user" id="userForm" >
 
         <div class="row text-start" >
@@ -399,6 +399,7 @@ export default {
       checkRole: true,
       checkPass: true,
 
+
       changePass: {
         newPassword: '',
         confirmNewPass: '',
@@ -435,6 +436,11 @@ export default {
     validPass: function (pass) {
       var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
       return re.test(pass);
+    },
+
+    validPhone: function (phone) {
+      var re = /((0)+([0-9]{9})\b)/g;
+      return re.test(phone);
     },
 
     removeValidate1(check, userId) {
@@ -479,6 +485,9 @@ export default {
       console.log(key, keyPath);
     },
     async retrieveUserList() {
+      // if(this.size > 10){
+      //   this.page = 0
+      // }
       const params = this.getRequestParams(
           this.page,
           this.size
@@ -833,7 +842,8 @@ export default {
             .then(
                 async data => {
                   const params = this.getRequestParams(
-                      this.page
+                      this.page,
+                      this.size
                   );
                   console.log(params)
                   let response = await authService.getUserPage(params)
@@ -842,7 +852,7 @@ export default {
                   this.count = response.data.totalPages;
                   this.a = data.message,
                       this.dialogFormVisible = false;
-                  swal.fire({
+                  await swal.fire({
                     toast: true,
                     title: "Xong!",
                     icon: "success",
@@ -872,7 +882,6 @@ export default {
     },
     handlePageChange(value) {
       this.page = value;
-      console.log(this.page)
       this.retrieveUserList();
     },
     getRequestParams(page, size) {
