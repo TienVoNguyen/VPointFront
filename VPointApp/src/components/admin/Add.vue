@@ -1,6 +1,7 @@
 <template>
   <el-main>
     <div style="margin: 20px;"></div>
+    <p class="text-title">Nhập dữ liệu tính điểm VPoint</p>
     <el-form :label-position="labelPosition" :rules="rules" label-width="100px" :model="mark" ref="mark">
       <el-form-item class="inline profile" >
         <el-row :gutter="20" type="flex" justify="space-around">
@@ -516,5 +517,19 @@ import swal from 'sweetalert2'
     line-height: 24px;
 
     color: #000000;
+  }
+
+  .text-title {
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 41px;
+    /* identical to box height */
+
+
+    color: #246CD9;
+
   }
 </style>
