@@ -64,7 +64,7 @@
               </el-col>   
               <el-col :span="6" :offset="6">
                 <el-form-item >
-                  <h6>3.1 Bộ phận xuất sắc quý</h6>
+                  <h6>3.1 Bộ phận xuất sắc tháng</h6>
                   <el-checkbox v-model="mark.excellentDepartmentMonth" class="checkbox-form">Bộ phận xuất sắc quý</el-checkbox>
                 </el-form-item>
               </el-col>   
@@ -232,6 +232,26 @@ import swal from 'sweetalert2'
   export default {
     name: 'add-mark',
     data() {
+      var checkDisciplineViolate = (rule, value, callback) => {
+        value = Number(value);
+        setTimeout(() => {
+          if (value > 0) {
+            callback(new Error('Giá trị phải nhỏ hơn 0'));
+          } else {
+            callback();
+          }
+        }, 500);
+      };
+      var checkLoveVmg = (rule, value, callback) => {
+        value = Number(value);
+        setTimeout(() => {
+          if (value < 0 || value > 100) {
+            callback(new Error('Giá trị từ 0 - 100'));
+          } else {
+            callback();
+          }
+        }, 500);
+      };
       var checkPercent = (rule, value, callback) => {
         value = Number(value);
         setTimeout(() => {
@@ -294,13 +314,13 @@ import swal from 'sweetalert2'
             {validator: checkTrainVmg, trigger: 'blur' }
           ],
           loveVmg: [
-            {validator: checkPercent, trigger: 'blur' }
+            {validator: checkLoveVmg, trigger: 'blur' }
           ],
           disciplineBonus: [
             {validator: checkPercent, trigger: 'blur' }
           ],
           disciplineViolate: [
-            {validator: checkPercent, trigger: 'blur' }
+            {validator: checkDisciplineViolate, trigger: 'blur' }
           ],
         },
         user: {
@@ -461,7 +481,6 @@ import swal from 'sweetalert2'
     created() {
       this.date = Date.now();
       this.user.id = this.$route.params.id;
-      console.log(11, this.user.id);
       this.getUser(this.$route.params.id);
     }
   }
