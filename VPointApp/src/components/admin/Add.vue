@@ -382,10 +382,10 @@ import swal from 'sweetalert2'
             if (this.date === null) {
               let nowDate = Date.now();
               this.mark.year = nowDate.getFullYear();
-              this.mark.month = nowDate.getMonth();
+              this.mark.month = nowDate.getMonth() + 1;
             }
             let date = new Date(this.date);
-            this.mark.month = date.getMonth();
+            this.mark.month = date.getMonth() + 1;
             this.mark.year = date.getFullYear();
             this.mark.staff_id = this.user.staff_id;
             console.log(12, this.mark.month);
@@ -435,7 +435,7 @@ import swal from 'sweetalert2'
       },
       handleData(data) {
         data = new Date(data)
-        this.mark.month = data.getMonth();
+        this.mark.month = data.getMonth() + 1;
         this.mark.year = data.getFullYear();
         let dataReq = {
           userId: this.user.id,
