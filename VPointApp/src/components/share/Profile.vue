@@ -1,12 +1,11 @@
 <template>
-  <!-- <div>{{user}}</div> -->
   <div class="profile">
     <el-dialog 
-      title="Thông tin cá nhân" 
       :visible="toggeProfile"
       @close="handleProfile"
       width="30%"
       >
+      <span class="text-header" slot="title">Thông tin cá nhân</span>
       <el-row justify="">
         <el-col>
           <p><span class="text-title">Mã nhân viên:  </span> <span class="text-content"> {{user.staff_id}} </span></p>
@@ -15,15 +14,6 @@
           <p><span class="text-title">Email:         </span> <span class="text-content"> {{user.mail}} </span></p>
           <p><span class="text-title">Số diện thoại: </span> <span class="text-content"> {{user.phone}} </span></p>
           <p><span class="text-title">Bộ phận:       </span> <span class="text-content"> {{user.department}} </span></p>
-          <!-- <el-table :data="user">
-            <el-table-column property="staff_id" width="150"></el-table-column>
-            <el-table-column property="name" width="200"></el-table-column>
-            <el-table-column property="gender"></el-table-column>
-            <el-table-column property="date"></el-table-column>
-            <el-table-column property="address"></el-table-column>
-            <el-table-column property="address"></el-table-column>
-            <el-table-column property="address"></el-table-column>
-          </el-table> -->
         </el-col>
       </el-row>
     </el-dialog>
@@ -41,7 +31,6 @@ export default {
     return {
       user: null,
       id: null,
-      // toggeProfile: false,
     }
   },
   methods: {
@@ -85,7 +74,21 @@ p {
   font-weight: bold;
 }
 
+.text-header {
+  text-align: center;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  /* identical to box height */
+
+
+  color: #246CD9;
+}
+
 .profile {
-  z-index: 100;
+  /* z-index: 100; */
+  border-radius: 10px;
 }
 </style>

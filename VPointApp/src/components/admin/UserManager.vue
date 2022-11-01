@@ -1,49 +1,49 @@
-<template>
+<template >
   <el-container>
     <el-header>
       <h3 style="color: #6c757d" align="center">Quản lý người dùng</h3><br>
-      <br>
 
       <div class="row input-group mb-3">
         <div class="col-6">
           <div class="text-left input-group-prepend">
-            <p style="color: #6c757d"> Nhóm: <span style="">
-        <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
-                style="width: 300px; display: inherit; align-items: center;">
-          <option value="">Tất cả nhân sự</option>
-          <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
-            {{ d.name }}
-          </option>
-        </select>
-      </span>
+            <p style="color: #6c757d"> Nhóm:
+              <span style="">
+                <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
+                        style="width: 300px; display: inherit; align-items: center;">
+                  <option value="">Tất cả nhân sự</option>
+                  <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
+                    {{ d.name }}
+                  </option>
+                </select>
+              </span>
             </p>
           </div>
         </div>
         <div class="col-6">
           <div class="text-right">
-            <p style="color: #6c757d"> Nhập để tìm kiếm: <span style="">
-        <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
-               @keyup="get(fullName)">
-      </span>
+            <p style="color: #6c757d"> Nhập để tìm kiếm:
+              <span style="">
+                <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
+                       @keyup="get(fullName)">
+              </span>
             </p>
           </div>
         </div>
       </div>
 
-      <br>
-
       <div class="row">
         <div class="col-6">
           <div class="text-left input-group-prepend">
-            <p style="color: #6c757d"> Xem: <span style="">
-        <select class="input-group-text" v-model="size" @change="retrieveUserList"
-                style="width: 62px; display: inherit; align-items: center;">
-          <option value="10">10</option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-        </select>
-      </span> mục
+            <p style="color: #6c757d"> Xem:
+              <span style="">
+                <select class="input-group-text" v-model="size" @change="retrieveUserList"
+                        style="width: 62px; display: inherit; align-items: center;">
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                </select>
+              </span> mục
             </p>
           </div>
         </div>
@@ -112,6 +112,7 @@
         </el-table-column>
       </el-table>
     </el-main>
+
     <el-footer>
       <el-pagination
           layout="prev, pager, next"
@@ -123,7 +124,8 @@
 
     <!-- change pass -->
 
-    <el-dialog title="Đổi mật khẩu" :visible.sync="dialogFormVisible1">
+    <el-dialog class="text-center" title="Đổi mật khẩu" style="color: #00a2bf" :visible.sync="dialogFormVisible1"
+               width="30%">
       <el-form>
         <el-form-item label="Nhập mật khẩu mới">
           <el-input v-model="changePass.newPassword" type="password" autocomplete="off"></el-input>
@@ -136,101 +138,101 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button type="primary" @click.prevent="RepassUser(user.id)">Confirm</el-button>
-        <!--        <pre>{{changePass}}</pre>-->
   </span>
     </el-dialog>
 
-    <el-dialog title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%">
-      <el-form :model="user" id="userForm">
+          <el-dialog title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%" class="text-left">
+            <el-form :model="user" id="userForm">
+              <div class="row text-start">
+                <div class="col-4">
+                  <el-form-item prop="staffId">
+                    <label for="staffId">Mã nhân sự</label>
+                    <el-input name="staffId" v-model="user.staffId" autocomplete="off"></el-input>
+                    <small v-if="errId !== null" style="color: red">{{ errId }}</small>
+                  </el-form-item>
 
-        <div class="row text-start">
-          <div class="col-4">
-            <el-form-item prop="staffId">
-              <label for="staffId">Mã nhân sự</label>
-              <el-input name="staffId" v-model="user.staffId" autocomplete="off"></el-input>
-              <small v-if="errId !== null" style="color: red">{{ errId }}</small>
-            </el-form-item>
+                </div>
+                <div class="col-4">
+                  <el-form-item prop="fullname">
+                    <label for="fullname">Họ và tên</label>
+                    <el-input name="fullname" v-model="user.fullName" autocomplete="off"></el-input>
+                    <small v-if="errorsName !== null" style="color: red">{{ errorsName }}</small>
+                  </el-form-item>
+                </div>
+                <div class="col-4 text-start">
+                  <el-form-item prop="email">
+                    <label for="email">Email đăng nhập</label>
+                    <el-input type="email" name="email" v-model="user.email" autocomplete="off"></el-input>
+                    <small v-if="errorEmail != null" style="color: red">{{ errorEmail }}</small>
+                  </el-form-item>
 
-          </div>
-          <div class="col-4">
-            <el-form-item prop="fullname">
-              <label for="fullname">Họ và tên</label>
-              <el-input name="fullname" v-model="user.fullName" autocomplete="off"></el-input>
-              <small v-if="errorsName !== null" style="color: red">{{ errorsName }}</small>
-            </el-form-item>
-          </div>
-          <div class="col-4 text-start">
-            <el-form-item prop="email">
-              <label for="email">Email đăng nhập</label>
-              <el-input type="email" name="email" v-model="user.email" autocomplete="off"></el-input>
-              <small v-if="errorEmail != null" style="color: red">{{ errorEmail }}</small>
-            </el-form-item>
+                </div>
+              </div>
 
-          </div>
-        </div>
+              <div class="row">
+                <div class="col-4">
+                  <el-form-item prop="department">
+                    <label for="a">Phòng ban</label> <br>
+                    <el-select style="width: 100%" v-model="user.department" value-key="id">
+                      <el-option v-for="item in departments"
+                                 :key="item.id"
+                                 :label="item.name"
+                                 :value="item"
+                      ></el-option>
+                    </el-select>
+                    <small v-if="errDpm !== null" style="color: red">{{ errDpm }}</small>
+                  </el-form-item>
+                </div>
 
-        <div class="row">
-          <div class="col-4">
-            <el-form-item prop="department">
-              <label for="a">Phòng ban</label> <br>
-              <el-select style="width: 100%" v-model="user.department" value-key="id">
-                <el-option v-for="item in departments"
-                           :key="item.id"
-                           :label="item.name"
-                           :value="item"
-                ></el-option>
-              </el-select>
-              <small v-if="errDpm !== null" style="color: red">{{ errDpm }}</small>
-            </el-form-item>
-          </div>
+                <div class="col-4">
+                  <el-form-item prop="role">
+                    <label for="">Quyền truy cập</label>
+                    <el-select style="width: 100%" v-model="user.role" multiple placeholder="" value-key="id">
+                      <el-option v-for="item in roles"
+                                 :key="item.id"
+                                 :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
+                                 :value="item"></el-option>
+                    </el-select>
+                    <small v-if="errRole !== null" style="color: red">{{ errRole }}</small>
+                  </el-form-item>
+                </div>
+                <div class="col-4 text-start">
+                  <el-form-item prop="phone">
+                    <label for="phone">Số điện thoại</label>
+                    <el-input type="number" name="phone" v-model="user.phone" autocomplete="off"></el-input>
+                    <!--            <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>-->
+                  </el-form-item>
 
-          <div class="col-4">
-            <el-form-item prop="role">
-              <label for="">Quyền truy cập</label>
-              <el-select style="width: 100%" v-model="user.role" multiple placeholder="" value-key="id">
-                <el-option v-for="item in roles"
-                           :key="item.id"
-                           :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
-                           :value="item"></el-option>
-              </el-select>
-              <small v-if="errRole !== null" style="color: red">{{ errRole }}</small>
-            </el-form-item>
-          </div>
-          <div class="col-4 text-start">
-            <el-form-item prop="phone">
-              <label for="phone">Số điện thoại</label>
-              <el-input type="number" name="phone" v-model="user.phone" autocomplete="off"></el-input>
-              <!--            <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>-->
-            </el-form-item>
+                </div>
+              </div>
 
-          </div>
-        </div>
+              <div style="display: none">
+                <div class="col-3">
+                  <el-form-item prop="password">
+                    <label for="">Nhập mật khẩu</label>
+                    <el-input name="password" type="password" v-model="user.password" autocomplete="off"></el-input>
+                    <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
+                  </el-form-item>
+                </div>
+                <div class="col-3">
+                  <el-form-item prop="confirmPassword">
+                    <label for="">Nhập lại mật khẩu</label>
+                    <el-input name="confirmPassword" type="password" v-model="user.password"
+                              autocomplete="off"></el-input>
+                    <small v-if="errorsPass !== null" style="color: red">{{ errorsPass }}</small>
+                  </el-form-item>
 
-        <div style="display: none">
-          <div class="col-3">
-            <el-form-item prop="password">
-              <label for="">Nhập mật khẩu</label>
-              <el-input name="password" type="password" v-model="user.password" autocomplete="off"></el-input>
-              <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
-            </el-form-item>
-          </div>
-          <div class="col-3">
-            <el-form-item prop="confirmPassword">
-              <label for="">Nhập lại mật khẩu</label>
-              <el-input name="confirmPassword" type="password" v-model="user.password" autocomplete="off"></el-input>
-              <small v-if="errorsPass !== null" style="color: red">{{ errorsPass }}</small>
-            </el-form-item>
+                </div>
+              </div>
 
-          </div>
-        </div>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
+            </el-form>
+            <span slot="footer" class="dialog-footer">
 <!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
-    <el-button type="primary" @click.prevent="editUser(user.id)">Confirm</el-button>
-        <!--      <pre>{{userForm1}}</pre>-->
-  </span>
-    </el-dialog>
+        <el-button type="primary" @click.prevent="editUser(user.id)">Confirm</el-button>
+              <!--      <pre>{{userForm1}}</pre>-->
+      </span>
 
+          </el-dialog>
 
     <el-dialog title="Tạo nhân sự mới" :visible.sync="dialogFormVisible2" width="70%" class="text-left">
       <el-form :model="userForm1" id="userForm">
@@ -289,7 +291,7 @@
             <el-form-item prop="phone">
               <label for="phone">Số điện thoại:</label>
               <el-input type="number" name="phone" v-model="userForm1.phone" autocomplete="off"></el-input>
-              <!--              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small> Giới tính Nữ -->
+                    <!--              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small> Giới tính Nữ -->
             </el-form-item>
           </div>
 
@@ -307,11 +309,11 @@
               <small v-if="errRole !== null" style="color: red">{{ errRole }}</small>
             </el-form-item>
           </div>
-
           <div class="col-4">
             <el-form-item prop="password">
               <label for="">Nhập mật khẩu:</label>
-              <el-input name="password" type="password" v-model="userForm1.password" autocomplete="off"></el-input>
+              <el-input name="password" type="password" v-model="userForm1.password"
+                        autocomplete="off"></el-input>
               <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
             </el-form-item>
           </div>
@@ -322,17 +324,16 @@
               <el-input name="confirmPassword" type="password" v-model="userForm1.confirmPassword"
                         autocomplete="off"></el-input>
               <small v-if="errorsPass !== null" style="color: red">{{ errorsPass }}</small>
-            </el-form-item>
 
+            </el-form-item>
           </div>
 
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="removeValidate(false)">Cancel</el-button>
-    <el-button type="primary" @click.prevent="handleRegister">Confirm</el-button>
-        <!--      <pre>{{userForm1}}</pre>-->
-  </span>
+        <el-button @click="removeValidate(false)">Cancel</el-button>
+        <el-button type="primary" @click.prevent="handleRegister">Confirm</el-button>
+      </span>
     </el-dialog>
   </el-container>
 
@@ -431,6 +432,11 @@ export default {
       return re.test(pass);
     },
 
+    validPhone: function (phone) {
+      var re = /((0)+([0-9]{9})\b)/g;
+      return re.test(phone);
+    },
+
     removeValidate1(check, userId) {
       this.findByIdUser(userId)
       this.dialogFormVisible1 = check
@@ -472,6 +478,9 @@ export default {
       console.log(key, keyPath);
     },
     async retrieveUserList() {
+      // if(this.size > 10){
+      //   this.page = 0
+      // }
       const params = this.getRequestParams(
           this.page,
           this.size
@@ -826,7 +835,8 @@ export default {
             .then(
                 async data => {
                   const params = this.getRequestParams(
-                      this.page
+                      this.page,
+                      this.size
                   );
                   console.log(params)
                   let response = await authService.getUserPage(params)
@@ -835,7 +845,7 @@ export default {
                   this.count = response.data.totalPages;
                   this.a = data.message,
                       this.dialogFormVisible = false;
-                  swal.fire({
+                  await swal.fire({
                     toast: true,
                     title: "Xong!",
                     icon: "success",
@@ -865,7 +875,6 @@ export default {
     },
     handlePageChange(value) {
       this.page = value;
-      console.log(this.page)
       this.retrieveUserList();
     },
     getRequestParams(page, size) {

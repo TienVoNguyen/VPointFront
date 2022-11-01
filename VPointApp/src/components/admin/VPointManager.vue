@@ -16,6 +16,7 @@
                 style="width: 150px; display: inherit; align-items: center;">
           <option v-bind:value="''">Tất cả</option>
           <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
+
             {{ d.name }}
           </option>
         </select>
@@ -26,11 +27,15 @@
         <select class="form-control" v-model="selectedYear" @change="retrievePointList"
                 style="width: 120px; display: inherit; align-items: center">
           <option v-for="y in year" v-bind:value="y" v-bind:key="y">
+
             {{ y }}
           </option>
         </select>
       </span></p>
+
         </div>
+        <div class="col-2"></div>
+
       </div>
     </div>
     <div class="row">
@@ -38,6 +43,7 @@
         <p style="color: #6c757d"> Xem: <span style="">
         <select class="input-group-text" v-model="size" @change="retrievePointList"
                 style="width: 62px; display: inherit; align-items: center;">
+
           <option v-bind:value="10">10</option>
           <option v-bind:value="15">15</option>
           <option v-bind:value="20">20</option>
@@ -93,6 +99,7 @@
               <i size="default" class="el-icon-view"></i>
             </el-button>
           </router-link>
+
         </template>
       </el-table-column>
 
@@ -268,12 +275,24 @@ export default {
 
       return params;
     },
-
-    getUser(params) {
-      if (params === '') {
-        this.retrieveUserList()
+    async getUser(params1) {
+      if (params1 === '') {
+        await this.retrievePointList()
       } else {
-        this.getUserListByDpm(params)
+        await this.getUserListByDpm(params1)
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        console.log(params)
+        let response = await userService.getAllByYear(params)
+        this.listPoint = response.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
       }
     },
 
@@ -285,11 +304,24 @@ export default {
       return params;
     },
 
-    get(params) {
+    async get(params1) {
       if (this.fullName === '') {
-        this.retrieveUserList()
+        await this.retrieveUserList()
       } else {
-        this.getUserListByName(params)
+        await this.getUserListByName(params1)
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        console.log(params)
+        let response = await userService.getAllByYear(params)
+        this.listPoint = response.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
       }
     },
 

@@ -3,24 +3,46 @@
     <div class="row">
       <main-sidebar-component/>
       <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
+<<<<<<< HEAD
         <sidebar-component/>
           <div class="col-lg-12 col-md-6 col-sm-6 p-0" style="height: 515px">
+=======
+        <sidebar-component v-on:clickOpenProfile="handleOpenProfile"/>
+
+          <div class="col-lg col-md-6 col-sm-6 mb-4 mt-4">
+>>>>>>> cd727c274d8658616919b613a0c7237f8bfd0328
             <router-view/>
           </div>
       </main>
     </div>
+    <ProfileVue :toggeProfile="dialogProfileVisible" v-on:closeProfile="handleCloseProfile"></ProfileVue>
   </div>
 </template>
 
 <script>
 import Sidebar from "@/components/admin/layout/Sidebar";
 import MainSidebar from "@/components/admin/layout/MainSidebar";
+import ProfileVue from "@/components/share/Profile.vue";
 
 export default {
   name: "AdminLayoutComponent",
+  data() {
+    return {
+      dialogProfileVisible: false,
+    }
+  },
+  methods: {
+    handleOpenProfile() {
+      this.dialogProfileVisible = true;
+    },
+    handleCloseProfile() {
+      this.dialogProfileVisible = false;
+    }
+  },
   components: {
     SidebarComponent: Sidebar,
-    MainSidebarComponent: MainSidebar
+    MainSidebarComponent: MainSidebar,
+    ProfileVue: ProfileVue,
   }
 }
 </script>

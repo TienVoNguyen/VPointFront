@@ -60,6 +60,9 @@
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
+                  <el-button type="text" @click="handleProfileLayout">Thông tin người dùng</el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
                   <el-button type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
@@ -78,7 +81,7 @@
       </nav>
     </nav>
 
-    <el-dialog title="Đổi mật khẩu" :visible.sync="dialogFormVisible1">
+    <el-dialog title="Đổi mật khẩu" :append-to-body="true" :visible.sync="dialogFormVisible1">
       <el-form>
         <el-form-item label="Nhập mật cũ">
           <el-input v-model="changePass.oldPassword" type="password" autocomplete="off"></el-input>
@@ -147,7 +150,9 @@ export default {
     },
   },
   methods: {
-
+    handleProfileLayout() {
+      this.$emit('clickOpenProfile');
+    },
     removeValidate1(check) {
       this.dialogFormVisible1 = check
       this.oldPass = ''

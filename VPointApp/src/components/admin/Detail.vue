@@ -5,7 +5,40 @@
   <div>
     <br>
     <h3 align="center" style="color: #6c757d"> Điểm V-Point năm: {{selected}} </h3>
-    <br><br><br>
+    <br><br>
+    <el-form :model="user" id="userForm" class="text-left">
+      <div class="row text-start" >
+        <div class="col-1"></div>
+        <div class="col-10">
+          <div class="row text-start" >
+            <div class="col-4 ">
+              <el-form-item prop="fullname">
+                <label for="fullname" >Họ và tên:</label>
+                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+              </el-form-item>
+            </div>
+            <div class="col-4">
+              <el-form-item prop="staffId">
+                <label for="staffId">Mã nhân sự:</label>
+                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+            <div class="col-4 text-start">
+              <el-form-item prop="email">
+                <label for="email">Email đăng nhập:</label>
+                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-1"></div>
+
+
+
+      </div>
+    </el-form>
 
     <div class="text-center">
       <h4 style="color: #6c757d"> Chọn năm: <span style="">
@@ -65,6 +98,7 @@ export default {
   name: "DetailComponent",
   data() {
     return {
+      user: '',
       idUser : this.$route.params.idUser,
       Point: [],
       search: '',
@@ -84,6 +118,7 @@ export default {
   },
   created() {
     this.getVPoint()
+    this.findByIdUser(this.idUser)
   },
 
   methods: {
@@ -109,6 +144,12 @@ export default {
       let response1 = await userService.getYear(this.idUser)
       for (let i = 0; i < response1.data.length; i++) {
         this.year.push(this.formatYear(response1.data[i].date))
+      }
+    },
+    findByIdUser : async function (userId) {
+      let response = await userService.findById(userId);
+      if (response) {
+        this.user = response.data
       }
     },
 
