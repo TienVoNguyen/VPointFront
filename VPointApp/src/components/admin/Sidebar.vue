@@ -11,26 +11,19 @@
         <el-menu-item index="">
           <el-button plain type="text">
             <router-link to="/profile" class="navbar-brand"><i class="fa fa-home"></i><span>Trang chủ</span></router-link>
-
           </el-button>
-
-
         </el-menu-item>
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-plus"></i>
             <span>Thêm điểm V-Point</span>
           </template>
-
             <el-menu-item index="1-1"><i class="el-icon-user"></i>Thêm theo tên</el-menu-item>
             <el-menu-item index="1-2"><i class="el-icon-folder-opened"></i>Import file excel</el-menu-item>
-
-
         </el-submenu>
         <el-menu-item index="2">
           <el-button plain type="text" @click="removeValidate(true)"><i class="el-icon-user-solid"></i>
             <span>Thêm nhân viên mới</span></el-button>
-
         </el-menu-item>
         <el-menu-item index="3">
           <i class="el-icon-check"></i>
