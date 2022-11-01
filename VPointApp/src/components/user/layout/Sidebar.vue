@@ -111,7 +111,7 @@
 import authService from "@/service/auth-service";
 
 import swal from "sweetalert2";
-import login from "@/components/auth/Login";
+// import login from "@/components/auth/Login";
 
 
 export default {
@@ -136,10 +136,10 @@ export default {
     };
 
   },
-  components: {
-    login,
-    profile
-  },
+  // components: {
+  //   login,
+  //   profile
+  // },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
