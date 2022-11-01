@@ -1,41 +1,53 @@
 <template>
   <el-container>
     <div class="text-center">
-      <h2 style="color: #6c757d">Quản lý điểm V-Point năm <span style="">
-        <select  v-model="selectedYear" @change="retrievePointList" style="width: 120px; color: #6c757d; display: inherit; align-items: center" >
-          <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
-            {{ y }}
-          </option>
-        </select>
-      </span></h2>
+      <h2 style="color: #6c757d">Quản lý điểm V-Point</h2>
       <br>
-      <div class="row input-group mb-3">
-        <div class="col-6">
+      <div class="row input-group mb-4">
+        <div class="container">
 
-          <div class="text-left input-group-prepend">
-            <p style="color: #6c757d"> Nhóm: <span style="">
-        <select class="input-group-text" v-model="CateId" @change="getUser(CateId)" style="width: 300px; display: inherit; align-items: center;" >
+          <div class="text-center">
+            <h3 style="color: #6c757d"><span style="">
+        <input placeholder="Nhập tên nhân sự" style="width: 350px; height: 45px; display: inherit" class="input-group-text" type="text" v-model="fullName" @keyup="get(fullName)">
+      </span>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="row input-group mb-3">
+        <div class="col-4"></div>
+        <div class="col-6">
+          <div class="row">
+            <div class="text-left input-group-prepend col-6">
+              <p style="color: #6c757d"> Nhóm: <span style="">
+        <select class="input-group-text" v-model="CateId" @change="getUser(CateId)" style="width: 200px; display: inherit; align-items: center;" >
           <option v-bind:value="''">Tất cả nhân sự</option>
           <option v-for="d in departments" v-bind:value="d.id"  v-bind:key ="d.id" >
             {{ d.name }}
           </option>
         </select>
       </span>
-            </p>
+              </p>
+            </div>
+            <div class="text-right input-group-prepend col-6">
+              <p style="color: #6c757d">Năm <span style="">
+        <select class="input-group-text"  v-model="selectedYear" @change="retrievePointList" style=" color: #6c757d; display: inherit; align-items: center" >
+          <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
+            {{ y }}
+          </option>
+        </select>
+      </span></p>
+            </div>
           </div>
+
+
         </div>
-        <div class="col-6">
-          <div class="text-right">
-            <p style="color: #6c757d"> Nhập để tìm kiếm: <span style="">
-        <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName" @keyup="get(fullName)">
-      </span>
-            </p>
-          </div>
-        </div>
+        <div class="col-2"></div>
+
+
+
       </div>
-      <br>
     </div>
-    <br>
     <div class="text-left input-group-prepend">
       <p style="color: #6c757d"> Xem: <span style="">
         <select class="input-group-text" v-model="size" @change="retrievePointList" style="width: 62px; display: inherit; align-items: center;" >
@@ -85,8 +97,6 @@
         <template v-slot="scope">
           <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default" class="el-icon-plus"></i></el-button>
           <el-button class="btn btn-warning" type="text"><router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white"><i size="default" class="el-icon-view"></i></router-link></el-button>
-
-          <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default" class="el-icon-delete"></i></el-button>
         </template>
       </el-table-column>
 
@@ -268,11 +278,24 @@ export default {
       return params;
     },
 
-    getUser(params){
-      if (params === ''){
-        this.retrieveUserList()
-      }else {
-        this.getUserListByDpm(params)
+    async getUser(params1) {
+      if (params1 === '') {
+        await this.retrievePointList()
+      } else {
+        await this.getUserListByDpm(params1)
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        console.log(params)
+        let response = await userService.getAllByYear(params)
+        this.listPoint = response.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
       }
     },
 
@@ -284,11 +307,24 @@ export default {
       return params;
     },
 
-    get(params){
-      if (this.fullName === ''){
-        this.retrieveUserList()
-      }else {
-        this.getUserListByName(params)
+    async get(params1) {
+      if (this.fullName === '') {
+        await this.retrieveUserList()
+      } else {
+        await this.getUserListByName(params1)
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        console.log(params)
+        let response = await userService.getAllByYear(params)
+        this.listPoint = response.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
       }
     },
 
