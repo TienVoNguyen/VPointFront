@@ -703,7 +703,8 @@ export default {
               let response = await userService.deleteUser(userId);
               if (response) {
                 const params = this.getRequestParams(
-                    this.page
+                    this.page,
+                    this.size
                 );
                 console.log(params)
                 let response = await userService.getAll(params)

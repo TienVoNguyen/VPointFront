@@ -37,12 +37,12 @@
           <span>Trang chủ</span>
         </el-menu-item>
         </router-link>
-        <router-link to="/admin/importexcel" style="text-decoration: none;">
-          <el-menu-item index="2">
-            <i class="el-icon-folder-add"></i>
-            <span>Import File</span>
-          </el-menu-item>
-        </router-link>
+        <router-link to="/admin/my-v-point" style="text-decoration: none;">
+        <el-menu-item @click="changeColor($event)" index="2">
+          <i class="el-icon-plus text-white"></i>
+          <span>V-Point của tôi </span>
+        </el-menu-item>
+      </router-link>
         <router-link to="/admin/addstaff" style="text-decoration: none;">
           <el-menu-item index="3">
             <i class="el-icon-folder-add"></i>
