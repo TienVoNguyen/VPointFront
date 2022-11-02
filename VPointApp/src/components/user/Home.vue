@@ -3,22 +3,15 @@
     <div class="row">
       <div class="col col-lg-12">
         <div class="text-center">
-          <h2 style="color: #6c757d">Điểm V-Point năm
-            <span style="">
-        <select  v-model="selected" @change="getVpointByYear(selected)" style="width: 120px; color: #6c757d; display: inherit; align-items: center" >
-          <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
-            {{ y }}
-          </option>
-        </select>
-      </span>
+          <h2 style="color: #3785cb">Thông tin điểm V-Point
           </h2>
         </div>
         <br>
         <br>
         <el-form :model="user" id="userForm" class="text-left">
           <div class="row text-start" >
-            <div class="col-1"></div>
-            <div class="col-10">
+            <div class="col-2"></div>
+            <div class="col-8">
               <div class="row text-start" >
                 <div class="col-4 ">
                   <el-form-item prop="fullname">
@@ -42,12 +35,23 @@
                 </div>
               </div>
             </div>
-            <div class="col-1"></div>
+            <div class="col-2"></div>
 
 
 
           </div>
         </el-form>
+        <div class="text-center">
+          <p style="color: #6c757d">năm
+            <span style="">
+        <select class="input-group-text"  v-model="selected" @change="getVpointByYear(selected)" style="width: 120px; color: #6c757d; display: inherit; align-items: center" >
+          <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
+            {{ y }}
+          </option>
+        </select>
+      </span>
+          </p>
+        </div>
       </div>
       <div class="col col-lg-12" align="center">
         <el-table align="center"
@@ -64,18 +68,20 @@
           <el-table-column
               align="center"
               prop="sum"
-              label="Điểm V-poin"
+              label="Điểm V-Point"
               width="180">
           </el-table-column>
           <el-table-column
               label="Tùy chọn"
               align="center">
-
             <template slot-scope="scope">
               <router-link :to="`api/mark/${formatYear(scope.row.date)}/${formatMonth(scope.row.date)}`" class="btn btn-warning">Xem chi tiết</router-link>
             </template>
           </el-table-column>
+<!--          -->
         </el-table>
+        <br>
+        <h4 align="center" style="color: #6c757d"> Tổng điểm: {{sum}} </h4>
       </div>
     </div>
   </el-container>

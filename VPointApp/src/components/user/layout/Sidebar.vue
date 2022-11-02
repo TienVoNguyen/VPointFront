@@ -82,7 +82,7 @@
       </nav>
     </nav>
 
-    <el-dialog title="Đổi mật khẩu" :visible.sync="dialogFormVisible">
+    <el-dialog title="Đổi mật khẩu" :append-to-body="true" :visible.sync="dialogFormVisible" width="30%">
       <el-form>
         <el-form-item label="Nhập mật cũ">
           <el-input v-model="changePass.oldPassword" type="password" autocomplete="off"></el-input>
