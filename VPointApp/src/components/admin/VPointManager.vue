@@ -6,6 +6,7 @@
         <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
                v-model="fullName"
                @keyup="get(fullName)">
+
       </div>
 
       <div class="d-flex input-group mb-3 justify-content-center">
@@ -56,9 +57,10 @@
 
     </div>
     <el-table border
+
               :data="listUser"
               style="width: 100%">
-      <el-table-column align="center"
+      <el-table-column
                        prop="staffId"
                        label="Mã nhân viên"
                        width="150">
@@ -67,9 +69,10 @@
                        prop="fullName"
                        label="Họ và tên"
                        width="280">
+
       </el-table-column>
       <el-table-column
-          align="center"
+
           prop="department.name"
           label="Phòng ban"
           width="280">
@@ -79,11 +82,11 @@
           vertical-align="middle"
           align="center"
           width="120"
-          label="V-point">
+          label="Danh sách điểm V-point(năm)">
         <template v-slot="scope">
-          <p><br>
-            {{ scope.row.password.length > 10 ? 0 : scope.row.password }}
-          </p>
+
+            {{scope.row.password.length > 4? 0: scope.row.password}}
+
         </template>
       </el-table-column>
       <el-table-column align="center" label="Tùy chọn">

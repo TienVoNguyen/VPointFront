@@ -111,7 +111,87 @@
         </el-table-column>
       </el-table>
     </el-main>
+    <br>
 
+
+<div class="row">
+  <div class="col-6">
+    <div class="text-left input-group-prepend">
+      <p style="color: #6c757d"> Xem: <span style="">
+        <select class="input-group-text" v-model="size" @change="retrieveUserList" style="width: 62px; display: inherit; align-items: center;" >
+          <option v-bind:value="10">10</option>
+          <option v-bind:value="15">15</option>
+          <option v-bind:value="20">20</option>
+          <option v-bind:value="30">30</option>
+        </select>
+      </span> mục
+      </p>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="text-right">
+      <el-button type="danger" @click="removeValidateCreate(true)" style="width: 35%">Thêm nhân viên mới</el-button>
+    </div>
+  </div>
+
+
+</div>
+
+    <el-table
+        border
+        :data="listUser"
+        style="width: 100%">
+      <el-table-column
+          align="center"
+          prop="staffId"
+          label="Mã nhân viên"
+          width="120">
+      </el-table-column>
+      <el-table-column
+          align="center"
+          prop="fullName"
+          label="Họ và tên"
+          width="180">
+      </el-table-column>
+      <el-table-column
+          align="center"
+          prop="email"
+          label="Email"
+          width="270">
+      </el-table-column>
+      <el-table-column
+          align="center"
+          prop="department.name"
+          label="Phòng ban"
+          width="230">
+      </el-table-column>
+      <el-table-column
+          align="center"
+          label="Quyền truy cập"
+          width="125">
+        <template v-slot="scope">
+
+            {{scope.row.role[0].name == 'ROLE_ADMIN'? 'Admin' : 'Người dùng'}}
+
+        </template>
+      </el-table-column>
+      <el-table-column
+          align="center" class="w-100" style="width: 200px">
+
+        <template v-slot="scope">
+          <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
+            <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default" class="el-icon-edit"></i></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
+            <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i size="default" class="el-icon-key"></i></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
+            <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)" v-if="currentUser.id !== scope.row.id"><i size="default" class="el-icon-delete"></i></el-button>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+    </el-table>
+>>>>>>> 3e061626a314de491251e5b1d3cd89671e36ae99
     <el-footer>
       <el-pagination
           layout="prev, pager, next"
@@ -183,49 +263,48 @@
                   </el-form-item>
                 </div>
 
-                <div class="col-4">
-                  <el-form-item prop="role">
-                    <label for="">Quyền truy cập</label>
-                    <el-select style="width: 100%" v-model="user.role" multiple placeholder="" value-key="id">
-                      <el-option v-for="item in roles"
-                                 :key="item.id"
-                                 :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
-                                 :value="item"></el-option>
-                    </el-select>
-                    <small v-if="errRole !== null" style="color: red">{{ errRole }}</small>
-                  </el-form-item>
-                </div>
-                <div class="col-4 text-start">
-                  <el-form-item prop="phone">
-                    <label for="phone">Số điện thoại</label>
-                    <el-input type="number" name="phone" v-model="user.phone" autocomplete="off"></el-input>
-                    <!--            <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>-->
-                  </el-form-item>
+          <div class="col-4">
+            <el-form-item prop="role">
+              <label for="">Quyền truy cập</label>
+              <el-select style="width: 100%" v-model="user.role" multiple placeholder="" value-key="id">
+                <el-option v-for="item in roles"
+                           :key="item.id"
+                           :label="item.name=='ROLE_ADMIN'?'Admin':'Người dùng'"
+                           :value="item"></el-option>
+              </el-select>
+              <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
+            </el-form-item>
+          </div>
+          <div class="col-4 text-start">
+            <el-form-item prop="phone">
+              <label for="phone">Số điện thoại</label>
+              <el-input type="number" name= "phone" v-model="user.phone" autocomplete="off"></el-input>
+                          <small v-if="errPhone != null" style="color: red">{{errPhone}}</small>
+            </el-form-item>
 
-                </div>
-              </div>
+          </div>
+        </div>
 
-              <div style="display: none">
-                <div class="col-3">
-                  <el-form-item prop="password">
-                    <label for="">Nhập mật khẩu</label>
-                    <el-input name="password" type="password" v-model="user.password" autocomplete="off"></el-input>
-                    <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
-                  </el-form-item>
-                </div>
-                <div class="col-3">
-                  <el-form-item prop="confirmPassword">
-                    <label for="">Nhập lại mật khẩu</label>
-                    <el-input name="confirmPassword" type="password" v-model="user.password"
-                              autocomplete="off"></el-input>
-                    <small v-if="errorsPass !== null" style="color: red">{{ errorsPass }}</small>
-                  </el-form-item>
 
-                </div>
-              </div>
+        <div style="display: none">
+          <div class="col-3">
+            <el-form-item prop="password" >
+              <label for="">Nhập mật khẩu</label>
+              <el-input name= "password" type="password" v-model="user.password" autocomplete="off"></el-input>
+              <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
+            </el-form-item>
+          </div>
+          <div class="col-3">
+            <el-form-item  prop="confirmPassword">
+              <label for="">Nhập lại mật khẩu</label>
+              <el-input name= "confirmPassword" type="password" v-model="user.password" autocomplete="off"></el-input>
+              <small v-if="errorsPass !== null" style="color: red">{{errorsPass}}</small>
+            </el-form-item>
 
-            </el-form>
-            <span slot="footer" class="dialog-footer">
+          </div>
+        </div>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
 <!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
         <el-button type="primary" @click.prevent="editUser(user.id)">Confirm</el-button>
               <!--      <pre>{{userForm1}}</pre>-->
@@ -289,8 +368,8 @@
 
             <el-form-item prop="phone">
               <label for="phone">Số điện thoại:</label>
-              <el-input type="number" name="phone" v-model="userForm1.phone" autocomplete="off"></el-input>
-                    <!--              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small> Giới tính Nữ -->
+              <el-input type="number" name= "phone" v-model="userForm1.phone" autocomplete="off"></el-input>
+                            <small v-if="errPhone !== null" style="color: red">{{errPhone}}</small>
             </el-form-item>
           </div>
 
@@ -397,6 +476,8 @@ export default {
       checkDpm: true,
       checkRole: true,
       checkPass: true,
+      checkPhone: true,
+      errPhone: '',
       changePass: {
         newPassword: '',
         confirmNewPass: '',
@@ -454,7 +535,8 @@ export default {
           this.matchName = '',
           this.errorEmail = '',
           this.errDpm = '',
-          this.errRole = ''
+          this.errRole = '',
+          this.errPhone = ''
     },
 
     removeValidateCreate(check) {
@@ -468,7 +550,8 @@ export default {
           this.matchName = '',
           this.errorEmail = '',
           this.errDpm = '',
-          this.errRole = ''
+          this.errRole = '',
+          this.errPhone = ''
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -556,6 +639,17 @@ export default {
         this.checkEmail = true
       }
 
+      if (!this.userForm1.phone) {
+        this.errPhone = 'Vui lòng nhập số điện thoại nhân viên'
+        this.checkPhone = false;
+      } else if (!this.validPhone(this.userForm1.phone)) {
+        this.errPhone = 'Số điện thoại không đúng'
+        this.checkPhone = false;
+      } else if (this.validPhone(this.userForm1.phone) && this.userForm1.phone) {
+        this.errPhone = ''
+        this.checkPhone = true
+      }
+
 
       if (!this.userForm1.fullname) {
         this.errorsName = 'Vui lòng nhập tên nhân viên'
@@ -595,7 +689,7 @@ export default {
       }
 
 
-      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkDpm === true && this.checkPass === true && this.checkRole === true) {
+      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkDpm === true && this.checkPass === true && this.checkRole === true && this.checkPhone === true) {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);
         formdata.append("department.id", this.userForm1.department)
@@ -778,6 +872,18 @@ export default {
           this.errId = ''
         }
       }
+
+      if (!this.user.phone) {
+        this.errPhone = 'Vui lòng nhập số điện thoại nhân viên'
+        this.checkPhone = false;
+      } else if (!this.validPhone(this.user.phone)) {
+        this.errPhone = 'Số điện thoại không đúng'
+        this.checkPhone = false;
+      } else if (this.validPhone(this.user.phone) && this.user.phone) {
+        this.errPhone = ''
+        this.checkPhone = true
+      }
+
       if (!this.user.staffId) {
         this.errId = 'Hãy nhập mã nhân sự'
         this.check1 = false;
@@ -819,7 +925,7 @@ export default {
         this.errRole = ''
         this.checkDpm = true;
       }
-      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkRole === true && this.checkDpm === true) {
+      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkRole === true && this.checkDpm === true && this.checkPhone === true) {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);
         formdata.append("department.id", this.user.department.id)
