@@ -75,14 +75,14 @@
 
           prop="department.name"
           label="Phòng ban"
-          width="280">
+          width="220">
       </el-table-column>
 
       <el-table-column
           vertical-align="middle"
           align="center"
-          width="120"
-          label="Danh sách điểm V-point(năm)">
+          width="200"
+          label="V-point">
         <template v-slot="scope">
 
             {{scope.row.password.length > 4? 0: scope.row.password}}

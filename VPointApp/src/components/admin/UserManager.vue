@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row ">
         <div class="col-6">
           <div class="text-left input-group-prepend">
             <p style="color: #6c757d"> Xem:
@@ -54,7 +54,7 @@
         </div>
       </div>
     </el-header>
-    <el-main>
+    <el-main style="margin-top: 5rem">
       <el-table
           border
           :data="listUser"
@@ -112,86 +112,6 @@
       </el-table>
     </el-main>
     <br>
-
-
-<div class="row">
-  <div class="col-6">
-    <div class="text-left input-group-prepend">
-      <p style="color: #6c757d"> Xem: <span style="">
-        <select class="input-group-text" v-model="size" @change="retrieveUserList" style="width: 62px; display: inherit; align-items: center;" >
-          <option v-bind:value="10">10</option>
-          <option v-bind:value="15">15</option>
-          <option v-bind:value="20">20</option>
-          <option v-bind:value="30">30</option>
-        </select>
-      </span> mục
-      </p>
-    </div>
-  </div>
-  <div class="col-6">
-    <div class="text-right">
-      <el-button type="danger" @click="removeValidateCreate(true)" style="width: 35%">Thêm nhân viên mới</el-button>
-    </div>
-  </div>
-
-
-</div>
-
-    <el-table
-        border
-        :data="listUser"
-        style="width: 100%">
-      <el-table-column
-          align="center"
-          prop="staffId"
-          label="Mã nhân viên"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          prop="fullName"
-          label="Họ và tên"
-          width="180">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          prop="email"
-          label="Email"
-          width="270">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          prop="department.name"
-          label="Phòng ban"
-          width="230">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          label="Quyền truy cập"
-          width="125">
-        <template v-slot="scope">
-
-            {{scope.row.role[0].name == 'ROLE_ADMIN'? 'Admin' : 'Người dùng'}}
-
-        </template>
-      </el-table-column>
-      <el-table-column
-          align="center" class="w-100" style="width: 200px">
-
-        <template v-slot="scope">
-          <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-            <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default" class="el-icon-edit"></i></el-button>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-            <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i size="default" class="el-icon-key"></i></el-button>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
-            <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)" v-if="currentUser.id !== scope.row.id"><i size="default" class="el-icon-delete"></i></el-button>
-          </el-tooltip>
-        </template>
-      </el-table-column>
-    </el-table>
->>>>>>> 3e061626a314de491251e5b1d3cd89671e36ae99
     <el-footer>
       <el-pagination
           layout="prev, pager, next"
@@ -553,12 +473,6 @@ export default {
           this.errRole = '',
           this.errPhone = ''
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
     async retrieveUserList() {
       // if(this.size > 10){
       //   this.page = 0
@@ -687,8 +601,6 @@ export default {
         this.errorsPass = ''
         this.checkPass = true;
       }
-
-
       if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkDpm === true && this.checkPass === true && this.checkRole === true && this.checkPhone === true) {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);

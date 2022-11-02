@@ -3,7 +3,7 @@
     <el-dialog 
       :visible="toggeProfile"
       @close="handleProfile"
-      width="50%"
+      width="40%"
       >
       <span class="text-header" slot="title">Thông tin cá nhân</span>
       <el-row justify="">

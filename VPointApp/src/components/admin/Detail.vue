@@ -70,7 +70,7 @@
         </el-table-column>
         <el-table-column align="center"
                          prop="sum"
-                         label="Điểm V-poin"
+                         label="Điểm V-point"
                          width="300">
         </el-table-column>
         <el-table-column align="center"

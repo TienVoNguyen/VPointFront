@@ -1,8 +1,8 @@
 <template>
 
-  <div class="container">
+  <div class="container mt-4">
 <!--    <a href="`/admin/detail/${}`"><i class="el-icon-arrow-left item-absolute">Quay lại</i></a>-->
-    <h3 style="color: black">Điểm V-Point tháng {{month}} năm {{year}}</h3>
+    <h3 class="header">Điểm V-Point tháng {{month}} năm {{year}}</h3>
     <el-form :model="user" id="userForm" class="text-left">
       <div class="row text-start" >
         <div class="col-2"></div>
@@ -88,7 +88,7 @@
         <td rowspan="2" class="vertical-center text-left">Tuân thủ</td>
         <td class="text-left">Tôi yêu VMG</td>
         <td>{{td7 + td13}}</td>
-        <td rowspan="2" class="vertical-center">{{td7 - td8 + td13}}</td>
+        <td rowspan="2" class="vertical-center">{{td7 + td8 + td13}}</td>
       </tr>
       <tr>
         <td class="text-left">Kỷ luật</td>
@@ -252,5 +252,18 @@ export default {
 }
 .vertical-center {
   line-height: 70px;
+}
+
+.header {
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  /* identical to box height */
+
+
+  color: #246CD9;
 }
 </style>

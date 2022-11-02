@@ -4,6 +4,7 @@ import AdminLayout from "@/components/admin/layout/AdminLayout";
 import UserLayout from "@/components/user/layout/UserLayout";
 import AddMark from "@/components/admin/Add";
 import UserManager from "@/components/admin/UserManager";
+import ImportExcel from "@/components/admin/ImportExcel";
 
 Vue.use(Router);
 
@@ -67,13 +68,13 @@ const router = new Router({
                     path: 'myvpoint',
                     alias: 'my-v-point',
                     name: 'MyVPoint',
-                    component: () => import("@/components/user/Home")
+                    component: () => import("@/components/admin/HomeAdmin")
                 },
                 {
                     path: 'import',
                     alias: 'import-v-point-from-excel',
                     name: 'ImportFileExcel',
-                    component: () => import("@/components/admin/ImportExcel")
+                    component: ImportExcel
                 }
             ]
         },
