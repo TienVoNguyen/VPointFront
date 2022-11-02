@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <div class="text-center">
-      <h2 style="color: #6c757d">Quản lý điểm V-Point</h2>
+      <h2 style="color: #4082bd">Quản lý điểm V-Point</h2>
       <br>
       <div class="row input-group mb-4">
         <div class="container">
@@ -48,23 +48,25 @@
 
       </div>
     </div>
-    <div class="text-left input-group-prepend">
-      <p style="color: #6c757d"> Xem: <span style="">
-        <select class="input-group-text" v-model="size" @change="retrievePointList" style="width: 62px; display: inherit; align-items: center;" >
-          <option v-bind:value="10">10</option>
-          <option v-bind:value="15">15</option>
-          <option v-bind:value="20">20</option>
-          <option v-bind:value="30">30</option>
-        </select>
-      </span> mục
+    <h3 style="color: #4082bd" class="text-left">Danh sách điểm V-Point</h3>
+    <br>
+<!--    <div class="text-left input-group-prepend">-->
+<!--      <p style="color: #6c757d"> Xem: <span style="">-->
+<!--        <select class="input-group-text" v-model="size" @change="retrievePointList" style="width: 62px; display: inherit; align-items: center;" >-->
+<!--          <option v-bind:value="10">10</option>-->
+<!--          <option v-bind:value="15">15</option>-->
+<!--          <option v-bind:value="20">20</option>-->
+<!--          <option v-bind:value="30">30</option>-->
+<!--        </select>-->
+<!--      </span> mục-->
 
-      </p>
-    </div>
+<!--      </p>-->
+<!--    </div>-->
 
     <el-table border align="center"
               :data="listUser"
               style="width: 100%">
-      <el-table-column align="center"
+      <el-table-column
                        prop="staffId"
                        label="Mã nhân viên"
                        width="200">
@@ -72,10 +74,10 @@
       <el-table-column align="center"
                        prop="fullName"
                        label="Họ và tên"
-                       width="350">
+                       width="300">
       </el-table-column>
       <el-table-column
-          align="center"
+
           prop="department.name"
           label="Phòng ban"
           width="250">
@@ -84,12 +86,12 @@
       <el-table-column
           vertical-align="middle"
           align="center"
-          width="150"
-          label="V-point">
+          width="180"
+          label="Danh sách điểm V-point(năm)">
         <template v-slot="scope">
-          <p height="50px"><br>
-            {{scope.row.password.length > 10? 0: scope.row.password}}
-          </p>
+
+            {{scope.row.password.length > 4? 0: scope.row.password}}
+
         </template>
       </el-table-column>
       <el-table-column align="center"
