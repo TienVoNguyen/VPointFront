@@ -1,105 +1,104 @@
 <template>
-  <el-container>
+  <el-container class="background">
     <div class="text-center">
-      <h2 style="color: #4082bd">Quản lý điểm V-Point</h2>
-      <br>
-      <div class="row input-group mb-4">
-        <div class="container">
+      <h2 class="vpointheader">Quản lý điểm V-Point</h2>
+      <div class="d-flex justify-content-center mb-4">
+        <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
+               v-model="fullName"
+               @keyup="get(fullName)">
 
-          <div class="text-center">
-            <h3 style="color: #6c757d"><span style="">
-        <input placeholder="Nhập tên nhân sự" style="width: 350px; height: 45px; display: inherit" class="input-group-text" type="text" v-model="fullName" @keyup="get(fullName)">
-      </span>
-            </h3>
-          </div>
-        </div>
       </div>
-      <div class="row input-group mb-3">
-        <div class="col-4"></div>
-        <div class="col-6">
-          <div class="row">
-            <div class="text-left input-group-prepend col-6">
-              <p style="color: #6c757d"> Nhóm: <span style="">
-        <select class="input-group-text" v-model="CateId" @change="getUser(CateId)" style="width: 200px; display: inherit; align-items: center;" >
-          <option v-bind:value="''">Tất cả nhân sự</option>
-          <option v-for="d in departments" v-bind:value="d.id"  v-bind:key ="d.id" >
+
+      <div class="d-flex input-group mb-3 justify-content-center">
+
+          <div class="text-left input-group-prepend d-inline-block">
+            <p style="color: #6c757d"> Tìm kiếm theo: <span style="">
+        <select class="form-control" v-model="CateId" @change="getUser(CateId)"
+                style="width: 120px; display: inherit; align-items: center;">
+          <option v-bind:value="''">Tất cả</option>
+          <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
+
             {{ d.name }}
           </option>
         </select>
       </span>
-              </p>
-            </div>
-            <div class="text-right input-group-prepend col-6">
-              <p style="color: #6c757d">Năm <span style="">
-        <select class="input-group-text"  v-model="selectedYear" @change="retrievePointList" style=" color: #6c757d; display: inherit; align-items: center" >
-          <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
+            </p>
+          </div>
+          <p class="d-inline-block ml-4" style="color: #6c757d; margin-bottom: 2rem"> Năm: <span>
+        <select class="form-control" v-model="selectedYear" @change="retrievePointList"
+                style="width: 100px; display: inherit; align-items: center">
+          <option v-for="y in year" v-bind:value="y" v-bind:key="y">
+
             {{ y }}
           </option>
         </select>
       </span></p>
-            </div>
-          </div>
-
-
-        </div>
-        <div class="col-2"></div>
-
-
 
       </div>
     </div>
-    <h3 style="color: #4082bd" class="text-left">Danh sách điểm V-Point</h3>
-    <br>
-<!--    <div class="text-left input-group-prepend">-->
-<!--      <p style="color: #6c757d"> Xem: <span style="">-->
-<!--        <select class="input-group-text" v-model="size" @change="retrievePointList" style="width: 62px; display: inherit; align-items: center;" >-->
-<!--          <option v-bind:value="10">10</option>-->
-<!--          <option v-bind:value="15">15</option>-->
-<!--          <option v-bind:value="20">20</option>-->
-<!--          <option v-bind:value="30">30</option>-->
-<!--        </select>-->
-<!--      </span> mục-->
+    <div class="row">
+      <div class=" col-lg-4 text-left input-group-prepend">
+        <p style="color: #6c757d"> Xem: <span style="">
+        <select class="input-group-text" v-model="size" @change="retrievePointList"
+                style="width: 62px; display: inherit; align-items: center;">
 
-<!--      </p>-->
-<!--    </div>-->
+          <option v-bind:value="10">10</option>
+          <option v-bind:value="15">15</option>
+          <option v-bind:value="20">20</option>
+          <option v-bind:value="30">30</option>
+        </select>
+      </span> mục
+        </p>
+      </div>
+      <div class="col-lg-8 d-flex justify-content-end" >
+        <el-button @click="toImport" style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
+        <el-button @click="toExport" style="border: solid 1px; height: 50%; display: flex; align-items: center"> <i class="el-icon-download"></i>Export</el-button>
+      </div>
 
-    <el-table border align="center"
+    </div>
+    <el-table border
+
               :data="listUser"
               style="width: 100%">
       <el-table-column
                        prop="staffId"
                        label="Mã nhân viên"
-                       width="200">
+                       width="150">
       </el-table-column>
       <el-table-column align="center"
                        prop="fullName"
                        label="Họ và tên"
-                       width="300">
+                       width="280">
+
       </el-table-column>
       <el-table-column
 
           prop="department.name"
           label="Phòng ban"
-          width="250">
+          width="220">
       </el-table-column>
 
       <el-table-column
           vertical-align="middle"
           align="center"
-          width="180"
-          label="Danh sách điểm V-point(năm)">
+          width="200"
+          label="V-point">
         <template v-slot="scope">
 
             {{scope.row.password.length > 4? 0: scope.row.password}}
 
         </template>
       </el-table-column>
-      <el-table-column align="center"
-          label="Tùy chọn">
+      <el-table-column align="center" label="Tùy chọn">
         <template v-slot="scope">
-          <el-tooltip class="item" effect="dark" content="Thêm điểm" placement="top"><el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default" class="el-icon-plus"></i></el-button></el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Chi tiết điểm" placement="top"><el-button class="btn btn-warning" type="text"><router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white"><i size="default" class="el-icon-view"></i></router-link></el-button></el-tooltip>
-
+          <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)">
+            <i size="default" class="el-icon-plus"></i>
+          </el-button>
+          <router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white">
+            <el-button class="btn btn-warning m-2" type="text">
+              <i size="default" class="el-icon-view"></i>
+            </el-button>
+          </router-link>
 
         </template>
       </el-table-column>
@@ -107,7 +106,7 @@
     </el-table>
 
 
-    <el-footer>
+    <el-footer class="text-right">
       <el-pagination
           layout="prev, pager, next"
           :page-count="count"
@@ -115,24 +114,22 @@
           hide-on-single-page>
       </el-pagination>
     </el-footer>
-
   </el-container>
 
 </template>
 <script>
-import  {UserService as userService} from "@/service/user-service";
-import login from "@/components/auth/Login";
+import {UserService as userService} from "@/service/user-service";
 import authService from "@/service/auth-service";
 import moment from "moment";
+
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: 'HomeComponent',
-  data : function() {
+  data: function () {
     return {
       CateId: '',
       fullName: '',
       UserId: '',
-      pointU:'',
+      pointU: '',
       size: 10,
       year: [],
       selectedYear: this.formatYear(new Date()),
@@ -168,7 +165,6 @@ export default {
     console.log(this.departments)
     console.log(this.currentUser)
   },
-  components: login,
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
@@ -178,7 +174,7 @@ export default {
     },
   },
   methods: {
-    formatYear(value){
+    formatYear(value) {
       if (value) {
         return moment(String(value)).format('YYYY')
       }
@@ -188,13 +184,11 @@ export default {
         if (this.currentUser.roles[i].authority === 'ROLE_ADMIN') {
           this.roleId = 'ROLE_ADMIN'
         }
-        if( this.currentUser.roles[i].authority !== 'ROLE_ADMIN') {
+        if (this.currentUser.roles[i].authority !== 'ROLE_ADMIN') {
           this.roleId = 'ROLE_USER'
         }
       }
     },
-
-
     removeValidate1(userId) {
       this.findByIdUser(userId)
       // this.dialogFormVisible1 = check
@@ -225,15 +219,13 @@ export default {
       this.listPoint = response.data;
       for (let i = 0; i < this.listUser.length; i++) {
         for (let j = 0; j < this.listPoint.length; j++) {
-          if (this.listUser[i].staffId === this.listPoint[j].staffId){
+          if (this.listUser[i].staffId === this.listPoint[j].staffId) {
             this.listUser[i].password = this.listPoint[j].sum
           }
         }
       }
-      console.log(this.listPoint)
-
     },
-    findByIdUser : async function (userId) {
+    findByIdUser: async function (userId) {
       let response = await userService.findById(userId);
       if (response) {
         this.user = response.data
@@ -246,16 +238,12 @@ export default {
       }
     },
 
-
-
     refreshList() {
 
       this.retrieveUserList();
       this.currentIndex = -1;
     },
-    mounted() {
-      this.retrieveUserList();
-    },
+
     handlePageChange(value) {
       this.page = value;
       this.retrievePointList()
@@ -271,7 +259,7 @@ export default {
     },
     getRequestParamsYear(year) {
       let params = {};
-        params["year"] = year;
+      params["year"] = year;
       return params;
     },
     getDpmParams(CateId) {
@@ -281,7 +269,6 @@ export default {
 
       return params;
     },
-
     async getUser(params1) {
       if (params1 === '') {
         await this.retrievePointList()
@@ -345,9 +332,35 @@ export default {
       this.listUser = response.data;
       this.count = response.data.totalPages;
     },
-  }
+    toImport() {
+      this.$router.push('/admin/import-v-point-from-excel')
+    },
+    toExport() {
+      console.log('export')
+    }
+  },
+  mounted() {
+    this.retrieveUserList();
+  },
 };
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.background {
+  background: #FFFFFF;
+  padding: 1.5rem;
+}
+
+.vpointheader {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  color: #246CD9;
+}
 </style>

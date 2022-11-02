@@ -56,17 +56,17 @@
             <img class="user-avatar rounded-circle mr-2" src="@/assets/images/avatar.png" alt="User Avatar">
             <el-dropdown trigger="click">
             <span class="el-dropdown-link">
-            {{ currentUser.name }}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{ currentUser !== null? currentUser.name : 'Đăng nhập' }}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                  <el-button type="text" @click="handleProfileLayout">Thông tin người dùng</el-button>
+                  <el-button class="w-100 text-left" type="text" @click="handleProfileLayout">Thông tin người dùng</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <el-button type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
+                  <el-button class="w-100 text-left" type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <el-button type="text" @click="logOut">Đăng xuất</el-button>
+                  <el-button class="w-100 text-left" type="text" @click="logOut">Đăng xuất</el-button>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -107,7 +107,6 @@
 </template>
 <script>
 import swal from "sweetalert2";
-import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
 
 export default {
@@ -142,7 +141,6 @@ export default {
       console.log(error)
     }
   },
-  components: login,
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;

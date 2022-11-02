@@ -3,34 +3,41 @@ import Router from "vue-router";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import UserLayout from "@/components/user/layout/UserLayout";
 import AddMark from "@/components/admin/Add";
+import UserManager from "@/components/admin/UserManager";
+import ImportExcel from "@/components/admin/ImportExcel";
 
 Vue.use(Router);
 
 const router = new Router({
     mode: "history",
     routes: [
-        {
-            path: '/login',
-            component: () => import("@/components/auth/Login"),
-        },
+
         {
             path: '/',
             redirect: '/login'
         },
         {
+            path: '/login',
+            component: () => import("@/components/auth/Login"),
+        },
+        {
+            path: '/access',
+            component: () => import("@/components/auth/AccessRights"),
+        },
+        {
             path: '/admin',
-            redirect: 'home',
+            redirect: 'admin/home',
             component: AdminLayout,
             children: [
                 {
                     path: 'home',
                     name: 'home',
-                    component: () => import("@/components/admin/Home"),
+                    component: () => import("@/components/admin/layout/HomeComponent"),
                 },
                 {
-                    path: 'importexcel',
-                    name: 'importexcel',
-                    component: () => import("@/components/admin/ImportExcel"),
+                    path: 'v-point-manager',
+                    name: 'VPointManager',
+                    component: () => import("@/components/admin/VPointManager"),
                 },
                 {
                     path: 'detail/:idUser/:year',
@@ -43,9 +50,9 @@ const router = new Router({
                     component: () => import("@/components/admin/DetailPoint"),
                 },
                 {
-                    path: 'manager',
+                    path: 'user-manager',
                     name: 'UserManager',
-                    component: () => import("@/components/admin/UserManager")
+                    component: UserManager
                 },
                 {
                     path: 'mark/:id',
@@ -56,12 +63,24 @@ const router = new Router({
                     path: 'addstaff',
                     name: 'addStaff',
                     component: () => import("@/components/admin/AddStaff")
+                },
+                {
+                    path: 'myvpoint',
+                    alias: 'my-v-point',
+                    name: 'MyVPoint',
+                    component: () => import("@/components/admin/HomeAdmin")
+                },
+                {
+                    path: 'import',
+                    alias: 'import-v-point-from-excel',
+                    name: 'ImportFileExcel',
+                    component: ImportExcel
                 }
             ]
         },
         {
             path: '/user',
-            redirect: 'home',
+            redirect: 'user/home',
             component: UserLayout,
             children: [
                 {
@@ -82,11 +101,20 @@ router.beforeEach((to, from, next) => {
     const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
-    console.log(loggedIn)
+    const user = JSON.parse(loggedIn)
     if (authRequired && !loggedIn) {
         next('/login');
     } else {
-        next();
+        if (to.path.startsWith('/admin')) {
+            if (user !== null && user.roles[0].authority === 'ROLE_ADMIN') {
+                next();
+            } else {
+                next('/access');
+            }
+        } else {
+            next()
+        }
     }
+
 });
 export default router

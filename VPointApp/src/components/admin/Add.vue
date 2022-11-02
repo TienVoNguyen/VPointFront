@@ -235,7 +235,7 @@ import  {UserService as userService} from '../../service/user-service';
 import swal from 'sweetalert2'
 
   export default {
-    name: 'add-mark',
+    name: 'AddMarkComponent',
     data() {
       // var checkDate = (rule, value, callback) => {
       //   console.log(12, value);

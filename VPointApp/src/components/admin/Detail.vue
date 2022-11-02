@@ -70,7 +70,7 @@
         </el-table-column>
         <el-table-column align="center"
                          prop="sum"
-                         label="Điểm V-poin"
+                         label="Điểm V-point"
                          width="300">
         </el-table-column>
         <el-table-column align="center"
@@ -95,7 +95,7 @@ import moment from "moment";
 import {UserService as userService} from "@/service/user-service";
 
 export default {
-  name: "AdminSeeDetail",
+  name: "DetailComponent",
   data() {
     return {
       user: '',

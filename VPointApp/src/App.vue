@@ -14,7 +14,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+$fa-font-path:'~@fortawesome/fontawesome-free/webfonts';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/brands";
 html,body {
   box-sizing: border-box;
   margin: auto 0;

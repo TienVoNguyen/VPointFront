@@ -3,7 +3,7 @@
     <div class="row mt-4">
       <div class="col col-lg-12">
         <div class="text-center">
-          <h2 style="color: #3785cb; font-style: normal;
+          <h2 class="headerVPoint" style="color: #3785cb; font-style: normal;
             font-weight: 700; ">Thông tin điểm V-Point
           </h2>
         </div>
@@ -84,7 +84,7 @@
               label="Tùy chọn"
               align="center">
             <template slot-scope="scope">
-              <router-link :to="`api/mark/${formatYear(scope.row.date)}/${formatMonth(scope.row.date)}`" class="btn btn-warning">Xem chi tiết</router-link>
+              <router-link :to="`/admin/AdminSeeDetailVPoint/${formatYear(scope.row.date)}/${formatMonth(scope.row.date)}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link>
             </template>
           </el-table-column>
 <!--          -->
@@ -203,5 +203,7 @@ export default {
 </script>
 
 <style scoped>
+.headerVPoint {
 
+}
 </style>

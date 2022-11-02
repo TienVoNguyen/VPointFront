@@ -1,117 +1,117 @@
-<template>
+<template >
   <el-container>
-
-
-    <h3 style="color: #6c757d" align="center">Quản lý người dùng</h3><br>
-    <br>
-
-
-    <div class="row input-group mb-3">
-      <div class="col-6">
-
-        <div class="text-left input-group-prepend">
-          <p style="color: #6c757d"> Nhóm: <span style="">
-        <select class="input-group-text" v-model="CateId" @change="getUser(CateId)" style="width: 300px; display: inherit; align-items: center;" >
-          <option v-bind:value="''">Tất cả nhân sự</option>
-          <option v-for="d in departments" v-bind:value="d.id"  v-bind:key ="d.id" >
-            {{ d.name }}
-          </option>
-        </select>
-      </span>
-          </p>
+    <el-header class="mb-5">
+      <h3 style="color: #6c757d" align="center">Quản lý người dùng</h3><br>
+      <div class="row input-group mb-3">
+        <div class="col-6">
+          <div class="text-left input-group-prepend">
+            <p style="color: #6c757d"> Nhóm:
+              <span style="">
+                <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
+                        style="width: 300px; display: inherit; align-items: center;">
+                  <option value="">Tất cả nhân sự</option>
+                  <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
+                    {{ d.name }}
+                  </option>
+                </select>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="text-right">
+            <p style="color: #6c757d"> Nhập để tìm kiếm:
+              <span style="">
+                <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
+                       @keyup="get(fullName)">
+              </span>
+            </p>
+          </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="text-right">
-          <p style="color: #6c757d"> Nhập để tìm kiếm: <span style="">
-        <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName" @keyup="get(fullName)">
-      </span>
-          </p>
+
+      <div class="row ">
+        <div class="col-6">
+          <div class="text-left input-group-prepend">
+            <p style="color: #6c757d"> Xem:
+              <span style="">
+                <select class="input-group-text" v-model="size" @change="retrieveUserList"
+                        style="width: 62px; display: inherit; align-items: center;">
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                </select>
+              </span> mục
+            </p>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="text-right">
+            <el-button type="danger" @click="removeValidateCreate(true)" style="width: 35%">Thêm nhân viên mới
+            </el-button>
+          </div>
         </div>
       </div>
-    </div>
+    </el-header>
+    <el-main style="margin-top: 5rem">
+      <el-table
+          border
+          :data="listUser"
+          style="width: 100%">
+        <el-table-column
+            align="center"
+            prop="staffId"
+            label="Mã nhân viên"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            prop="fullName"
+            label="Họ và tên"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            prop="email"
+            label="Email"
+            width="250">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            prop="department.name"
+            label="Phòng ban"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            label="Quyền truy cập"
+            width="125">
+          <template v-slot="scope">
+            <span v-for="(role, index) in scope.row.role" :key="index">
+              {{ role.name === 'ROLE_ADMIN' ? 'Admin' : 'Người dùng' }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column
+            align="center" class="w-100" style="width: 200px">
 
-
+          <template v-slot="scope">
+            <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default"
+                                                                                                          class="el-icon-edit"></i>
+            </el-button>
+            <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i
+                size="default"
+                class="el-icon-key"></i>
+            </el-button>
+            <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default"
+                                                                                               class="el-icon-delete"></i>
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
     <br>
-
-
-<div class="row">
-  <div class="col-6">
-    <div class="text-left input-group-prepend">
-      <p style="color: #6c757d"> Xem: <span style="">
-        <select class="input-group-text" v-model="size" @change="retrieveUserList" style="width: 62px; display: inherit; align-items: center;" >
-          <option v-bind:value="10">10</option>
-          <option v-bind:value="15">15</option>
-          <option v-bind:value="20">20</option>
-          <option v-bind:value="30">30</option>
-        </select>
-      </span> mục
-      </p>
-    </div>
-  </div>
-  <div class="col-6">
-    <div class="text-right">
-      <el-button type="danger" @click="removeValidateCreate(true)" style="width: 35%">Thêm nhân viên mới</el-button>
-    </div>
-  </div>
-
-
-</div>
-
-    <el-table
-        border
-        :data="listUser"
-        style="width: 100%">
-      <el-table-column
-          align="center"
-          prop="staffId"
-          label="Mã nhân viên"
-          width="120">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          prop="fullName"
-          label="Họ và tên"
-          width="180">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          prop="email"
-          label="Email"
-          width="270">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          prop="department.name"
-          label="Phòng ban"
-          width="230">
-      </el-table-column>
-      <el-table-column
-          align="center"
-          label="Quyền truy cập"
-          width="125">
-        <template v-slot="scope">
-
-            {{scope.row.role[0].name == 'ROLE_ADMIN'? 'Admin' : 'Người dùng'}}
-
-        </template>
-      </el-table-column>
-      <el-table-column
-          align="center" class="w-100" style="width: 200px">
-
-        <template v-slot="scope">
-          <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-            <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default" class="el-icon-edit"></i></el-button>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-            <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i size="default" class="el-icon-key"></i></el-button>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
-            <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)" v-if="currentUser.id !== scope.row.id"><i size="default" class="el-icon-delete"></i></el-button>
-          </el-tooltip>
-        </template>
-      </el-table-column>
-    </el-table>
     <el-footer>
       <el-pagination
           layout="prev, pager, next"
@@ -121,18 +121,18 @@
       </el-pagination>
     </el-footer>
 
+    <!-- change pass -->
 
-    <!--     //change pass -->
-
-    <el-dialog class="text-center" title="Đổi mật khẩu" style="color: #00a2bf" :visible.sync="dialogFormVisible1" width="30%">
+    <el-dialog class="text-center" title="Đổi mật khẩu" style="color: #00a2bf" :visible.sync="dialogFormVisible1"
+               width="30%">
       <el-form>
         <el-form-item label="Nhập mật khẩu mới">
           <el-input v-model="changePass.newPassword" type="password" autocomplete="off"></el-input>
-          <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
+          <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
         </el-form-item>
         <el-form-item label="Xác nhận mật khẩu mới">
           <el-input v-model="changePass.confirmNewPass" type="password" autocomplete="off"></el-input>
-          <small v-if="errorsPass != null" style="color: red">{{errorsPass}}</small>
+          <small v-if="errorsPass != null" style="color: red">{{ errorsPass }}</small>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -140,52 +140,48 @@
   </span>
     </el-dialog>
 
+          <el-dialog title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%" class="text-left">
+            <el-form :model="user" id="userForm">
+              <div class="row text-start">
+                <div class="col-4">
+                  <el-form-item prop="staffId">
+                    <label for="staffId">Mã nhân sự</label>
+                    <el-input name="staffId" v-model="user.staffId" autocomplete="off"></el-input>
+                    <small v-if="errId !== null" style="color: red">{{ errId }}</small>
+                  </el-form-item>
 
-    <el-dialog  title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%" class="text-left">
-      <el-form :model="user" id="userForm" >
+                </div>
+                <div class="col-4">
+                  <el-form-item prop="fullname">
+                    <label for="fullname">Họ và tên</label>
+                    <el-input name="fullname" v-model="user.fullName" autocomplete="off"></el-input>
+                    <small v-if="errorsName !== null" style="color: red">{{ errorsName }}</small>
+                  </el-form-item>
+                </div>
+                <div class="col-4 text-start">
+                  <el-form-item prop="email">
+                    <label for="email">Email đăng nhập</label>
+                    <el-input type="email" name="email" v-model="user.email" autocomplete="off"></el-input>
+                    <small v-if="errorEmail != null" style="color: red">{{ errorEmail }}</small>
+                  </el-form-item>
 
-        <div class="row text-start" >
-          <div class="col-4">
-            <el-form-item prop="staffId">
-              <label for="staffId">Mã nhân sự</label>
-              <el-input name= "staffId" v-model="user.staffId" autocomplete="off"></el-input>
-              <small v-if="errId !== null" style="color: red">{{errId}}</small>
-            </el-form-item>
+                </div>
+              </div>
 
-          </div>
-          <div class="col-4">
-            <el-form-item prop="fullname">
-              <label for="fullname">Họ và tên</label>
-              <el-input name= "fullname" v-model="user.fullName" autocomplete="off"></el-input>
-              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small>
-            </el-form-item>
-          </div>
-          <div class="col-4 text-start">
-            <el-form-item prop="email">
-              <label for="email">Email đăng nhập</label>
-              <el-input type="email" name= "email" v-model="user.email" autocomplete="off"></el-input>
-              <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>
-            </el-form-item>
-
-          </div>
-
-
-        </div>
-
-        <div class="row">
-          <div class="col-4">
-            <el-form-item   prop="department">
-              <label for="a">Phòng ban</label> <br>
-              <el-select style="width: 100%" v-model="user.department" value-key="id">
-                <el-option   v-for="item in departments"
-                             :key="item.id"
-                             :label="item.name"
-                             :value="item"
-                ></el-option>
-              </el-select>
-              <small v-if="errDpm !== null" style="color: red">{{errDpm}}</small>
-            </el-form-item>
-          </div>
+              <div class="row">
+                <div class="col-4">
+                  <el-form-item prop="department">
+                    <label for="a">Phòng ban</label> <br>
+                    <el-select style="width: 100%" v-model="user.department" value-key="id">
+                      <el-option v-for="item in departments"
+                                 :key="item.id"
+                                 :label="item.name"
+                                 :value="item"
+                      ></el-option>
+                    </el-select>
+                    <small v-if="errDpm !== null" style="color: red">{{ errDpm }}</small>
+                  </el-form-item>
+                </div>
 
           <div class="col-4">
             <el-form-item prop="role">
@@ -230,39 +226,38 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
 <!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
-    <el-button type="primary"  @click.prevent="editUser(user.id)">Confirm</el-button>
-        <!--      <pre>{{userForm1}}</pre>-->
-  </span>
-    </el-dialog>
+        <el-button type="primary" @click.prevent="editUser(user.id)">Confirm</el-button>
+              <!--      <pre>{{userForm1}}</pre>-->
+      </span>
 
+          </el-dialog>
 
-    <el-dialog  title="Tạo nhân sự mới" :visible.sync="dialogFormVisible2" width="70%" class="text-left">
-      <el-form :model="userForm1" id="userForm" >
-        <div class="row text-start" >
+    <el-dialog title="Tạo nhân sự mới" :visible.sync="dialogFormVisible2" width="70%" class="text-left">
+      <el-form :model="userForm1" id="userForm">
+        <div class="row text-start">
           <div class="col-4">
             <el-form-item prop="fullname">
               <label for="fullname">Họ và tên:</label>
-              <el-input name= "fullname" v-model="userForm1.fullname" autocomplete="off"></el-input>
-              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small>
+              <el-input name="fullname" v-model="userForm1.fullname" autocomplete="off"></el-input>
+              <small v-if="errorsName !== null" style="color: red">{{ errorsName }}</small>
             </el-form-item>
           </div>
           <div class="col-4">
             <el-form-item prop="staffId">
               <label for="staffId">Mã nhân sự:</label>
-              <el-input name= "staffId" v-model="userForm1.staffId" autocomplete="off"></el-input>
-              <small v-if="errId !== null" style="color: red">{{errId}}</small>
+              <el-input name="staffId" v-model="userForm1.staffId" autocomplete="off"></el-input>
+              <small v-if="errId !== null" style="color: red">{{ errId }}</small>
             </el-form-item>
 
           </div>
           <div class="col-4 text-start">
             <el-form-item prop="email">
               <label for="email">Email đăng nhập:</label>
-              <el-input type="email" name= "email" v-model="userForm1.email" autocomplete="off"></el-input>
-              <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>
+              <el-input type="email" name="email" v-model="userForm1.email" autocomplete="off"></el-input>
+              <small v-if="errorEmail != null" style="color: red">{{ errorEmail }}</small>
             </el-form-item>
 
           </div>
-
 
         </div>
 
@@ -277,16 +272,16 @@
 
           </div>
           <div class="col-4">
-            <el-form-item   prop="department">
+            <el-form-item prop="department">
               <label for="a">Phòng ban:</label> <br>
               <el-select style="width: 100%" v-model="userForm1.department" placeholder="Vui lòng chọn phòng ban">
 
-                <el-option   v-for="item in departments"
-                             :key="item.id"
-                             :label="item.name"
-                             :value="item.id"></el-option>
+                <el-option v-for="item in departments"
+                           :key="item.id"
+                           :label="item.name"
+                           :value="item.id"></el-option>
               </el-select>
-              <small v-if="errDpm !== null" style="color: red">{{errDpm}}</small>
+              <small v-if="errDpm !== null" style="color: red">{{ errDpm }}</small>
             </el-form-item>
           </div>
           <div class="col-4">
@@ -303,55 +298,53 @@
           <div class="col-4">
             <el-form-item prop="role">
               <label for="">Quyền truy cập:</label>
-              <el-select style="width: 100%" v-model="userForm1.role" placeholder="Chọn quyền truy cập" >
+              <el-select style="width: 100%" v-model="userForm1.role" placeholder="Chọn quyền truy cập">
                 <el-option v-for="item in roles"
                            :key="item.id"
                            :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
                            :value="item.id"></el-option>
               </el-select>
-              <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
+              <small v-if="errRole !== null" style="color: red">{{ errRole }}</small>
             </el-form-item>
           </div>
-
-          <div class="col-4" >
+          <div class="col-4">
             <el-form-item prop="password">
               <label for="">Nhập mật khẩu:</label>
-              <el-input name= "password" type="password" v-model="userForm1.password" autocomplete="off"></el-input>
-              <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
+              <el-input name="password" type="password" v-model="userForm1.password"
+                        autocomplete="off"></el-input>
+              <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
             </el-form-item>
           </div>
 
           <div class="col-4">
-            <el-form-item  prop="confirmPassword">
+            <el-form-item prop="confirmPassword">
               <label for="">Nhập lại mật khẩu:</label>
-              <el-input name= "confirmPassword" type="password" v-model="userForm1.confirmPassword" autocomplete="off"></el-input>
-              <small v-if="errorsPass !== null" style="color: red">{{errorsPass}}</small>
-            </el-form-item>
+              <el-input name="confirmPassword" type="password" v-model="userForm1.confirmPassword"
+                        autocomplete="off"></el-input>
+              <small v-if="errorsPass !== null" style="color: red">{{ errorsPass }}</small>
 
+            </el-form-item>
           </div>
 
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="removeValidate(false)">Cancel</el-button>
-    <el-button type="primary"  @click.prevent="handleRegister">Confirm</el-button>
-        <!--      <pre>{{userForm1}}</pre>-->
-  </span>
+        <el-button @click="removeValidate(false)">Cancel</el-button>
+        <el-button type="primary" @click.prevent="handleRegister">Confirm</el-button>
+      </span>
     </el-dialog>
   </el-container>
 
 
-
 </template>
 <script>
-import  {UserService as userService} from "@/service/user-service";
+import {UserService as userService} from "@/service/user-service";
 import swal from 'sweetalert2'
-import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
+
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'UserManager',
-  data : function() {
+  name: 'UserManagerComponent',
+  data: function () {
     return {
       CateId: '',
       fullName: '',
@@ -405,8 +398,6 @@ export default {
       checkPass: true,
       checkPhone: true,
       errPhone: '',
-
-
       changePass: {
         newPassword: '',
         confirmNewPass: '',
@@ -421,11 +412,7 @@ export default {
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
     this.departments = response2.data;
-    console.log(this.roles)
-    console.log(this.departments)
-    console.log(this.currentUser)
   },
-  components: login,
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
@@ -457,8 +444,7 @@ export default {
       this.errorsPass = ''
     },
 
-
-    removeValidate(check, userId){
+    removeValidate(check, userId) {
       this.findByIdUser(userId)
       this.dialogFormVisible = check,
           this.message = '',
@@ -473,7 +459,7 @@ export default {
           this.errPhone = ''
     },
 
-    removeValidateCreate(check){
+    removeValidateCreate(check) {
 
       this.dialogFormVisible2 = check,
           this.message = '',
@@ -487,12 +473,6 @@ export default {
           this.errRole = '',
           this.errPhone = ''
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
     async retrieveUserList() {
       // if(this.size > 10){
       //   this.page = 0
@@ -505,8 +485,7 @@ export default {
       let response = await userService.getAll(params)
       this.listUser = response.data.content;
       this.count = response.data.totalPages;
-      console.log(this.point)
-      console.log(this.count)
+      console.log('users')
       console.log(this.listUser)
     },
 
@@ -622,8 +601,6 @@ export default {
         this.errorsPass = ''
         this.checkPass = true;
       }
-
-
       if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkDpm === true && this.checkPass === true && this.checkRole === true && this.checkPhone === true) {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);
@@ -634,7 +611,7 @@ export default {
         authService.createUser(formdata)
             .then(
                 async data => {
-                  if (this.listUser.length === 10){
+                  if (this.listUser.length === 10) {
                     this.page += 1
                   }
                   const params = this.getRequestParams(
@@ -676,7 +653,7 @@ export default {
       }
     },
 
-    findByIdUser : async function (userId) {
+    findByIdUser: async function (userId) {
       let response = await userService.findById(userId);
       if (response) {
         this.user = response.data
@@ -688,7 +665,7 @@ export default {
         this.selected = this.user.department.id
       }
     },
-    deleteUser : async function (userId){
+    deleteUser: async function (userId) {
       swal.fire({
         title: 'Bạn có chắc muốn xóa người này?',
         text: 'Thao tác này không thể hoàn tác lại!',
@@ -720,8 +697,8 @@ export default {
       );
     },
 
-    RepassUser(userId){
-      if (!this.changePass.newPassword && this.changePass.confirmNewPass || !this.changePass.newPassword && !this.changePass.confirmNewPass){
+    RepassUser(userId) {
+      if (!this.changePass.newPassword && this.changePass.confirmNewPass || !this.changePass.newPassword && !this.changePass.confirmNewPass) {
         this.errP1 = 'Vui lòng nhập mật khẩu'
         this.check1 = false;
       } else if (!this.validPass(this.changePass.newPassword)) {
@@ -732,18 +709,18 @@ export default {
         this.check1 = true;
       }
 
-      if (this.changePass.newPassword && !this.changePass.confirmNewPass){
+      if (this.changePass.newPassword && !this.changePass.confirmNewPass) {
         this.errorsPass = 'Vui lòng xác nhận mật khẩu'
         this.check1 = false;
-      } else if (this.changePass.newPassword !== this.changePass.confirmNewPass){
+      } else if (this.changePass.newPassword !== this.changePass.confirmNewPass) {
         this.errorsPass = 'Mật khẩu không trùng khớp'
         this.check1 = false;
-      } else if (this.changePass.newPassword === this.changePass.confirmNewPass && this.validPass(this.changePass.newPassword)){
+      } else if (this.changePass.newPassword === this.changePass.confirmNewPass && this.validPass(this.changePass.newPassword)) {
         this.errorsPass = ''
         this.check1 = true;
       }
 
-      if (this.check1 === true){
+      if (this.check1 === true) {
         authService.adminRepass(userId, this.changePass)
             .then(
                 async data => {
@@ -770,7 +747,7 @@ export default {
                         timer: 3000
                       }
                   )
-                },  () => {
+                }, () => {
                   this.dialogFormVisible1 = true;
                   swal.fire({
                     toast: true,
@@ -932,11 +909,11 @@ export default {
       return params;
     },
 
-    getUser(params){
+    getUser(params) {
       console.log(params)
-      if (params === ''){
+      if (params === '') {
         this.retrieveUserList()
-      }else {
+      } else {
         this.getUserListByDpm(params)
       }
     },
@@ -949,10 +926,10 @@ export default {
       return params;
     },
 
-    get(params){
-      if (this.fullName === ''){
+    get(params) {
+      if (this.fullName === '') {
         this.retrieveUserList()
-      }else {
+      } else {
         this.getUserListByName(params)
       }
     },
