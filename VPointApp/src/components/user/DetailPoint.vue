@@ -1,9 +1,43 @@
 <template>
 
   <div class="container">
+    <a href="/user/home"><i class="el-icon-arrow-left item-absolute">Quay lại</i></a>
     <h3 style="color: black">Điểm V-Point tháng {{month}} năm {{year}}</h3>
-    <br><br>
-    <table class="table table-bordered"  :data="Point">
+    <el-form :model="user" id="userForm" class="text-left">
+      <div class="row text-start" >
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="row text-start" >
+            <div class="col-4 ">
+              <el-form-item prop="fullname">
+                <label for="fullname" >Họ và tên:</label>
+                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+              </el-form-item>
+            </div>
+            <div class="col-4">
+              <el-form-item prop="staffId">
+                <label for="staffId">Mã nhân sự:</label>
+                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+            <div class="col-4 text-start">
+              <el-form-item prop="email">
+                <label for="email">Email đăng nhập:</label>
+                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-2"></div>
+
+
+
+      </div>
+    </el-form>
+    <br>
+    <table class="table table-bordered justify-content-center"  :data="Point">
       <tr >
         <th >Stt</th>
         <th >Mục</th>
@@ -12,11 +46,11 @@
         <th >Tổng điểm theo mục</th>
       </tr>
       <tr >
-        <th rowspan="2">1</th>
-        <td rowspan="2">Hiệu suất công việc</td>
+        <td rowspan="2" class="vertical-center">1</td>
+        <td rowspan="2" class="vertical-center">Hiệu suất công việc</td>
         <td>KPI cá nhân hàng tháng</td>
         <td>{{td1}}</td>
-        <td rowspan="2">{{ td1 + td2 + td9 + td10 + td16 + td17}}</td>
+        <td class="vertical-center" rowspan="2" >{{ td1 + td2 + td9 + td10 + td16 + td17}}</td>
       </tr>
       <tr>
 
@@ -25,11 +59,11 @@
 
       </tr>
       <tr>
-        <td rowspan="2">02</td>
-        <td rowspan="2">Làm việc nhóm</td>
+        <td rowspan="2" class="vertical-center">02</td>
+        <td rowspan="2" class="vertical-center">Làm việc nhóm</td>
         <td>Điểm bsc bộ phận</td>
         <td>{{td3}}</td>
-        <td rowspan="2">{{td3 + td4}}</td>
+        <td rowspan="2" class="vertical-center">{{td3 + td4}}</td>
       </tr>
       <tr>
         <td>Hoạt động chung</td>
@@ -50,11 +84,11 @@
         <td>{{td6}}</td>
       </tr>
       <tr>
-        <td rowspan="2">05</td>
-        <td rowspan="2">Tuân thủ</td>
+        <td rowspan="2" class="vertical-center">05</td>
+        <td rowspan="2" class="vertical-center">Tuân thủ</td>
         <td>Tôi yêu VMG</td>
         <td>{{td7 + td13}}</td>
-        <td rowspan="2">{{td7 - td8 + td13}}</td>
+        <td rowspan="2" class="vertical-center">{{td7 - td8 + td13}}</td>
       </tr>
       <tr>
         <td>Kỷ luật</td>
@@ -62,8 +96,8 @@
       </tr>
       <tr >
         <td>06</td>
-        <td colspan="3" style="background-color: #dc3545"><h4>Tổng điểm</h4></td>
-        <td>{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
+        <td colspan="3" style="background-color: #dc3545"><h4 style="color: white; line-height: 50px ">Tổng điểm</h4></td>
+        <td style="line-height: 50px">{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
       </tr>
     </table>
   </div>
@@ -74,12 +108,14 @@
 <script>
 
 import {UserService as userService} from "@/service/user-service";
+import moment from "moment";
 
 export default {
   name: "DetailPoint",
   data: function (){
     return{
       Point: [],
+      user: '',
       idUser: '',
       year : this.$route.params.year,
       month: this.$route.params.month,
@@ -112,12 +148,31 @@ export default {
     },
   },
 
-  async created() {
-    await this.getVPoint()
+  created() {
+    this.getVPoint()
+    this.findByIdUser(this.currentUser.id)
   },
 
 
   methods: {
+    findByIdUser : async function (userId) {
+      let response = await userService.findById(userId);
+      if (response) {
+        this.user = response.data
+      }
+    },
+
+    formatYear(value){
+      if (value) {
+        return moment(String(value)).format('YYYY')
+      }
+    },
+
+    formatMonth(value){
+      if (value) {
+        return moment(String(value)).format('MM')
+      }
+    },
 
     async getVPoint() {
 
@@ -190,5 +245,12 @@ export default {
 </script>
 
 <style scoped>
-
+.item-absolute {
+  position: absolute;
+  top: 75px;
+  left: 40px;
+}
+.vertical-center {
+  line-height: 70px;
+}
 </style>

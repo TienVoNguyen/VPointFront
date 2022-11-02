@@ -78,22 +78,22 @@
           align="center"
           prop="email"
           label="Email"
-          width="250">
+          width="270">
       </el-table-column>
       <el-table-column
           align="center"
           prop="department.name"
           label="Phòng ban"
-          width="150">
+          width="230">
       </el-table-column>
       <el-table-column
           align="center"
           label="Quyền truy cập"
           width="125">
         <template v-slot="scope">
-          <p height="50px" v-for="(role, index) in scope.row.role" :key="index" >
-            {{role.name == 'ROLE_ADMIN'? 'Admin' : 'Người dùng'}}
-          </p>
+
+            {{scope.row.role[0].name == 'ROLE_ADMIN'? 'Admin' : 'Người dùng'}}
+
         </template>
       </el-table-column>
       <el-table-column
@@ -203,7 +203,7 @@
             <el-form-item prop="phone">
               <label for="phone">Số điện thoại</label>
               <el-input type="number" name= "phone" v-model="user.phone" autocomplete="off"></el-input>
-              <!--            <small v-if="errorEmail != null" style="color: red">{{errorEmail}}</small>-->
+                          <small v-if="errPhone != null" style="color: red">{{errPhone}}</small>
             </el-form-item>
 
           </div>
@@ -294,7 +294,7 @@
             <el-form-item prop="phone">
               <label for="phone">Số điện thoại:</label>
               <el-input type="number" name= "phone" v-model="userForm1.phone" autocomplete="off"></el-input>
-              <!--              <small v-if="errorsName !== null" style="color: red">{{errorsName}}</small> Giới tính Nữ -->
+                            <small v-if="errPhone !== null" style="color: red">{{errPhone}}</small>
             </el-form-item>
           </div>
 
@@ -403,6 +403,8 @@ export default {
       checkDpm: true,
       checkRole: true,
       checkPass: true,
+      checkPhone: true,
+      errPhone: '',
 
 
       changePass: {
@@ -467,7 +469,8 @@ export default {
           this.matchName = '',
           this.errorEmail = '',
           this.errDpm = '',
-          this.errRole = ''
+          this.errRole = '',
+          this.errPhone = ''
     },
 
     removeValidateCreate(check){
@@ -481,7 +484,8 @@ export default {
           this.matchName = '',
           this.errorEmail = '',
           this.errDpm = '',
-          this.errRole = ''
+          this.errRole = '',
+          this.errPhone = ''
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -570,6 +574,17 @@ export default {
         this.checkEmail = true
       }
 
+      if (!this.userForm1.phone) {
+        this.errPhone = 'Vui lòng nhập số điện thoại nhân viên'
+        this.checkPhone = false;
+      } else if (!this.validPhone(this.userForm1.phone)) {
+        this.errPhone = 'Số điện thoại không đúng'
+        this.checkPhone = false;
+      } else if (this.validPhone(this.userForm1.phone) && this.userForm1.phone) {
+        this.errPhone = ''
+        this.checkPhone = true
+      }
+
 
       if (!this.userForm1.fullname) {
         this.errorsName = 'Vui lòng nhập tên nhân viên'
@@ -609,7 +624,7 @@ export default {
       }
 
 
-      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkDpm === true && this.checkPass === true && this.checkRole === true) {
+      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkDpm === true && this.checkPass === true && this.checkRole === true && this.checkPhone === true) {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);
         formdata.append("department.id", this.userForm1.department)
@@ -792,6 +807,18 @@ export default {
           this.errId = ''
         }
       }
+
+      if (!this.user.phone) {
+        this.errPhone = 'Vui lòng nhập số điện thoại nhân viên'
+        this.checkPhone = false;
+      } else if (!this.validPhone(this.user.phone)) {
+        this.errPhone = 'Số điện thoại không đúng'
+        this.checkPhone = false;
+      } else if (this.validPhone(this.user.phone) && this.user.phone) {
+        this.errPhone = ''
+        this.checkPhone = true
+      }
+
       if (!this.user.staffId) {
         this.errId = 'Hãy nhập mã nhân sự'
         this.check1 = false;
@@ -833,7 +860,7 @@ export default {
         this.errRole = ''
         this.checkDpm = true;
       }
-      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkRole === true && this.checkDpm === true) {
+      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkRole === true && this.checkDpm === true && this.checkPhone === true) {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);
         formdata.append("department.id", this.user.department.id)
