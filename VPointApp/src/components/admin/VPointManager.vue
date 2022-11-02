@@ -3,17 +3,17 @@
     <div class="text-center">
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
       <div class="d-flex justify-content-center mb-4">
-        <input placeholder="Nhập để tìm kiếm" style="width: 300px; display: block" class="input-group-text" type="text"
+        <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
                v-model="fullName"
                @keyup="get(fullName)">
       </div>
 
-      <div class="row input-group mb-3 justify-content-md-center">
-        <div class="col-lg-6">
+      <div class="d-flex input-group mb-3 justify-content-center">
+
           <div class="text-left input-group-prepend d-inline-block">
-            <p style="color: #6c757d"> Nhóm: <span style="">
+            <p style="color: #6c757d"> Tìm kiếm theo: <span style="">
         <select class="form-control" v-model="CateId" @change="getUser(CateId)"
-                style="width: 150px; display: inherit; align-items: center;">
+                style="width: 120px; display: inherit; align-items: center;">
           <option v-bind:value="''">Tất cả</option>
           <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
 
@@ -25,16 +25,13 @@
           </div>
           <p class="d-inline-block ml-4" style="color: #6c757d; margin-bottom: 2rem"> Năm: <span>
         <select class="form-control" v-model="selectedYear" @change="retrievePointList"
-                style="width: 120px; display: inherit; align-items: center">
+                style="width: 100px; display: inherit; align-items: center">
           <option v-for="y in year" v-bind:value="y" v-bind:key="y">
 
             {{ y }}
           </option>
         </select>
       </span></p>
-
-        </div>
-        <div class="col-2"></div>
 
       </div>
     </div>
@@ -53,8 +50,8 @@
         </p>
       </div>
       <div class="col-lg-8 d-flex justify-content-end" >
-        <el-button style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
-        <el-button style="border: solid 1px; height: 50%; display: flex; align-items: center"> <i class="el-icon-download"></i>Export</el-button>
+        <el-button @click="toImport" style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
+        <el-button @click="toExport" style="border: solid 1px; height: 50%; display: flex; align-items: center"> <i class="el-icon-download"></i>Export</el-button>
       </div>
 
     </div>
@@ -189,8 +186,6 @@ export default {
         }
       }
     },
-
-
     removeValidate1(userId) {
       this.findByIdUser(userId)
       // this.dialogFormVisible1 = check
@@ -226,8 +221,6 @@ export default {
           }
         }
       }
-      console.log(this.listPoint)
-
     },
     findByIdUser: async function (userId) {
       let response = await userService.findById(userId);
@@ -247,9 +240,7 @@ export default {
       this.retrieveUserList();
       this.currentIndex = -1;
     },
-    mounted() {
-      this.retrieveUserList();
-    },
+
     handlePageChange(value) {
       this.page = value;
       this.retrievePointList()
@@ -338,7 +329,16 @@ export default {
       this.listUser = response.data;
       this.count = response.data.totalPages;
     },
-  }
+    toImport() {
+      this.$router.push('/admin/import-v-point-from-excel')
+    },
+    toExport() {
+      console.log('export')
+    }
+  },
+  mounted() {
+    this.retrieveUserList();
+  },
 };
 </script>
 

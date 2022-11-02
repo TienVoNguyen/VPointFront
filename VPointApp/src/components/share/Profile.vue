@@ -3,7 +3,7 @@
     <el-dialog 
       :visible="toggeProfile"
       @close="handleProfile"
-      width="30%"
+      width="50%"
       >
       <span class="text-header" slot="title">Thông tin cá nhân</span>
       <el-row justify="">
@@ -29,8 +29,8 @@ export default {
   },
   data() {
     return {
-      user: null,
-      id: null,
+      user: {},
+      id: '',
     }
   },
   methods: {
@@ -38,7 +38,7 @@ export default {
       UserService.getProfileUserById(id)
         .then(response => {
           this.user = response.data;
-          this.user.gender = this.user.gender == 'MALE' ? 'Nam' : 'Nữ';
+          this.user.gender = this.user.gender === 'MALE' ? 'Nam' : 'Nữ';
         })
         .catch(error => {
           console.log(error);

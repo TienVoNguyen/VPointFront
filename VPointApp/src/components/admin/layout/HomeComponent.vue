@@ -15,12 +15,14 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Great+Vibes');
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 .background {
+  padding: 0;
+  margin: 0;
   background-image: url('@/assets/images/backgroundhome.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-position: center center;
-  height: 100%;
+  height: 505px;
 }
 
 .welcome {

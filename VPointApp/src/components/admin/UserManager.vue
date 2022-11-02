@@ -1,8 +1,7 @@
 <template >
   <el-container>
-    <el-header>
+    <el-header class="mb-5">
       <h3 style="color: #6c757d" align="center">Quản lý người dùng</h3><br>
-
       <div class="row input-group mb-3">
         <div class="col-6">
           <div class="text-left input-group-prepend">
@@ -89,9 +88,9 @@
             label="Quyền truy cập"
             width="125">
           <template v-slot="scope">
-            <p v-for="(role, index) in scope.row.role" :key="index">
+            <span v-for="(role, index) in scope.row.role" :key="index">
               {{ role.name === 'ROLE_ADMIN' ? 'Admin' : 'Người dùng' }}
-            </p>
+            </span>
           </template>
         </el-table-column>
         <el-table-column
@@ -489,8 +488,7 @@ export default {
       let response = await userService.getAll(params)
       this.listUser = response.data.content;
       this.count = response.data.totalPages;
-      console.log(this.point)
-      console.log(this.count)
+      console.log('users')
       console.log(this.listUser)
     },
 

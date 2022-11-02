@@ -10,13 +10,18 @@ Vue.use(Router);
 const router = new Router({
     mode: "history",
     routes: [
+
+        {
+            path: '/',
+            redirect: '/login'
+        },
         {
             path: '/login',
             component: () => import("@/components/auth/Login"),
         },
         {
-            path: '/',
-            redirect: '/login'
+            path: '/access',
+            component: () => import("@/components/auth/AccessRights"),
         },
         {
             path: '/admin',
@@ -57,6 +62,18 @@ const router = new Router({
                     path: 'addstaff',
                     name: 'addStaff',
                     component: () => import("@/components/admin/AddStaff")
+                },
+                {
+                    path: 'myvpoint',
+                    alias: 'my-v-point',
+                    name: 'MyVPoint',
+                    component: () => import("@/components/user/Home")
+                },
+                {
+                    path: 'import',
+                    alias: 'import-v-point-from-excel',
+                    name: 'ImportFileExcel',
+                    component: () => import("@/components/admin/ImportExcel")
                 }
             ]
         },
@@ -83,11 +100,20 @@ router.beforeEach((to, from, next) => {
     const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
-    console.log(loggedIn)
+    const user = JSON.parse(loggedIn)
     if (authRequired && !loggedIn) {
         next('/login');
     } else {
-        next();
+        if (to.path.startsWith('/admin')) {
+            if (user !== null && user.roles[0].authority === 'ROLE_ADMIN') {
+                next();
+            } else {
+                next('/access');
+            }
+        } else {
+            next()
+        }
     }
+
 });
 export default router
