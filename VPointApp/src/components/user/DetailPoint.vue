@@ -47,57 +47,57 @@
       </tr>
       <tr >
         <td rowspan="2" class="vertical-center">1</td>
-        <td rowspan="2" class="vertical-center">Hiệu suất công việc</td>
-        <td>KPI cá nhân hàng tháng</td>
+        <td rowspan="2" class="vertical-center text-left">Hiệu suất công việc</td>
+        <td class="text-left">KPI cá nhân hàng tháng</td>
         <td>{{td1}}</td>
         <td class="vertical-center" rowspan="2" >{{ td1 + td2 + td9 + td10 + td16 + td17}}</td>
       </tr>
       <tr>
 
-        <td>Nhân viên xuất sắc, bộ phận xuất sắc</td>
+        <td class="text-left">Nhân viên xuất sắc, bộ phận xuất sắc</td>
         <td>{{td2 + td9 + td10 + td16 + td17}}</td>
 
       </tr>
       <tr>
-        <td rowspan="2" class="vertical-center">02</td>
-        <td rowspan="2" class="vertical-center">Làm việc nhóm</td>
-        <td>Điểm bsc bộ phận</td>
+        <td rowspan="2" class="vertical-center">2</td>
+        <td rowspan="2" class="vertical-center text-left">Làm việc nhóm</td>
+        <td class="text-left">Điểm bsc bộ phận</td>
         <td>{{td3}}</td>
         <td rowspan="2" class="vertical-center">{{td3 + td4}}</td>
       </tr>
       <tr>
-        <td>Hoạt động chung</td>
+        <td class="text-left">Hoạt động chung</td>
         <td>{{td4}}</td>
       </tr>
       <tr>
-        <td>03</td>
-        <td>Đào tạo và phát triển</td>
-        <td>Đào tạo</td>
+        <td>3</td>
+        <td class="text-left">Đào tạo và phát triển</td>
+        <td class="text-left">Đào tạo</td>
         <td>{{td5 + td11 + td12}}</td>
         <td>{{td5 + td11 + td12}}</td>
       </tr>
       <tr>
-        <td>04</td>
-        <td>Sáng tạo</td>
-        <td>Cải tiến đổi mới</td>
+        <td>4</td>
+        <td class="text-left">Sáng tạo</td>
+        <td class="text-left">Cải tiến đổi mới</td>
         <td>{{td6}}</td>
         <td>{{td6}}</td>
       </tr>
       <tr>
-        <td rowspan="2" class="vertical-center">05</td>
-        <td rowspan="2" class="vertical-center">Tuân thủ</td>
-        <td>Tôi yêu VMG</td>
+        <td rowspan="2" class="vertical-center">5</td>
+        <td rowspan="2" class="vertical-center text-left">Tuân thủ</td>
+        <td class="text-left">Tôi yêu VMG</td>
         <td>{{td7 + td13}}</td>
         <td rowspan="2" class="vertical-center">{{td7 - td8 + td13}}</td>
       </tr>
       <tr>
-        <td>Kỷ luật</td>
+        <td class="text-left">Kỷ luật</td>
         <td>{{td8}}</td>
       </tr>
       <tr >
-        <td>06</td>
-        <td colspan="3" style="background-color: #dc3545"><h4 style="color: white; line-height: 50px ">Tổng điểm</h4></td>
-        <td style="line-height: 50px">{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
+        <td>6</td>
+        <td colspan="3" style="background-color: #dc3545; line-height: 25px; color: white" > Tổng điểm</td>
+        <td style="line-height: 25px">{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
       </tr>
     </table>
   </div>
