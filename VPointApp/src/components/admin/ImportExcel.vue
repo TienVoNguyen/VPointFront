@@ -1,147 +1,226 @@
 <template>
-  <div class="pl-4">
-    <b-form-file @change="addFile($event)" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
-                            application/vnd.ms-excel"
-                 v-model="file" class="mb-2 w-100"></b-form-file>
-    <div class="mt-2">
-      <b-button variant="danger" @click="addMark" :disabled="!addStatus" class="mr-2">Thêm điểm</b-button>
-      <b-button variant="success" @click="file = null; items=[]; addStatus=false">Reset</b-button>
-      <b-button variant="success" @click="exportFile">export</b-button>
+  <div class="p-4">
+    <div v-if="addFileStatus">
+      <h4 class="header-import">Thêm mới dữ liệu tính điểm V-Point bằng cách import file excel</h4>
+      <b-form-file @change="addFile($event)"
+                   accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                   v-model="file" class="mb-2"></b-form-file>
+      <p class="text-left">Tải xuống <a style="color: red" href="http://localhost:8080/assets/ThemDiemNhanVien.xlsx">File
+        mẫu</a> từ hệ thống để thuận tiện hơn cho việc import.</p>
+      <div class="mt-2 text-left" style="position: relative; height: 35px">
+        <p class="text-left" style="color: #246CD9;font-style: normal;
+                              font-weight: 700;
+                              font-size: 24px;
+                              line-height: 38px;">Dữ liệu trong file</p>
+        <div class="text-right" style="position: relative; top: -43px; right: 0;">
+          <b-button variant="danger" @click="addMark" :disabled="!addStatus" class="mr-2">Thêm điểm</b-button>
+          <b-button variant="success" @click="file = null; items=[]; addStatus=false">Reset</b-button>
+        </div>
+      </div>
+      <el-table class="mt-4"
+                border
+                :data="items"
+                style="width: 100%">
+        <el-table-column
+            prop="staff_id"
+            label="Mã NV"
+            width="100">
+          <template v-slot="scope">
+            <input :id="scope.row.staff_id" class="success-row" type="text" v-model="scope.row.staff_id"
+                   style="width: 100%; border: none"
+                   v-on:keyup="vali(scope.row, scope)">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="fullName"
+            label="Tên"
+            width="180">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.fullName" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="department"
+            label="Bộ Phận">
+        </el-table-column>
+        <el-table-column
+            prop="month"
+            label="Tháng">
+        </el-table-column>
+        <el-table-column
+            prop="year"
+            label="Năm">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.year" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="kpi"
+            label="KPI">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.kpi" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="bestDepartmentMonth"
+            label="NVXS Tháng"
+            width="70">
+        </el-table-column>
+        <el-table-column
+            prop="bestDepartmentQuarter"
+            label="NVXS Quý"
+            width="70">
+        </el-table-column>
+        <el-table-column
+            prop="bestDepartmentYear"
+            label="NVXS Năm"
+            width="70">
+        </el-table-column>
+        <el-table-column
+            prop="excellentDepartmentMonth"
+            label="BPXS Tháng"
+            width="70">
+        </el-table-column>
+        <el-table-column
+            prop="excellentDepartmentYear"
+            label="BPXS Năm"
+            width="70">
+        </el-table-column>
+        <el-table-column
+            prop="bcsDepartment"
+            label="BSC BP">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.bcsDepartment" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="jointActivities"
+            label="HDC">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.jointActivities" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="train"
+            label="TG ĐT">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.train" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="trainStaff"
+            label="GV ĐT">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.trainStaff" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="improve"
+            label="Sáng Tạo"
+            width="60">
+        </el-table-column>
+        <el-table-column
+            prop="loveVmg"
+            label="I Love VMG"
+            width="70">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.loveVmg" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="trainVmg"
+            label="PT VMG">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.trainVmg" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+
+        <el-table-column
+            prop="disciplineBonus"
+            label="Thưởng">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.disciplineBonus" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="disciplineViolate"
+            label="Phạt">
+          <template v-slot="scope">
+            <input type="text" :value="scope.row.disciplineViolate" style="width: 100%; border: none">
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-
-    <b-table v-if="!visibleTable" sticky-header head-variant="light" class="mt-4" responsive :items="items" :fields="fields" style="max-height: 23rem">
-      <template #cell(staff_id)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'staff_id'"
-                      type="text" v-model="items[data.index].staff_id"
-                      name="example-input-1"
-                      v-validate="{required: true, min: 3}"
-                      :state="validateState('example-input-1')"
-                      aria-describedby="input-1-live-feedback"
-                      data-vv-as="Ma NV"></b-form-input>
-        <span v-else :class="data.value.length<3?'text-danger':''" @click="editCellHandler(data, 'staff_id')">{{data.value}}</span>
-      </template>
-      <template #cell(fullName)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'fullName'" type="text" v-model="items[data.index].fullName" class="form-control"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'fullName')">{{data.value}}</span>
-      </template>
-      <template #cell(department)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'department'"
-                      type="text" v-model="items[data.index].department"
-                      name="example-input-2"
-                      v-validate="{required: true, min: 3}"
-                      :state="validateState('example-input-2')"
-                      aria-describedby="input-2-live-feedback"
-                      data-vv-as="Bộ phận"></b-form-input>
-        <span v-else :class="data.value.length<3?'text-danger':''" @click="editCellHandler(data, 'department')">{{data.value}}</span>
-      </template>
-      <template #cell(year)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'year'"
-                      type="number" v-model="items[data.index].year"
-                      name="example-input-3"
-                      v-validate="{required: true, min: 3}"
-                      :state="validateState('example-input-3')"
-                      aria-describedby="input-3-live-feedback"
-                      data-vv-as="Nam"></b-form-input>
-        <span v-else :class="data.value.length<4?'text-danger':''" @click="editCellHandler(data, 'year')">{{data.value}}</span>
-      </template>
-      <template #cell(month)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'month'"
-                      type="number" v-model="items[data.index].month"
-                      name="example-input-4"
-                      v-validate="{required: true}"
-                      :state="validateState('example-input-4')"
-                      aria-describedby="input-4-live-feedback"
-                      data-vv-as="Thang"></b-form-input>
-        <span v-else style="min-width: 3rem" :class="data.value.length<1?'text-danger':''"
-              @click="editCellHandler(data, 'month')">
-          {{data.value}}</span>
-      </template>
-      <template #cell(kpi)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'kpi'"
-                      type="number" v-model="items[data.index].kpi" class="form-control"
-                      name="example-input-5"
-                      v-validate="{required: true}"
-                      :state="validateState('example-input-5')"
-                      aria-describedby="input-5-live-feedback"
-                      data-vv-as="KPI"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'kpi')">{{data.value}}</span>
-      </template>
-      <template #cell(bestDepartmentMonth)="data">
-        <b-form-input v-if="items[data.index].isEdit && selectedCell === 'bestDepartmentMonth'"
-                      type="text" v-model="items[data.index].bestDepartmentMonth" class="form-control"
-                      name="example-input-6"
-                      v-validate="{required: true}"
-                      :state="validateState('example-input-6')"
-                      aria-describedby="input-6-live-feedback"
-                      data-vv-as="NVXS"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'bestDepartmentMonth')">{{data.value}}</span>
-      </template>
-      <template #cell(bestDepartmentQuarter)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'bestDepartmentQuarter'"
-                      type="text" v-model="items[data.index].bestDepartmentQuarter"
-                      name="example-input-7"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'bestDepartmentQuarter')">{{data.value}}</span>
-      </template>
-      <template #cell(bestDepartmentYear)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'bestDepartmentYear'"
-                      type="text" v-model="items[data.index].bestDepartmentYear"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'bestDepartmentYear')">{{data.value}}</span>
-      </template>
-      <template #cell(excellentDepartmentMonth)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'excellentDepartmentMonth'" type="text" v-model="items[data.index].excellentDepartmentMonth"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'excellentDepartmentMonth')">{{data.value}}</span>
-      </template>
-      <template #cell(excellentDepartmentYear)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'excellentDepartmentYear'" type="text" v-model="items[data.index].excellentDepartmentYear" class="form-control"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'excellentDepartmentYear')">{{data.value}}</span>
-      </template>
-      <template #cell(bcsDepartment)="data">
-        <b-form-input style="min-width: 7rem" v-if="items[data.index].isEdit && selectedCell === 'bcsDepartment'" type="number" v-model="items[data.index].bcsDepartment"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'bcsDepartment')">{{data.value}}</span>
-      </template>
-      <template #cell(jointActivities)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'jointActivities'" type="number" v-model="items[data.index].jointActivities"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'jointActivities')">{{data.value}}</span>
-      </template>
-      <template #cell(train)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'train'" type="number"  v-model="items[data.index].train" class="form-control"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'train')">{{data.value}}</span>
-      </template>
-      <template #cell(trainStaff)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'trainStaff'" type="number" v-model="items[data.index].trainStaff"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'trainStaff')">{{data.value}}</span>
-      </template>
-      <template #cell(improve)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'improve'" type="text" v-model="items[data.index].improve"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'improve')">{{data.value}}</span>
-      </template>
-      <template #cell(loveVmg)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'loveVmg'" type="number" v-model="items[data.index].loveVmg"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'loveVmg')">{{data.value}}</span>
-      </template>
-      <template #cell(trainVmg)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'trainVmg'" type="number" v-model="items[data.index].trainVmg" class="form-control"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'trainVmg')">{{data.value}}</span>
-      </template>
-      <template #cell(disciplineBonus)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'disciplineBonus'" type="number" v-model="items[data.index].disciplineBonus"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'disciplineBonus')">{{data.value}}</span>
-      </template>
-      <template #cell(disciplineViolate)="data">
-        <b-form-input style="min-width: 5rem" v-if="items[data.index].isEdit && selectedCell === 'disciplineViolate'" type="number" v-model="items[data.index].disciplineViolate"></b-form-input>
-        <span v-else @click="editCellHandler(data, 'disciplineViolate')">{{data.value}}</span>
-      </template>
-
-    </b-table>
-    <b-table v-if="visibleTable" sticky-header head-variant="light" class="mt-4" responsive :items="listMark" :fields="fields2" style="max-height: 23rem"></b-table>
+    <div v-if="!addFileStatus">
+      <el-table
+          border
+          :data="listMark"
+          style="width: 100%">
+        <el-table-column
+            label="STT"
+            width="80">
+          <template v-slot="scope">
+            <span>{{scope.$index + 1}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="staff_id"
+            label="Mã nhân viên"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="fullName"
+            label="Họ tên"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            prop="department"
+            label="Bộ phận"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="month"
+            label="Tháng"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="year"
+            label="Năm"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            label="Tổng điểm"
+            width="120">
+          <template v-slot="scope">
+            {{scope.row.pointKPI + scope.row.pointBestDepartmentMonth + scope.row.pointBestDepartmentQuarter + scope.row.pointBestDepartmentYear
+                + scope.row.pointBCSDepartment + scope.row.pointJointActivities + scope.row.pointLoveVmg +
+                + scope.row.pointTrain + scope.row.pointTrainStaff + scope.row.pointTrainVmg + scope.row.pointImprove
+                + scope.row.pointDisciplineBonus + scope.row.pointDisciplineViolate + scope.row.pointExcellentDepartmentMonth
+                + scope.row.pointExcellentDepartmentMonth + scope.row.pointExcellentDepartmentYear}}
+          </template>
+        </el-table-column>
+        <el-table-column
+            label="Thao tác">
+          <template slot-scope="scope">
+            <router-link :to="`/admin/AdminSeeDetailVPoint/${scope.row.year}/${scope.row.month}/${scope.row.id}`" style="color: white">
+              <el-button class="btn btn-warning m-2 text-black">
+                Xem chi tiết
+              </el-button>
+            </router-link>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
 <script>
 import ExcelService from "@/service/excel.service";
+import swal from 'sweetalert2'
 
 const ExcelJS = require('exceljs');
 import * as fs from 'file-saver';
+
 export default {
   name: "ImportExcel",
   data() {
@@ -149,57 +228,22 @@ export default {
       successfully: false,
       items: [],
       file: null,
-      fields: [
-        { key: "staff_id", label: "Mã NV"},
-        { key: "fullName", label: "Tên"},
-        { key: "department", label: "Bộ Phận", required: true },
-        { key: "month", label: "Tháng" },
-        { key: "year", label: "Năm" },
-        { key: "kpi", label: "KPI" },
-        { key: "bestDepartmentMonth", label: "NVXS Tháng" },
-        { key: "bestDepartmentQuarter", label: "NVXS Quý"},
-        { key: "bestDepartmentYear", label: "NVXS Năm" },
-        { key: "excellentDepartmentMonth", label: "BPXS Tháng" },
-        { key: "excellentDepartmentYear", label: "BPXS Năm" },
-        { key: "bcsDepartment", label: "BCS BP"},
-        { key: 'jointActivities', label: 'HDC'},
-        { key: "train", label: "TG ĐT" },
-        { key: 'trainStaff', label: 'GV ĐT'},
-        { key: "improve", label: "Sáng Tạo" },
-        { key: "loveVmg", label: "I Love VMG" },
-        { key: 'trainVmg', label: 'PT VMG'},
-        { key: "disciplineBonus", label: "Thưởng"},
-        { key: "disciplineViolate", label: "Phạt" },
-        { key: 'edit', label: ''}
-      ],
-      fields2: [
-        { key: "staff_id", label: "Mã NV"},
-        { key: "fullName", label: "Tên"},
-        { key: "department", label: "Bộ Phận", required: true },
-        { key: "month", label: "Tháng" },
-        { key: "year", label: "Năm" },
-        { key: "pointKPI", label: "KPI" },
-        { key: "pointBestDepartmentMonth", label: "NVXS Tháng" },
-        { key: "pointBestDepartmentQuarter", label: "NVXS Quý"},
-        { key: "pointBestDepartmentYear", label: "NVXS Năm" },
-        { key: "pointExcellentDepartmentMonth", label: "BPXS Tháng" },
-        { key: "pointExcellentDepartmentYear", label: "BPXS Năm" },
-        { key: "pointBCSDepartment", label: "BCS BP"},
-        { key: 'pointJointActivities', label: 'HDC'},
-        { key: "pointTrain", label: "TG ĐT" },
-        { key: 'pointTrainStaff', label: 'GV ĐT'},
-        { key: "pointImprove", label: "Sáng Tạo" },
-        { key: "pointLoveVmg", label: "I Love VMG" },
-        { key: 'pointTrainVmg', label: 'PT VMG'},
-        { key: "pointDisciplineBonus", label: "Thưởng"},
-        { key: "pointDisciplineViolate", label: "Phạt" }
-      ],
       addStatus: false,
       listMark: [],
-      visibleTable: false
+      visibleTable: false,
+      addFileStatus: true
     }
   },
   methods: {
+    vali(data) {
+      let id = '#' + data.staff_id
+      let bg = document.querySelector(id)
+      if (data.staff_id.length < 3) {
+        bg.classList.replace('success-row', 'warning-row')
+      } else {
+        bg.classList.replace('warning-row', 'success-row')
+      }
+    },
     validateState(ref) {
       if (
           this.veeFields[ref] &&
@@ -215,46 +259,58 @@ export default {
         let workbook = new ExcelJS.Workbook()
         await workbook.xlsx.load(reader.result)
         const worksheet = workbook.getWorksheet('ImportMark')
-        worksheet.eachRow((row, index) => {
-          if (index > 2) {
-            let mark = {
-              staff_id: row.getCell(2).value,
-              department: row.getCell(3).value,
-              fullName: row.getCell(4).value,
-              year: row.getCell(5).value,
-              month: row.getCell(6).value,
-              kpi: row.getCell(7).value,
-              kpiID: 1,
-              bestDepartmentID: 2,
-              bestDepartmentMonth: row.getCell(8).value,
-              bestDepartmentQuarter: row.getCell(9).value,
-              bestDepartmentYear: row.getCell(10).value,
-              excellentDepartmentMonthID: 9,
-              excellentDepartmentMonth: row.getCell(11).value,
-              excellentDepartmentYearID: 10,
-              excellentDepartmentYear: row.getCell(12).value,
-              bcsDepartmentID: 3,
-              bcsDepartment: row.getCell(13).value,
-              jointActivitiesID: 4,
-              jointActivities: row.getCell(14).value,
-              trainStaffID: 11,
-              trainStaff: row.getCell(15).value,
-              trainID: 5,
-              train: row.getCell(16).value,
-              improveID: 6,
-              improve: row.getCell(17).value,
-              trainVmgID: 12,
-              trainVmg: row.getCell(21).value,
-              loveVmgID: 7,
-              loveVmg: row.getCell(18).value,
-              disciplineBonusID: 13,
-              disciplineBonus: row.getCell(19).value,
-              disciplineViolateID: 8,
-              disciplineViolate: row.getCell(20).value,
+        try {
+          worksheet.eachRow((row, index) => {
+            if (index > 2) {
+              let mark = {
+                staff_id: row.getCell('B').value,
+                department: row.getCell('C').value,
+                fullName: row.getCell('D').value,
+                year: row.getCell('E').value,
+                month: row.getCell('F').value,
+                kpi: row.getCell('G').value,
+                kpiID: 1,
+                bestDepartmentID: 2,
+                bestDepartmentMonth: row.getCell('H').value,
+                bestDepartmentQuarterID: 16,
+                bestDepartmentQuarter: row.getCell('I').value,
+                bestDepartmentYearID: 17,
+                bestDepartmentYear: row.getCell('J').value,
+                excellentDepartmentMonthID: 9,
+                excellentDepartmentMonth: row.getCell('K').value,
+                excellentDepartmentYearID: 10,
+                excellentDepartmentYear: row.getCell('L').value,
+                bcsDepartmentID: 3,
+                bcsDepartment: row.getCell('M').value,
+                jointActivitiesID: 4,
+                jointActivities: row.getCell('N').value,
+
+                train: row.getCell('P').value,
+
+                trainStaff: row.getCell('O').value,
+                improveID: 6,
+                improve: row.getCell('Q').value,
+                trainVmgID: 12,
+                trainVmg: row.getCell('U').value,
+                loveVmgID: 7,
+                loveVmg: row.getCell('R').value,
+                disciplineBonusID: 13,
+                disciplineBonus: row.getCell('S').value,
+                disciplineViolateID: 8,
+                disciplineViolate: row.getCell('T').value,
+              }
+              this.items.push(mark)
             }
-            this.items.push(mark)
-          }
-        })
+          })
+        } catch (Exception) {
+          swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Vui lòng nhập đúng file theo mẫu'
+          })
+          this.file = null
+        }
+
         console.log(this.items.length)
         if (this.items.length > 0) {
           this.addStatus = true
@@ -262,7 +318,7 @@ export default {
       }
       reader.readAsArrayBuffer(event.target.files[0])
     },
-    exportFile(){
+    exportFile() {
       const mark = [{
         staff_id: 'VMG01',
         department: 'PTPM',
@@ -297,14 +353,14 @@ export default {
         }]
       const title = 'He Thong Quan Ly Diem VPoint';
       const header = ['STT', 'Mã NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'NĂM', 'THÁNG', 'KPI',
-              'NVXS, BPXS', 'BSC BỘ PHẬN', 'HOẠT ĐỘNG CHUNG', 'ĐÀO TẠO', 'SÁNG TẠO THÁNG',	'I LOVE VMG', 'KỶ LUẬT', 'TỔNG']
+        'NVXS, BPXS', 'BSC BỘ PHẬN', 'HOẠT ĐỘNG CHUNG', 'ĐÀO TẠO', 'SÁNG TẠO THÁNG', 'I LOVE VMG', 'KỶ LUẬT', 'TỔNG']
       let workbook = new ExcelJS.Workbook()
       let worksheet = workbook.addWorksheet('VPOINT')
       let titleRow = worksheet.addRow([title])
-      titleRow.font = { name: 'Time New Roman', family: 4, size: 16, bold: true }
+      titleRow.font = {name: 'Time New Roman', family: 4, size: 16, bold: true}
       worksheet.addRow([])
-      const subTitle = ['', '', '', '', '', '','HIỆU SUẤT CÔNG VIỆC', '', 'LÀM VIỆC NHÓM','', 'ĐÀO TẠO',
-                                'SÁNG TẠO', 'TUÂN THỦ']
+      const subTitle = ['', '', '', '', '', '', 'HIỆU SUẤT CÔNG VIỆC', '', 'LÀM VIỆC NHÓM', '', 'ĐÀO TẠO',
+        'SÁNG TẠO', 'TUÂN THỦ']
       let subtitle = worksheet.addRow(subTitle)
       subtitle.font = {
         name: 'Time New Roman'
@@ -313,10 +369,10 @@ export default {
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
-          fgColor: { argb: 'FFFFFF00' },
-          bgColor: { argb: 'FF0000FF' }
+          fgColor: {argb: 'FFFFFF00'},
+          bgColor: {argb: 'FF0000FF'}
         }
-        cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
       });
       let headerRow = worksheet.addRow(header)
       headerRow.font = {
@@ -329,14 +385,14 @@ export default {
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
-          fgColor: { argb: 'FFFFFF00' },
-          bgColor: { argb: 'FF0000FF' }
+          fgColor: {argb: 'FFFFFF00'},
+          bgColor: {argb: 'FF0000FF'}
         }
-        cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
       });
       let count = 1
       mark.forEach(d => {
-        let row = worksheet.addRow([count++,...Object.values(d)]);
+        let row = worksheet.addRow([count++, ...Object.values(d)]);
         row.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -383,38 +439,39 @@ export default {
       worksheet.getColumn(14).width = 20;
       worksheet.getColumn(15).width = 20;
       workbook.xlsx.writeBuffer().then((mark) => {
-        let blob = new Blob([mark], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        let blob = new Blob([mark], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
         fs.saveAs(blob, 'CarData.xlsx');
       });
     },
     addMark() {
       const markList = this.items
       this.items = []
+
       markList.forEach(mark => {
+        console.log(mark)
         ExcelService.addMark(mark).then(response => {
           console.log(response)
           let newMark = response.data
-          newMark.fullName = mark.fullName
-          newMark.department = mark.department
-          newMark.staff_id = mark.staff_id
           newMark.year = mark.year
           newMark.month = mark.month
           this.listMark.push(newMark)
           if (this.listMark.length > 0) {
             this.addStatus = false
             this.visibleTable = true
+            this.addFileStatus = false
+
           }
         }).catch(error => {
           console.log(error)
         })
       })
-
+      swal.fire({
+        icon: 'success',
+        title: 'Thành công',
+        text: 'Thêm điểm thành công'
+      })
     },
-    editCellHandler(data, name) {
-      this.items = this.items.map(item => ({...item, isEdit: false}));
-      this.items[data.index].isEdit = true;
-      this.selectedCell = name
-    }
+
   },
   mounted() {
     this.items = this.items.map(item => ({...item, isEdit: false}));
@@ -422,6 +479,25 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
+.header-import {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  /* identical to box height */
+
+  color: #246CD9;
+}
+
+.warning-row {
+  background: red;
+}
+
+.success-row {
+  background: #FFFFFF;
+}
 </style>

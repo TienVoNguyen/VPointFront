@@ -178,7 +178,7 @@
               <el-col :span="6" :offset="4">
                 <el-form-item  >
                   <p class="text-content">6. Cải tiến đổi mới</p>
-                  <el-checkbox v-model="mark.improve">Nhân sự có ý tưởng cải tiến đổi mới tháng</el-checkbox>
+                  <el-checkbox v-model="mark.improve"><span class="text-checkbox">Nhân sự có ý tưởng cải tiến đổi mới tháng</span></el-checkbox>
                 </el-form-item>
               </el-col>   
             </el-row>
@@ -223,7 +223,7 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" v-on:click.prevent="onSubmit('mark')">Create</el-button>
+        <el-button type="primary" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
       </el-form-item>
     </el-form>
   </el-main>
@@ -235,7 +235,7 @@ import  {UserService as userService} from '../../service/user-service';
 import swal from 'sweetalert2'
 
   export default {
-    name: 'add-mark',
+    name: 'AddMarkComponent',
     data() {
       // var checkDate = (rule, value, callback) => {
       //   console.log(12, value);

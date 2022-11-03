@@ -56,17 +56,17 @@
             <img class="user-avatar rounded-circle mr-2" src="@/assets/images/avatar.png" alt="User Avatar">
             <el-dropdown trigger="click">
             <span class="el-dropdown-link">
-            {{ currentUser.name }}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{ currentUser !== null? currentUser.name : 'Đăng nhập' }}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
-                  <el-button type="text" @click="handleProfileLayout">Thông tin người dùng</el-button>
+                  <el-button class="w-100 text-left" type="text" @click="handleProfileLayout">Thông tin người dùng</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <el-button type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
+                  <el-button class="w-100 text-left" type="text" @click="removeValidate1(true)">Đổi mật khẩu</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <el-button type="text" @click="logOut">Đăng xuất</el-button>
+                  <el-button class="w-100 text-left" type="text" @click="logOut">Đăng xuất</el-button>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -81,7 +81,19 @@
       </nav>
     </nav>
 
-    <el-dialog title="Đổi mật khẩu" :append-to-body="true" :visible.sync="dialogFormVisible1" width="30%">
+    <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible1" width="30%" class="text-center" >
+      <span style="width: 214px;
+height: 42px;
+left: 230px;
+top: 100px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 42px;
+
+color: #246CD9;">Đổi mật khẩu</span><br><br>
       <el-form>
         <el-form-item label="Nhập mật cũ">
           <el-input v-model="changePass.oldPassword" type="password" autocomplete="off"></el-input>
@@ -107,7 +119,6 @@
 </template>
 <script>
 import swal from "sweetalert2";
-import login from "@/components/auth/Login";
 import authService from "@/service/auth-service";
 
 export default {
@@ -142,7 +153,6 @@ export default {
       console.log(error)
     }
   },
-  components: login,
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
