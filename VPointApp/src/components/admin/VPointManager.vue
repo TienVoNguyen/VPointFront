@@ -307,6 +307,19 @@ export default {
     async get(params1) {
       if (this.fullName === '') {
         await this.retrieveUserList()
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        console.log(params)
+        let response = await userService.getAllByYear(params)
+        this.listPoint = response.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
       } else {
         await this.getUserListByName(params1)
         const params = this.getRequestParamsYear(
