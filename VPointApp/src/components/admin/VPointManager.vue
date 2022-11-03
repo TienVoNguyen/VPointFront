@@ -97,14 +97,20 @@
       </el-table-column>
       <el-table-column align="center" label="Tùy chọn">
         <template v-slot="scope">
-          <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)">
-            <i size="default" class="el-icon-plus"></i>
-          </el-button>
-          <router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white">
-            <el-button class="btn btn-warning m-2" type="text">
-              <i size="default" class="el-icon-view"></i>
+          <el-tooltip class="item" effect="dark" content="Thêm / Sửa điểm" placement="top">
+            <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)">
+              <i size="default" class="el-icon-plus"></i>
             </el-button>
-          </router-link>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Xem chi tiết" placement="top">
+            <router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white">
+              <el-button class="btn btn-warning m-2" type="text">
+                <i size="default" class="el-icon-view"></i>
+              </el-button>
+            </router-link>
+          </el-tooltip>
+
+
 
         </template>
       </el-table-column>

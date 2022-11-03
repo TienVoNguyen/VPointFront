@@ -1,35 +1,38 @@
 <template >
-  <el-container>
-    <el-header class="mb-5">
-      <h3 style="color: #6c757d" align="center">Quản lý người dùng</h3><br>
-      <div class="row input-group mb-3">
-        <div class="col-6">
-          <div class="text-left input-group-prepend">
-            <p style="color: #6c757d"> Nhóm:
-              <span style="">
-                <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
-                        style="width: 300px; display: inherit; align-items: center;">
-                  <option value="">Tất cả nhân sự</option>
-                  <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
-                    {{ d.name }}
-                  </option>
-                </select>
-              </span>
-            </p>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="text-right">
-            <p style="color: #6c757d"> Nhập để tìm kiếm:
-              <span style="">
-                <input style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
-                       @keyup="get(fullName)">
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
+  <el-container align="center">
 
+    <el-header class="mb-5">
+      <br><br>
+      <h3 style="
+      align-content: center;
+height: 41px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 35px;
+line-height: 41px;
+color: #246CD9;">Quản lý người dùng</h3><br>
+      <div class="row input-group mb-3 el-container" align="center">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <div class="row">
+            <div class="text-right">
+              <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
+                      style="width: 250px; height: 34px; display: inherit; align-items: center;">
+                <option value="">Tất cả nhân sự</option>
+                <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
+                  {{ d.name }}
+                </option>
+              </select>
+            </div>
+            <div class="text-right">
+              <input placeholder="Nhập tên nhân sự" style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
+                     @keyup="get(fullName)">
+            </div>
+          </div>
+
+        </div>
+        </div>
       <div class="row ">
         <div class="col-6">
           <div class="text-left input-group-prepend">
@@ -55,6 +58,7 @@
       </div>
     </el-header>
     <el-main style="margin-top: 5rem">
+      <br>
       <el-table
           border
           :data="listUser"
@@ -97,16 +101,25 @@
             align="center" class="w-100" style="width: 200px">
 
           <template v-slot="scope">
-            <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default"
-                                                                                                          class="el-icon-edit"></i>
-            </el-button>
-            <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i
-                size="default"
-                class="el-icon-key"></i>
-            </el-button>
-            <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default"
-                                                                                               class="el-icon-delete"></i>
-            </el-button>
+            <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
+              <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default"
+                                                                                                            class="el-icon-edit"></i>
+              </el-button>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
+              <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i
+                  size="default"
+                  class="el-icon-key"></i>
+              </el-button>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
+              <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default"
+                                                                                                 class="el-icon-delete"></i>
+              </el-button>
+            </el-tooltip>
+
+
+
           </template>
         </el-table-column>
       </el-table>
@@ -123,9 +136,20 @@
 
     <!-- change pass -->
 
-    <el-dialog class="text-center" title="Đổi mật khẩu" style="color: #00a2bf" :visible.sync="dialogFormVisible1"
+    <el-dialog :visible.sync="dialogFormVisible1"
                width="30%">
-      <el-form>
+      <el-form><span style="width: 214px;
+height: 42px;
+left: 230px;
+top: 100px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 42px;
+
+color: #246CD9;">Đổi mật khẩu</span><br><br>
         <el-form-item label="Nhập mật khẩu mới">
           <el-input v-model="changePass.newPassword" type="password" autocomplete="off"></el-input>
           <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
@@ -140,7 +164,14 @@
   </span>
     </el-dialog>
 
-          <el-dialog title="Sửa thông tin" :visible.sync="dialogFormVisible" width="70%" class="text-left">
+          <el-dialog  class="text-center" :visible.sync="dialogFormVisible" width="70%">
+            <span style="
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 42px;
+color: #246CD9;">Sửa thông tin</span><br><br>
             <el-form :model="user" id="userForm">
               <div class="row text-start">
                 <div class="col-4">
@@ -208,7 +239,7 @@
 
         <div style="display: none">
           <div class="col-3">
-            <el-form-item prop="password" >
+            <el-form-item prop="password">
               <label for="">Nhập mật khẩu</label>
               <el-input name= "password" type="password" v-model="user.password" autocomplete="off"></el-input>
               <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
@@ -226,13 +257,20 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
 <!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
-        <el-button type="primary" @click.prevent="editUser(user.id)">Confirm</el-button>
+        <el-button type="primary" @click.prevent="editUser(user.id)">Lưu lại</el-button>
               <!--      <pre>{{userForm1}}</pre>-->
       </span>
 
           </el-dialog>
 
-    <el-dialog title="Tạo nhân sự mới" :visible.sync="dialogFormVisible2" width="70%" class="text-left">
+    <el-dialog :visible.sync="dialogFormVisible2" width="70%" class="text-center">
+      <span style="
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 42px;
+color: #246CD9;">Thêm mới người dùng</span><br><br>
       <el-form :model="userForm1" id="userForm">
         <div class="row text-start">
           <div class="col-4">
@@ -329,8 +367,8 @@
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="removeValidate(false)">Cancel</el-button>
-        <el-button type="primary" @click.prevent="handleRegister">Confirm</el-button>
+        <el-button style="color: #9C9797" align="center" @click="removeValidate(false)">Hủy</el-button>
+        <el-button type="danger" align="center" @click.prevent="handleRegister">Thêm mới</el-button>
       </span>
     </el-dialog>
   </el-container>
@@ -434,7 +472,7 @@ export default {
     },
 
     validPhone: function (phone) {
-      var re = /((0)+([0-9]{9})\b)/g;
+      var re = /((0)+([0-9]{9,})\b)/g;
       return re.test(phone);
     },
 
