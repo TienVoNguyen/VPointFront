@@ -186,10 +186,10 @@
           <div class="col-4">
             <el-form-item prop="role">
               <label for="">Quyền truy cập</label>
-              <el-select style="width: 100%" v-model="user.role" multiple placeholder="" value-key="id">
+              <el-select style="width: 100%"  v-model="user.role"  value-key="id">
                 <el-option v-for="item in roles"
                            :key="item.id"
-                           :label="item.name=='ROLE_ADMIN'?'Admin':'Người dùng'"
+                           :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
                            :value="item"></el-option>
               </el-select>
               <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
@@ -274,7 +274,7 @@
           <div class="col-4">
             <el-form-item prop="department">
               <label for="a">Phòng ban:</label> <br>
-              <el-select style="width: 100%" v-model="userForm1.department" placeholder="Vui lòng chọn phòng ban">
+              <el-select style="width: 100%" v-model="userForm1.department" value-key="id" placeholder="Vui lòng chọn phòng ban">
 
                 <el-option v-for="item in departments"
                            :key="item.id"
@@ -355,7 +355,7 @@ export default {
         confirmPassword: '',
         email: '',
         department: '',
-        role: [],
+        role: {},
         phone: '',
         gender: ''
       },
@@ -412,6 +412,7 @@ export default {
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
     this.departments = response2.data;
+    console.log(this.roles)
   },
   computed: {
     loggedIn() {
@@ -680,7 +681,8 @@ export default {
               let response = await userService.deleteUser(userId);
               if (response) {
                 const params = this.getRequestParams(
-                    this.page
+                    this.page,
+                    this.size
                 );
                 console.log(params)
                 let response = await userService.getAll(params)
