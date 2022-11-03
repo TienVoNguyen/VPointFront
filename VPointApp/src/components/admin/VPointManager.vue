@@ -16,8 +16,7 @@
         <select class="form-control" v-model="CateId" @change="getUser(CateId)"
                 style="width: 120px; display: inherit; align-items: center;">
           <option v-bind:value="''">Tất cả</option>
-          <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
-
+          <option v-for="d in departments" :value="d.id" :key="d.id">
             {{ d.name }}
           </option>
         </select>
@@ -61,27 +60,34 @@
               :data="listUser"
               style="width: 100%">
       <el-table-column
-                       prop="staffId"
-                       label="Mã nhân viên"
-                       width="150">
+          align="center"
+          label="STT"
+          width="70">
+        <template v-slot="scope">
+          <span>{{scope.$index +1}}</span>
+        </template>
       </el-table-column>
-      <el-table-column align="center"
-                       prop="fullName"
-                       label="Họ và tên"
-                       width="280">
+      <el-table-column
+          prop="staffId"
+          label="Mã nhân viên"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="fullName"
+          label="Họ và tên"
+          width="280">
 
       </el-table-column>
       <el-table-column
-
           prop="department.name"
           label="Phòng ban"
-          width="220">
+          width="190">
       </el-table-column>
 
       <el-table-column
           vertical-align="middle"
           align="center"
-          width="200"
+          width="100"
           label="V-point">
         <template v-slot="scope">
 
@@ -127,7 +133,7 @@
 import {UserService as userService} from "@/service/user-service";
 import authService from "@/service/auth-service";
 import moment from "moment";
-
+import Swal from 'sweetalert2'
 export default {
   name: 'HomeComponent',
   data: function () {
@@ -283,7 +289,6 @@ export default {
         const params = this.getRequestParamsYear(
             this.selectedYear
         );
-        console.log(params)
         let response = await userService.getAllByYear(params)
         this.listPoint = response.data;
         for (let i = 0; i < this.listUser.length; i++) {
@@ -294,6 +299,8 @@ export default {
           }
         }
       }
+      console.log("list")
+      console.log(this.listUser)
     },
 
     getNameParams(fullName) {
@@ -355,7 +362,21 @@ export default {
       this.$router.push('/admin/import-v-point-from-excel')
     },
     toExport() {
-      console.log('export')
+      Swal.fire({
+        title: '<strong style="color: #246CD9; font-weight: 700;font-family: Roboto, sans-serif;">Export dữ liệu</strong>',
+        text: 'Chọn điều kiện xuất',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Tổng điểm',
+        denyButtonText: 'Chi tiết điểm',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire('Saved!', '', 'success')
+        } else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })
     }
   },
   mounted() {
