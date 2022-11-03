@@ -82,7 +82,7 @@
     </nav>
 
     <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible1" width="30%" class="text-center" >
-      <span style="width: 214px;
+      <span slot="title" style="width: 214px;
 height: 42px;
 left: 230px;
 top: 100px;

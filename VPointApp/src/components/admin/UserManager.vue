@@ -130,9 +130,8 @@ color: #246CD9;">Quản lý người dùng</h3><br>
 
     <!-- change pass -->
 
-    <el-dialog :visible.sync="dialogFormVisible1"
-               width="30%">
-      <el-form><span style="width: 214px;
+    <el-dialog :visible.sync="dialogFormVisible1" title="Dmk"
+               width="30%"><span slot="title" style="width: 214px;
 height: 42px;
 left: 230px;
 top: 100px;
@@ -143,7 +142,8 @@ font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 
-color: #246CD9;">Đổi mật khẩu</span><br><br>
+color: #246CD9;">Đổi mật khẩu</span >
+      <el-form>
         <el-form-item label="Nhập mật khẩu mới">
           <el-input v-model="changePass.newPassword" type="password" autocomplete="off"></el-input>
           <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
@@ -159,13 +159,13 @@ color: #246CD9;">Đổi mật khẩu</span><br><br>
     </el-dialog>
 
           <el-dialog  class="text-center" :visible.sync="dialogFormVisible" width="70%">
-            <span style="
+            <span slot="title" style="
 font-family: 'Roboto';
 font-style: normal;
 font-weight: 700;
 font-size: 30px;
 line-height: 42px;
-color: #246CD9;">Sửa thông tin</span><br><br>
+color: #246CD9;">Sửa thông tin</span>
             <el-form :model="user" id="userForm">
               <div class="row text-start">
                 <div class="col-4">
@@ -258,14 +258,14 @@ color: #246CD9;">Sửa thông tin</span><br><br>
           </el-dialog>
 
     <el-dialog :visible.sync="dialogFormVisible2" width="70%" class="text-center">
-      <span style="
+      <span slot="title" style="
 font-family: 'Roboto';
 font-style: normal;
 font-weight: 700;
 font-size: 30px;
 line-height: 42px;
-color: #246CD9;">Thêm mới người dùng</span><br><br>
-      <el-form :model="userForm1" id="userForm">
+color: #246CD9;">Thêm mới người dùng</span>
+      <el-form :model="userForm1" id="userForm" class="text-left">
         <div class="row text-start">
           <div class="col-4">
             <el-form-item prop="fullname">

@@ -83,7 +83,7 @@
     </nav>
 
     <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible" width="30%" class="text-center">
-      <span style="width: 214px;
+      <span slot="title" style="width: 214px;
 height: 42px;
 left: 230px;
 top: 100px;
@@ -94,7 +94,7 @@ font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 
-color: #246CD9;">Đổi mật khẩu</span><br><br>
+color: #246CD9;">Đổi mật khẩu</span>
       <el-form>
         <el-form-item label="Nhập mật cũ">
           <el-input v-model="changePass.oldPassword" type="password" autocomplete="off"></el-input>

@@ -3,8 +3,13 @@
     <div class="row mt-4">
       <div class="col col-lg-12">
         <div class="text-center">
-          <h2 class="headerVPoint" style="color: #3785cb; font-style: normal;
-            font-weight: 700; ">Thông tin điểm V-Point
+          <h2 class="headerVPoint" style="text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 41px;
+    color: #246CD9;">Thông tin điểm V-Point
           </h2>
         </div>
         <br>
