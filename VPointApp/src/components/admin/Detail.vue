@@ -55,10 +55,10 @@
     <br>
 
 
-    <div>
+    <div align="center">
       <el-table
           :data="Point"
-          style="width: 100%">
+          style="width: 70%">
         <el-table-column align="center"
                          label="Thời gian"
                          width="300">
@@ -70,7 +70,7 @@
         </el-table-column>
         <el-table-column align="center"
                          prop="sum"
-                         label="Điểm V-point"
+                         label="Điểm V-Point"
                          width="300">
         </el-table-column>
         <el-table-column align="center"
