@@ -1,22 +1,19 @@
 <template >
   <el-container align="center">
 
-    <el-header class="mb-5">
-      <br><br>
+    <el-header style="height: auto">
       <h3 style="
       align-content: center;
-height: 41px;
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 700;
-font-size: 35px;
-line-height: 41px;
+      height: 41px;
+      font-family: 'Roboto', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 35px;
+      line-height: 41px;
+      margin-top: 2rem;
 color: #246CD9;">Quản lý người dùng</h3><br>
-      <div class="row input-group mb-3 el-container" align="center">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <div class="row">
-            <div class="text-right">
+          <div class="row justify-content-center mb-3">
+            <div class="text-right col-lg-">
               <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả nhân sự</option>
@@ -25,14 +22,11 @@ color: #246CD9;">Quản lý người dùng</h3><br>
                 </option>
               </select>
             </div>
-            <div class="text-right">
+            <div class="text-right col-lg-4">
               <input placeholder="Nhập tên nhân sự" style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
                      @keyup="get(fullName)">
             </div>
           </div>
-
-        </div>
-        </div>
       <div class="row ">
         <div class="col-6">
           <div class="text-left input-group-prepend">
@@ -57,8 +51,8 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         </div>
       </div>
     </el-header>
-    <el-main style="margin-top: 5rem">
-      <br>
+    <el-main >
+
       <el-table
           border
           :data="listUser"
