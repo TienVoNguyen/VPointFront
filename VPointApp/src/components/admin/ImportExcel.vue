@@ -46,25 +46,34 @@
         <el-table-column
             prop="month"
             label="Tháng">
+          <template v-slot="scope">
+            <input type="number" min="1" max="12" v-model="scope.row.month" style="width: 100%; border: none">
+          </template>
         </el-table-column>
         <el-table-column
             prop="year"
             label="Năm">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.year" style="width: 100%; border: none">
+            <input type="text" v-model="scope.row.year" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="kpi"
             label="KPI">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.kpi" style="width: 100%; border: none">
+            <input type="text" v-model="scope.row.kpi" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="bestDepartmentMonth"
             label="NVXS Tháng"
             width="70">
+          <template v-slot="scope">
+          <div class="d-flex justify-content-center">
+            <input type="checkbox" :name="scope.row.staff_id+'nvxst'" v-model="scope.row.bestDepartmentMonth"
+                   value="true">
+          </div>
+          </template>
         </el-table-column>
         <el-table-column
             prop="bestDepartmentQuarter"
@@ -80,58 +89,75 @@
             prop="excellentDepartmentMonth"
             label="BPXS Tháng"
             width="70">
+          <template v-slot="scope">
+            <div class="d-flex justify-content-center">
+              <input type="checkbox" :name="scope.row.staff_id+'bpxsm'" v-model="scope.row.excellentDepartmentMonth"
+                     value="true">
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
             prop="excellentDepartmentYear"
             label="BPXS Năm"
             width="70">
+          <template v-slot="scope">
+            <div class="d-flex justify-content-center">
+              <input type="checkbox" :name="scope.row.staff_id+'bpxsy'" v-model="scope.row.excellentDepartmentYear"
+                     value="true">
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
             prop="bcsDepartment"
             label="BSC BP">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.bcsDepartment" style="width: 100%; border: none">
+            <input type="number" v-model="scope.row.bcsDepartment" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="jointActivities"
             label="HDC">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.jointActivities" style="width: 100%; border: none">
+            <input type="number" v-model="scope.row.jointActivities" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="train"
             label="TG ĐT">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.train" style="width: 100%; border: none">
+            <input type="text" v-model="scope.row.train" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="trainStaff"
             label="GV ĐT">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.trainStaff" style="width: 100%; border: none">
+            <input type="text" v-model="scope.row.trainStaff" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="improve"
             label="Sáng Tạo"
             width="60">
+          <template v-slot="scope">
+            <div class="d-flex justify-content-center">
+              <input type="checkbox" :name="scope.row.staff_id+'improve'" v-model="scope.row.improve" value="true">
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
             prop="loveVmg"
             label="I Love VMG"
             width="70">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.loveVmg" style="width: 100%; border: none">
+            <input type="text" v-model="scope.row.loveVmg" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="trainVmg"
             label="PT VMG">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.trainVmg" style="width: 100%; border: none">
+            <input type="text" v-model="scope.row.trainVmg" style="width: 100%; border: none">
           </template>
         </el-table-column>
 
@@ -139,14 +165,14 @@
             prop="disciplineBonus"
             label="Thưởng">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.disciplineBonus" style="width: 100%; border: none">
+            <input type="number" v-model="scope.row.disciplineBonus" style="width: 100%; border: none">
           </template>
         </el-table-column>
         <el-table-column
             prop="disciplineViolate"
             label="Phạt">
           <template v-slot="scope">
-            <input type="text" :value="scope.row.disciplineViolate" style="width: 100%; border: none">
+            <input type="number" max="0" min="-999" v-model="scope.row.disciplineViolate" style="width: 100%; border: none">
           </template>
         </el-table-column>
       </el-table>
@@ -160,7 +186,7 @@
             label="STT"
             width="80">
           <template v-slot="scope">
-            <span>{{scope.$index + 1}}</span>
+            <span>{{ scope.$index + 1 }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -192,17 +218,20 @@
             label="Tổng điểm"
             width="120">
           <template v-slot="scope">
-            {{scope.row.pointKPI + scope.row.pointBestDepartmentMonth + scope.row.pointBestDepartmentQuarter + scope.row.pointBestDepartmentYear
-                + scope.row.pointBCSDepartment + scope.row.pointJointActivities + scope.row.pointLoveVmg +
-                + scope.row.pointTrain + scope.row.pointTrainStaff + scope.row.pointTrainVmg + scope.row.pointImprove
-                + scope.row.pointDisciplineBonus + scope.row.pointDisciplineViolate + scope.row.pointExcellentDepartmentMonth
-                + scope.row.pointExcellentDepartmentMonth + scope.row.pointExcellentDepartmentYear}}
+            {{
+              scope.row.pointKPI + scope.row.pointBestDepartmentMonth + scope.row.pointBestDepartmentQuarter + scope.row.pointBestDepartmentYear
+              + scope.row.pointBCSDepartment + scope.row.pointJointActivities + scope.row.pointLoveVmg +
+              +scope.row.pointTrain + scope.row.pointTrainStaff + scope.row.pointTrainVmg + scope.row.pointImprove
+              + scope.row.pointDisciplineBonus + scope.row.pointDisciplineViolate + scope.row.pointExcellentDepartmentMonth
+              + scope.row.pointExcellentDepartmentMonth + scope.row.pointExcellentDepartmentYear
+            }}
           </template>
         </el-table-column>
         <el-table-column
             label="Thao tác">
           <template slot-scope="scope">
-            <router-link :to="`/admin/AdminSeeDetailVPoint/${scope.row.year}/${scope.row.month}/${scope.row.id}`" style="color: white">
+            <router-link :to="`/admin/AdminSeeDetailVPoint/${scope.row.year}/${scope.row.month}/${scope.row.id}`"
+                         style="color: white">
               <el-button class="btn btn-warning m-2 text-black">
                 Xem chi tiết
               </el-button>

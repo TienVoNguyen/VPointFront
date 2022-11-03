@@ -1,22 +1,19 @@
 <template >
   <el-container align="center">
 
-    <el-header class="mb-5">
-      <br><br>
+    <el-header style="height: auto">
       <h3 style="
       align-content: center;
-height: 41px;
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 700;
-font-size: 35px;
-line-height: 41px;
+      height: 41px;
+      font-family: 'Roboto', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 35px;
+      line-height: 41px;
+      margin-top: 2rem;
 color: #246CD9;">Quản lý người dùng</h3><br>
-      <div class="row input-group mb-3 el-container" align="center">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <div class="row">
-            <div class="text-right">
+          <div class="row justify-content-center mb-3">
+            <div class="text-right col-lg-">
               <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả nhân sự</option>
@@ -25,14 +22,11 @@ color: #246CD9;">Quản lý người dùng</h3><br>
                 </option>
               </select>
             </div>
-            <div class="text-right">
+            <div class="text-right col-lg-4">
               <input placeholder="Nhập tên nhân sự" style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
                      @keyup="get(fullName)">
             </div>
           </div>
-
-        </div>
-        </div>
       <div class="row ">
         <div class="col-6">
           <div class="text-left input-group-prepend">
@@ -57,8 +51,8 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         </div>
       </div>
     </el-header>
-    <el-main style="margin-top: 5rem">
-      <br>
+    <el-main >
+
       <el-table
           border
           :data="listUser"
@@ -217,10 +211,10 @@ color: #246CD9;">Sửa thông tin</span><br><br>
           <div class="col-4">
             <el-form-item prop="role">
               <label for="">Quyền truy cập</label>
-              <el-select style="width: 100%" v-model="user.role" multiple placeholder="" value-key="id">
+              <el-select style="width: 100%"  v-model="user.role"  value-key="id">
                 <el-option v-for="item in roles"
                            :key="item.id"
-                           :label="item.name=='ROLE_ADMIN'?'Admin':'Người dùng'"
+                           :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
                            :value="item"></el-option>
               </el-select>
               <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
@@ -312,7 +306,7 @@ color: #246CD9;">Thêm mới người dùng</span><br><br>
           <div class="col-4">
             <el-form-item prop="department">
               <label for="a">Phòng ban:</label> <br>
-              <el-select style="width: 100%" v-model="userForm1.department" placeholder="Vui lòng chọn phòng ban">
+              <el-select style="width: 100%" v-model="userForm1.department" value-key="id" placeholder="Vui lòng chọn phòng ban">
 
                 <el-option v-for="item in departments"
                            :key="item.id"
@@ -393,7 +387,7 @@ export default {
         confirmPassword: '',
         email: '',
         department: '',
-        role: [],
+        role: {},
         phone: '',
         gender: ''
       },
@@ -450,6 +444,7 @@ export default {
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
     this.departments = response2.data;
+    console.log(this.roles)
   },
   computed: {
     loggedIn() {
