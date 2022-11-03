@@ -79,12 +79,10 @@
 
 <script>
 import authService from "@/service/auth-service";
-import login from "@/components/auth/Login";
 import swal from 'sweetalert2'
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "Sidebar",
+  name: "AddStaffComponent",
   data: function () {
     return {
       userForm1: {
@@ -143,7 +141,6 @@ export default {
     }
   },
 
-  components: login,
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;

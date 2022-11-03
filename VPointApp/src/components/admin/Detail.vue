@@ -5,11 +5,44 @@
   <div>
     <br>
     <h3 align="center" style="color: #6c757d"> Điểm V-Point năm: {{selected}} </h3>
-    <br><br><br>
+    <br><br>
+    <el-form :model="user" id="userForm" class="text-left">
+      <div class="row text-start" >
+        <div class="col-1"></div>
+        <div class="col-10">
+          <div class="row text-start" >
+            <div class="col-4 ">
+              <el-form-item prop="fullname">
+                <label for="fullname" >Họ và tên:</label>
+                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+              </el-form-item>
+            </div>
+            <div class="col-4">
+              <el-form-item prop="staffId">
+                <label for="staffId">Mã nhân sự:</label>
+                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+            <div class="col-4 text-start">
+              <el-form-item prop="email">
+                <label for="email">Email đăng nhập:</label>
+                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-1"></div>
+
+
+
+      </div>
+    </el-form>
 
     <div class="text-center">
       <h4 style="color: #6c757d"> Chọn năm: <span style="">
-        <select class="form-control" v-model="selected" @change="get(selected)" style="width: 200px; display: inherit; align-items: center" >
+        <select class="form-control" v-model="selected" @change="getVpointByYear(selected)" style="width: 200px; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
             {{ y }}
           </option>
@@ -22,10 +55,10 @@
     <br>
 
 
-    <div>
+    <div align="center">
       <el-table
           :data="Point"
-          style="width: 100%">
+          style="width: 70%">
         <el-table-column align="center"
                          label="Thời gian"
                          width="300">
@@ -37,7 +70,7 @@
         </el-table-column>
         <el-table-column align="center"
                          prop="sum"
-                         label="Điểm V-poin"
+                         label="Điểm V-Point"
                          width="300">
         </el-table-column>
         <el-table-column align="center"
@@ -62,14 +95,15 @@ import moment from "moment";
 import {UserService as userService} from "@/service/user-service";
 
 export default {
-  name: "AdminSeeDetail",
+  name: "DetailComponent",
   data() {
     return {
+      user: '',
       idUser : this.$route.params.idUser,
       Point: [],
       search: '',
       year: [],
-      selected: '',
+      selected: this.$route.params.year,
       sum: 0
     }
   },
@@ -84,6 +118,7 @@ export default {
   },
   created() {
     this.getVPoint()
+    this.findByIdUser(this.idUser)
   },
 
   methods: {
@@ -100,9 +135,8 @@ export default {
     },
 
     async getVPoint() {
-      let date = new Date();
-      this.selected = date.getFullYear()
-      let response = await userService.getVpoint(this.idUser)
+      let params = this.getRequestParams(this.selected)
+      let response = await userService.getVpointByYear(this.idUser, params)
       this.Point = response.data
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
@@ -112,17 +146,15 @@ export default {
         this.year.push(this.formatYear(response1.data[i].date))
       }
     },
-
-    get(params){
-      this.sum = ''
-      this.getVpointByYear(params)
+    findByIdUser : async function (userId) {
+      let response = await userService.findById(userId);
+      if (response) {
+        this.user = response.data
+      }
     },
 
     async getVpointByYear(params) {
-      if (this.currentUser != null) {
-        console.log(this.currentUser)
-        this.idUser = this.currentUser.id;
-      }
+      this.sum = ''
       let params1 = this.getRequestParams(params)
       let response = await userService.getVpointByYear(this.idUser, params1)
       this.Point = response.data

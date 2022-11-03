@@ -1,32 +1,38 @@
 <template>
   <el-main>
     <div style="margin: 20px;"></div>
+    <p class="text-title">Nhập dữ liệu tính điểm VPoint</p>
     <el-form :label-position="labelPosition" :rules="rules" label-width="100px" :model="mark" ref="mark">
       <el-form-item class="inline profile" >
         <el-row :gutter="20" type="flex" justify="space-around">
           <el-col :span="4">
-          <el-form-item label="Mã nhân viên">
+          <el-form-item class="form-item">
+            <span class="text-item">Mã nhân viên</span>
             <el-input v-model="mark.staff_id" :disabled="true"></el-input>
           </el-form-item>    
           </el-col>
           <el-col :span="4">
-            <el-form-item label="Tên nhân viên">
+            <el-form-item class="form-item">
+              <span class="text-item">Tên nhân viên</span>
               <el-input v-model="user.name" :disabled="true"></el-input>
             </el-form-item>    
           </el-col>
           <el-col :span="4">
-            <el-form-item label="Bộ phận">
+            <el-form-item class="form-item">
+              <span class="text-item">Bộ phận</span>
               <el-input v-model="user.department" :disabled="true" ></el-input>
             </el-form-item>    
           </el-col>
         </el-row>
         <el-row >
           <el-col :span="4" :offset="10">
-            <el-form-item label="Ngày" class="date-input">
+            <el-form-item class="date-input form-item" prop="date">
+              <span class="text-item">Thời gian</span>
               <el-date-picker
                 type="month"
                 v-model="date"
                 @change="handleData"
+                :validate-event="true"
                 placeholder="Chọn ngày"
                 required
                 style="width: 100%"
@@ -58,13 +64,13 @@
               <el-col :span="6" :offset="4">
                 <el-form-item >
                   <h6>2.1 Nhân viên xuất sắc tháng</h6>
-                  <el-checkbox v-model="mark.bestDepartmentMonth" class="checkbox-form">Nhân viên xuất sắc tháng</el-checkbox>
+                  <el-checkbox v-model="mark.bestDepartmentMonth" class="checkbox-form"><span class="text-checkbox">Nhân viên xuất sắc tháng</span></el-checkbox>
                 </el-form-item>
               </el-col>   
               <el-col :span="6" :offset="6">
                 <el-form-item >
-                  <h6>3.1 Bộ phận xuất sắc quý</h6>
-                  <el-checkbox v-model="mark.excellentDepartmentMonth" class="checkbox-form">Bộ phận xuất sắc quý</el-checkbox>
+                  <h6>3.1 Bộ phận xuất sắc tháng</h6>
+                  <el-checkbox v-model="mark.excellentDepartmentMonth" class="checkbox-form"><span class="text-checkbox">Bộ phận xuất sắc quý</span></el-checkbox>
                 </el-form-item>
               </el-col>   
             </el-row>
@@ -87,7 +93,7 @@
               <el-col :span="6" :offset="6">
                 <el-form-item >
                   <h6>3.2 Bộ phận xuất sắc năm</h6>
-                  <el-checkbox v-model="mark.excellentDepartmentYear" class="checkbox-form">Bộ phận xuất sắc năm</el-checkbox>
+                  <el-checkbox v-model="mark.excellentDepartmentYear" class="checkbox-form"><span class="text-checkbox">Bộ phận xuất sắc năm</span></el-checkbox>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="4">
@@ -172,7 +178,7 @@
               <el-col :span="6" :offset="4">
                 <el-form-item  >
                   <p class="text-content">6. Cải tiến đổi mới</p>
-                  <el-checkbox v-model="mark.improve">Nhân sự có ý tưởng cải tiến đổi mới tháng</el-checkbox>
+                  <el-checkbox v-model="mark.improve"><span class="text-checkbox">Nhân sự có ý tưởng cải tiến đổi mới tháng</span></el-checkbox>
                 </el-form-item>
               </el-col>   
             </el-row>
@@ -217,7 +223,7 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" v-on:click.prevent="onSubmit('mark')">Create</el-button>
+        <el-button type="primary" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
       </el-form-item>
     </el-form>
   </el-main>
@@ -229,8 +235,34 @@ import  {UserService as userService} from '../../service/user-service';
 import swal from 'sweetalert2'
 
   export default {
-    name: 'add-mark',
+    name: 'AddMarkComponent',
     data() {
+      // var checkDate = (rule, value, callback) => {
+      //   console.log(12, value);
+      //   if (!value) {
+      //     return callback(new Error('Hãy chọn ngày'));
+      //   }
+      // };
+      var checkDisciplineViolate = (rule, value, callback) => {
+        value = Number(value);
+        setTimeout(() => {
+          if (value > 0) {
+            callback(new Error('Giá trị phải nhỏ hơn 0'));
+          } else {
+            callback();
+          }
+        }, 500);
+      };
+      var checkLoveVmg = (rule, value, callback) => {
+        value = Number(value);
+        setTimeout(() => {
+          if (value < 0 || value > 100) {
+            callback(new Error('Giá trị từ 0 - 100'));
+          } else {
+            callback();
+          }
+        }, 500);
+      };
       var checkPercent = (rule, value, callback) => {
         value = Number(value);
         setTimeout(() => {
@@ -293,14 +325,20 @@ import swal from 'sweetalert2'
             {validator: checkTrainVmg, trigger: 'blur' }
           ],
           loveVmg: [
-            {validator: checkPercent, trigger: 'blur' }
+            {validator: checkLoveVmg, trigger: 'blur' }
           ],
           disciplineBonus: [
             {validator: checkPercent, trigger: 'blur' }
           ],
           disciplineViolate: [
-            {validator: checkPercent, trigger: 'blur' }
+            {validator: checkDisciplineViolate, trigger: 'blur' }
           ],
+          // date: [
+          //   { type: 'date', required: true, message: 'Please pick a date', trigger: 'change' }
+          // ],
+          // date : [
+          //   {validator: checkDate, trigger: 'change'}
+          // ]
         },
         user: {
           department: '',
@@ -379,12 +417,19 @@ import swal from 'sweetalert2'
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if (this.date === null) {
-              let nowDate = Date.now();
-              this.mark.year = nowDate.getFullYear();
-              this.mark.month = nowDate.getMonth();
+              swal.fire({
+                    toast: true,
+                    title: "Hãy chọn thời gian!",
+                    icon: "error",
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                  }
+                )
+                return;
             }
             let date = new Date(this.date);
-            this.mark.month = date.getMonth();
+            this.mark.month = date.getMonth() + 1;
             this.mark.year = date.getFullYear();
             this.mark.staff_id = this.user.staff_id;
             console.log(12, this.mark.month);
@@ -434,7 +479,7 @@ import swal from 'sweetalert2'
       },
       handleData(data) {
         data = new Date(data)
-        this.mark.month = data.getMonth();
+        this.mark.month = data.getMonth() + 1;
         this.mark.year = data.getFullYear();
         let dataReq = {
           userId: this.user.id,
@@ -460,7 +505,6 @@ import swal from 'sweetalert2'
     created() {
       this.date = Date.now();
       this.user.id = this.$route.params.id;
-      console.log(11, this.user.id);
       this.getUser(this.$route.params.id);
     }
   }
@@ -516,5 +560,43 @@ import swal from 'sweetalert2'
     line-height: 24px;
 
     color: #000000;
+  }
+
+  .text-title {
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 41px;
+    /* identical to box height */
+
+
+    color: #246CD9;
+
+  }
+
+  .text-item {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #000000;
+  }
+
+  .form-item {
+    text-align: left;
+  }
+
+  .text-checkbox {
+    font-family: 'Inter';
+    font-style: normal;
+    font-size: 18px;
+    line-height: 28px;
+    color: #000;
+    padding-top: 15px;
+    font-weight: 500;
   }
 </style>

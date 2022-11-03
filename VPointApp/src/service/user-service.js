@@ -14,6 +14,13 @@ export class UserService {
         return axios.get(dataURL, {params, headers: authHeader()});
     }
 
+    static getAllByYear(params) {
+        let dataURL = `${this.serverURL}/listByYear`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
+
+
+
     static deleteUser(userId){
         let dataURL = `${this.serverURL}/delete/${userId}`
         return axios.delete(dataURL, { headers: authHeader() })
@@ -46,6 +53,21 @@ export class UserService {
 
     static getUserById(id) {
         let dataURL = `${this.serverURL}/user/${id}`;
+        return axios.get(dataURL, {headers: authHeader()});
+    }
+
+    static getUserByName(params) {
+        let dataURL = `${this.serverURL}/getUserByName`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
+
+    static getUserByCateId(params) {
+        let dataURL = `${this.serverURL}/getUserByCate`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
+
+    static getProfileUserById(id) {
+        let dataURL = `${this.serverURL}/user/profile/${id}`;
         return axios.get(dataURL, {headers: authHeader()});
     }
 

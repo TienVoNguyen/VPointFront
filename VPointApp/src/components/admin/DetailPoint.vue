@@ -1,61 +1,108 @@
 <template>
-  <div>
-    <table class="table table-bordered" :data="Point">
+
+  <div class="container mt-4">
+<!--    <a href="`/admin/detail/${}`"><i class="el-icon-arrow-left item-absolute">Quay lại</i></a>-->
+    <h3 class="header">Điểm V-Point tháng {{month}} năm {{year}}</h3>
+    <el-form :model="user" id="userForm" class="text-left">
+      <div class="row text-start" >
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="row text-start" >
+            <div class="col-4 ">
+              <el-form-item prop="fullname">
+                <label for="fullname" >Họ và tên:</label>
+                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+              </el-form-item>
+            </div>
+            <div class="col-4">
+              <el-form-item prop="staffId">
+                <label for="staffId">Mã nhân sự:</label>
+                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+            <div class="col-4 text-start">
+              <el-form-item prop="email">
+                <label for="email">Email đăng nhập:</label>
+                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+              </el-form-item>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-2"></div>
+
+
+
+      </div>
+    </el-form>
+    <br>
+    <table class="table table-bordered justify-content-center"  :data="Point">
       <tr >
-        <th scope="col">Stt</th>
-        <th scope="col">Mục</th>
-        <th scope="col">Hạng mục</th>
-        <th scope="col">Điểm V-Point</th>
+        <th >Stt</th>
+        <th >Mục</th>
+        <th >Hạng mục</th>
+        <th >Điểm V-Point</th>
+        <th >Tổng điểm theo mục</th>
       </tr>
       <tr >
-        <th scope="row" rowspan="2">1</th>
-        <td rowspan="2">Hiệu suất công việc</td>
-        <td>KPI cá nhân hàng tháng</td>
+        <td rowspan="2" class="vertical-center">1</td>
+        <td rowspan="2" class="vertical-center text-left">Hiệu suất công việc</td>
+        <td class="text-left">KPI cá nhân hàng tháng</td>
         <td>{{td1}}</td>
+        <td class="vertical-center" rowspan="2" >{{ td1 + td2 + td9 + td10 + td16 + td17}}</td>
       </tr>
       <tr>
-        <td>Nhân viên xuất sắc, bộ phận xuất sắc</td>
-        <td>{{td2}}</td>
+
+        <td class="text-left">Nhân viên xuất sắc, bộ phận xuất sắc</td>
+        <td>{{td2 + td9 + td10 + td16 + td17}}</td>
+
       </tr>
       <tr>
-        <td rowspan="2">02</td>
-        <td rowspan="2">Làm việc nhóm</td>
-        <td>Điểm bcs bộ phận</td>
+        <td rowspan="2" class="vertical-center">2</td>
+        <td rowspan="2" class="vertical-center text-left">Làm việc nhóm</td>
+        <td class="text-left">Điểm bsc bộ phận</td>
         <td>{{td3}}</td>
+        <td rowspan="2" class="vertical-center">{{td3 + td4}}</td>
       </tr>
       <tr>
-        <td>Hoạt động chung</td>
+        <td class="text-left">Hoạt động chung</td>
         <td>{{td4}}</td>
       </tr>
       <tr>
-        <td>03</td>
-        <td>Đào tạo và phát triển</td>
-        <td>Đào tạo</td>
-        <td>{{td5}}</td>
+        <td>3</td>
+        <td class="text-left">Đào tạo và phát triển</td>
+        <td class="text-left">Đào tạo</td>
+        <td>{{td5 + td11 + td12}}</td>
+        <td>{{td5 + td11 + td12}}</td>
       </tr>
       <tr>
-        <td>04</td>
-        <td>Sáng tạo</td>
-        <td>Cải tiến đổi mới</td>
+        <td>4</td>
+        <td class="text-left">Sáng tạo</td>
+        <td class="text-left">Cải tiến đổi mới</td>
+        <td>{{td6}}</td>
         <td>{{td6}}</td>
       </tr>
       <tr>
-        <td rowspan="2">05</td>
-        <td rowspan="2">Tuân thủ</td>
-        <td>Tôi yêu VMG</td>
-        <td>{{td7}}</td>
+        <td rowspan="2" class="vertical-center">5</td>
+        <td rowspan="2" class="vertical-center text-left">Tuân thủ</td>
+        <td class="text-left">Tôi yêu VMG</td>
+        <td>{{td7 + td13}}</td>
+        <td rowspan="2" class="vertical-center">{{td7 + td8 + td13}}</td>
       </tr>
       <tr>
-        <td>Kỷ luật</td>
+        <td class="text-left">Kỷ luật</td>
         <td>{{td8}}</td>
       </tr>
       <tr >
-        <td>06</td>
-        <td colspan="2" ><h4>Tổng điểm</h4></td>
-        <td>{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
+        <td>6</td>
+        <td colspan="3" style="background-color: #dc3545; line-height: 25px; color: white" > Tổng điểm</td>
+        <td style="line-height: 25px">{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
       </tr>
     </table>
   </div>
+
+
 </template>
 
 <script>
@@ -65,18 +112,28 @@ export default {
   name: "DetailPoint",
   data: function (){
     return{
+      user: '',
       Point: [],
       idUser: this.$route.params.idUser,
       year : this.$route.params.year,
       month: this.$route.params.month,
-      td1: '',
-      td2: null,
-      td3: '',
-      td4: '',
-      td5: '',
-      td6: '',
-      td7: '',
-      td8: '',
+      td1: 0,
+      td2: 0,
+      td3: 0,
+      td4: 0,
+      td5: 0,
+      td6: 0,
+      td7: 0,
+      td8: 0,
+      td9: 0,
+      td10: 0,
+      td11: 0,
+      td12: 0,
+      td13: 0,
+      td14: 0,
+      td15: 0,
+      td16: 0,
+      td17: 0,
     }
   },
 
@@ -91,15 +148,23 @@ export default {
 
   async created() {
     await this.getVPoint()
+    await this.findByIdUser(this.idUser)
   },
 
 
   methods: {
+    findByIdUser : async function (userId) {
+      let response = await userService.findById(userId);
+      if (response) {
+        this.user = response.data
+      }
+    },
     async getVPoint() {
+      console.log("1231232131")
       const params = {};
       params["year"] = this.year
       params["month"] = this.month
-      console.log(params)
+      // console.log(params)
       let response = await userService.getVpointByTime(this.idUser, params)
       this.Point = response.data
       console.log(this.Point);
@@ -108,13 +173,7 @@ export default {
           this.td1 = this.Point[i].point
         }
         if (this.Point[i].item.id === 2){
-          this.td2 = this.td2 + this.Point[i].point
-        }
-        if (this.Point[i].item.id === 16){
-          this.td2 = this.td2 + this.Point[i].point
-        }
-        if (this.Point[i].item.id === 17){
-          this.td2 = this.td2 + this.Point[i].point
+          this.td2 =this.Point[i].point
         }
         if (this.Point[i].item.id === 3){
           this.td3 = this.Point[i].point
@@ -134,12 +193,77 @@ export default {
         if (this.Point[i].item.id === 8){
           this.td8 = this.Point[i].point
         }
+        if (this.Point[i].item.id === 9){
+          this.td9 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 10){
+          this.td10 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 11){
+          this.td11 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 12){
+          console.log(12, this.Point[i])
+          this.td12 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 13){
+          this.td13 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 14){
+          this.td14 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 15){
+          this.td15 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 16){
+          this.td16 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 17){
+          this.td17 = this.Point[i].point
+        }
       }
+      console.log(11, this.td1)
+      // console.log(this.td2)
+      // console.log(this.td3)
+      // console.log(this.td4)
+      console.log(this.td5, "b")
+      // console.log(this.td6)
+      // console.log(this.td7)
+      // console.log(this.td8)
+      // console.log(this.td9)
+      // console.log(this.td10)
+      // console.log(this.td11)
+      console.log(this.td12, "a")
+      // console.log(this.td13)
+      // console.log(this.td14)
+      // console.log(this.td15)
+      // console.log(this.td16)
+      // console.log(this.td17)
     }
   }
 }
 </script>
 
 <style scoped>
+.item-absolute {
+  position: absolute;
+  top: 75px;
+  left: 40px;
+}
+.vertical-center {
+  line-height: 70px;
+}
 
+.header {
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  /* identical to box height */
+
+
+  color: #246CD9;
+}
 </style>

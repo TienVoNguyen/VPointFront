@@ -6,6 +6,32 @@
     <br>
     <h3 align="center" style="color: #6c757d"> Điểm V-Point năm: {{selected}} </h3>
     <br><br><br>
+    <el-form :model="user" id="userForm" >
+      <div class="row text-start" >
+        <div class="col-4">
+          <el-form-item prop="fullname">
+            <label for="fullname">Họ và tên:</label>
+            <el-input name= "fullname" v-model="user.fullname" autocomplete="off"></el-input>
+          </el-form-item>
+        </div>
+        <div class="col-4">
+          <el-form-item prop="staffId">
+            <label for="staffId">Mã nhân sự:</label>
+            <el-input name= "staffId" v-model="user.staffId" autocomplete="off"></el-input>
+          </el-form-item>
+
+        </div>
+        <div class="col-4 text-start">
+          <el-form-item prop="email">
+            <label for="email">Email đăng nhập:</label>
+            <el-input type="email" name= "email" v-model="user.email" autocomplete="off"></el-input>
+          </el-form-item>
+
+        </div>
+
+
+      </div>
+    </el-form>
 
     <div class="text-center">
       <h4 style="color: #6c757d"> Chọn năm: <span style="">
@@ -70,7 +96,8 @@ export default {
       search: '',
       year: [],
       selected: '',
-      sum: 0
+      sum: 0,
+      user: ''
     }
   },
 
@@ -84,6 +111,7 @@ export default {
   },
   created() {
     this.getVPoint()
+    this.findByIdUser(this.idUser)
   },
 
   methods: {
@@ -96,6 +124,13 @@ export default {
     formatMonth(value){
       if (value) {
         return moment(String(value)).format('MM')
+      }
+    },
+
+    findByIdUser : async function (userId) {
+      let response = await userService.findById(userId);
+      if (response) {
+        this.user = response.data
       }
     },
 
