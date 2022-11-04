@@ -4,7 +4,7 @@
 
   <div>
     <br>
-    <h3 align="center" style="color: #6c757d"> Điểm V-Point năm: {{selected}} </h3>
+    <h3 class="header"> Điểm V-Point năm: {{selected}} </h3>
     <br><br>
     <el-form :model="user" id="userForm" class="text-left">
       <div class="row text-start" >
@@ -40,19 +40,29 @@
       </div>
     </el-form>
 
-    <div class="text-center">
-      <h4 style="color: #6c757d"> Chọn năm: <span style="">
+    <div class="justify-content-center row">
+<div class="col-4" >
+  <h4 align="left" style="color: #6c757d"> Chọn năm: <span style="">
         <select class="form-control" v-model="selected" @change="getVpointByYear(selected)" style="width: 200px; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
             {{ y }}
           </option>
         </select>
+
       </span>
 
-      </h4>
+  </h4>
+</div>
+<!--      <div class="col-1"></div>-->
+<div class="col-4 text-right" >
+
+  <h4 align="right" style="color: #6c757d">    Tổng điểm: {{sum}} </h4>
+
+</div>
+
     </div>
 
-    <br>
+
 
 
     <div align="center">
@@ -83,7 +93,7 @@
       <br>
       <br>
 
-      <h4 align="center" style="color: #6c757d"> Tổng điểm: {{sum}} </h4>
+
     </div>
   </div>
 
@@ -177,5 +187,16 @@ export default {
 </script>
 
 <style scoped>
+.header {
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  /* identical to box height */
 
+
+  color: #246CD9;
+}
 </style>

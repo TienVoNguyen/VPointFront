@@ -42,16 +42,26 @@
 
           </div>
         </el-form>
-        <div class="text-center">
-          <p style="color: #6c757d">Năm
-            <span style="">
-        <select class="input-group-text"  v-model="selected" @change="getVpointByYear(selected)" style="width: 120px; color: #6c757d; display: inherit; align-items: center" >
+        <div class="justify-content-center row">
+          <div class="col-4" >
+            <h5 align="left" style="color: #6c757d"> Năm: <span style="">
+        <select class="form-control" v-model="selected" @change="getVpointByYear(selected)" style="width: 200px; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
             {{ y }}
           </option>
         </select>
+
       </span>
-          </p>
+
+            </h5>
+          </div>
+          <!--      <div class="col-1"></div>-->
+          <div class="col-4 text-right" >
+
+            <h5 align="right" style="color: #6c757d">    Tổng điểm: {{sum}} </h5>
+
+          </div>
+
         </div>
       </div>
       <div class="col col-lg-12" align="center">
@@ -87,10 +97,7 @@
               <router-link :to="`api/mark/${formatYear(scope.row.date)}/${formatMonth(scope.row.date)}`" class="btn btn-warning">Xem chi tiết</router-link>
             </template>
           </el-table-column>
-<!--          -->
         </el-table>
-        <br>
-        <h4 align="center" style="color: #6c757d"> Tổng điểm: {{sum}} </h4>
       </div>
     </div>
   </el-container>
