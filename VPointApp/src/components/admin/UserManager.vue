@@ -89,7 +89,6 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             align="center" class="w-100" style="width: 200px"
         label="Tùy chọn">
-
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
               <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default"
@@ -97,7 +96,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-              <el-button class="btn btn-primary" type="text" @click="removeValidate1(true, scope.row.id)"><i
+              <el-button class="btn btn-success" type="text" @click="removeValidate1(true, scope.row.id)"><i
                   size="default"
                   class="el-icon-key"></i>
               </el-button>
@@ -506,6 +505,7 @@ export default {
         gender: [
           {validator: checkGender, trigger: 'blur' }
         ],
+
       },
       CateId: '',
       fullName: '',
@@ -788,9 +788,6 @@ export default {
                       this.page,
                       this.size
                   );
-                  // if (this.listUser.length === 10){
-                  //   this.params += 1
-                  // }
                   console.log(params)
                   let response = await authService.getUserPage(params)
                   console.log(response)
