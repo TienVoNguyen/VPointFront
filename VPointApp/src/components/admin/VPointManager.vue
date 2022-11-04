@@ -1,6 +1,7 @@
 <template>
-  <el-container class="background">
+  <el-container>
     <div class="text-center">
+      <br>
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
       <div class="d-flex justify-content-center mb-4">
         <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
@@ -32,7 +33,6 @@
           </option>
         </select>
       </span></p>
-
       </div>
     </div>
     <div class="row">
@@ -56,7 +56,6 @@
 
     </div>
     <el-table border
-
               :data="listUser"
               style="width: 100%">
       <el-table-column
@@ -76,45 +75,36 @@
           prop="fullName"
           label="Họ và tên"
           width="280">
-
       </el-table-column>
       <el-table-column
           prop="department.name"
           label="Phòng ban"
           width="190">
       </el-table-column>
-
       <el-table-column
           vertical-align="middle"
           align="center"
           width="100"
           label="V-point">
         <template v-slot="scope">
-
             {{scope.row.password.length > 4? 0: scope.row.password}}
-
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Tùy chọn">
+      <el-table-column align="center" class="w-100" style="width: 200px"
+                       label="Tùy chọn">
         <template v-slot="scope">
           <el-tooltip class="item" effect="dark" content="Thêm / Sửa điểm" placement="top">
-            <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)">
-              <i size="default" class="el-icon-plus"></i>
+            <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default"
+                 class="el-icon-plus"></i>
             </el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="Xem chi tiết" placement="top">
-            <router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white">
-              <el-button class="btn btn-warning m-2" type="text">
-                <i size="default" class="el-icon-view"></i>
+              <el-button class="btn btn-warning m-1" type="text" @click="router(scope.row.id, selectedYear)"><i size="default"
+                   class="el-icon-view"></i>
               </el-button>
-            </router-link>
           </el-tooltip>
-
-
-
         </template>
       </el-table-column>
-
     </el-table>
 
 
@@ -303,6 +293,10 @@ export default {
       console.log(this.listUser)
     },
 
+    router(year, month){
+      return this.$router.push(`detail/${year}/${month}`)
+    },
+
     getNameParams(fullName) {
       let params = {};
       if (fullName) {
@@ -394,8 +388,7 @@ export default {
 }
 
 .vpointheader {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 700;
