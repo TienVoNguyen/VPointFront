@@ -23,7 +23,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
               </select>
             </div>
             <div class="text-right col-lg-4">
-              <input placeholder="Nhập tên nhân sự" style="width: 300px; display: inherit" class="input-group-text" type="text" v-model="fullName"
+              <input placeholder="Nhập tên nhân sự" style="width: 300px; display: inherit" class="input-group-text text-left" type="text" v-model="fullName"
                      @keyup="get(fullName)">
             </div>
           </div>
@@ -58,31 +58,26 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           :data="listUser"
           style="width: 100%">
         <el-table-column
-            align="center"
             prop="staffId"
             label="Mã nhân viên"
             width="120">
         </el-table-column>
         <el-table-column
-            align="center"
             prop="fullName"
             label="Họ và tên"
             width="180">
         </el-table-column>
         <el-table-column
-            align="center"
             prop="email"
             label="Email"
             width="250">
         </el-table-column>
         <el-table-column
-            align="center"
             prop="department.name"
             label="Phòng ban"
             width="150">
         </el-table-column>
         <el-table-column
-            align="center"
             label="Quyền truy cập"
             width="125">
           <template v-slot="scope">
@@ -92,7 +87,8 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           </template>
         </el-table-column>
         <el-table-column
-            align="center" class="w-100" style="width: 200px">
+            align="center" class="w-100" style="width: 200px"
+        label="Tùy chọn">
 
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
@@ -130,7 +126,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
 
     <!-- change pass -->
 
-    <el-dialog :visible.sync="dialogFormVisible1" title="Dmk"
+    <el-dialog :visible.sync="dialogFormVisible1"
                width="30%"><span slot="title" style="width: 214px;
 height: 42px;
 left: 230px;
@@ -143,13 +139,13 @@ font-size: 30px;
 line-height: 42px;
 
 color: #246CD9;">Đổi mật khẩu</span >
-      <el-form>
+      <el-form style="padding: 30px">
         <el-form-item label="Nhập mật khẩu mới">
-          <el-input v-model="changePass.newPassword" type="password" autocomplete="off"></el-input>
+          <el-input v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
         </el-form-item>
         <el-form-item label="Xác nhận mật khẩu mới">
-          <el-input v-model="changePass.confirmNewPass" type="password" autocomplete="off"></el-input>
+          <el-input v-model="changePass.confirmNewPass" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errorsPass != null" style="color: red">{{ errorsPass }}</small>
         </el-form-item>
       </el-form>
@@ -166,7 +162,7 @@ font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 color: #246CD9;">Sửa thông tin</span>
-            <el-form :model="user" id="userForm">
+            <el-form :model="user" id="userForm" style="padding: 30px">
               <div class="row text-start">
                 <div class="col-4">
                   <el-form-item prop="staffId">
@@ -211,7 +207,7 @@ color: #246CD9;">Sửa thông tin</span>
           <div class="col-4">
             <el-form-item prop="role">
               <label for="">Quyền truy cập</label>
-              <el-select style="width: 100%"  v-model="user.role"  value-key="id">
+              <el-select style="width: 100%"  v-model="user.role" multiple  value-key="id">
                 <el-option v-for="item in roles"
                            :key="item.id"
                            :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
@@ -249,7 +245,7 @@ color: #246CD9;">Sửa thông tin</span>
           </div>
         </div>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer"  style="padding: 30px">
 <!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
         <el-button type="primary" @click.prevent="editUser(user.id)">Lưu lại</el-button>
               <!--      <pre>{{userForm1}}</pre>-->
@@ -265,7 +261,7 @@ font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 color: #246CD9;">Thêm mới người dùng</span>
-      <el-form :model="userForm1" id="userForm" class="text-left">
+      <el-form :model="userForm1" id="userForm" class="text-left" style="padding: 30px">
         <div class="row text-start">
           <div class="col-4">
             <el-form-item prop="fullname">
@@ -343,7 +339,7 @@ color: #246CD9;">Thêm mới người dùng</span>
             <el-form-item prop="password">
               <label for="">Nhập mật khẩu:</label>
               <el-input name="password" type="password" v-model="userForm1.password"
-                        autocomplete="off"></el-input>
+                        autocomplete="off" show-password></el-input>
               <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
             </el-form-item>
           </div>
@@ -352,7 +348,7 @@ color: #246CD9;">Thêm mới người dùng</span>
             <el-form-item prop="confirmPassword">
               <label for="">Nhập lại mật khẩu:</label>
               <el-input name="confirmPassword" type="password" v-model="userForm1.confirmPassword"
-                        autocomplete="off"></el-input>
+                        autocomplete="off" show-password></el-input>
               <small v-if="errorsPass !== null" style="color: red">{{ errorsPass }}</small>
 
             </el-form-item>
@@ -360,7 +356,7 @@ color: #246CD9;">Thêm mới người dùng</span>
 
         </div>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer" style="padding: 30px">
         <el-button style="color: #9C9797" align="center" @click="removeValidate(false)">Hủy</el-button>
         <el-button type="danger" align="center" @click.prevent="handleRegister">Thêm mới</el-button>
       </span>
@@ -435,6 +431,7 @@ export default {
         confirmNewPass: '',
       },
     }
+
   },
   async created() {
     await this.retrieveUserList()
@@ -455,6 +452,7 @@ export default {
     },
   },
   methods: {
+
     validEmail: function (email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
