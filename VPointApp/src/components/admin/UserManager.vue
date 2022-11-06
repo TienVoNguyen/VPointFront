@@ -161,7 +161,7 @@ font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 color: #246CD9;">Sửa thông tin</span>
-            <el-form :model="user" id="userForm" style="padding: 30px">
+            <el-form :model="user" id="userForm" style="padding: 30px" class="text-left">
               <div class="row text-start">
                 <div class="col-4">
                   <el-form-item prop="staffId">
@@ -260,7 +260,7 @@ font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 color: #246CD9;">Thêm mới người dùng</span>
-      <el-form :model="userForm1" id="userForm" class="text-left" style="padding: 30px" :rules="rules" ref="userForm">
+      <el-form :model="userForm1" id="userForm1" class="text-left" style="padding: 30px" :rules="rules" ref="userForm">
         <div class="row text-start">
           <div class="col-4">
             <el-form-item prop="fullname">
@@ -345,6 +345,7 @@ color: #246CD9;">Thêm mới người dùng</span>
           </div>
         </div>
       </el-form>
+      <pre>{{userForm1}}</pre>
       <span slot="footer" class="dialog-footer" style="padding: 30px">
         <el-button type="danger" align="center" v-on:click.prevent="handleRegister('userForm')">Thêm mới</el-button>
       </span>
@@ -656,7 +657,7 @@ export default {
     handleRegister(userForm) {
       this.$refs[userForm].validate((valid) => {
         if (valid){
-          let form = document.querySelector('#userForm');
+          let form = document.querySelector('#userForm1');
               let formdata = new FormData(form);
               formdata.append("department.id", this.userForm1.department)
               formdata.append("gender", this.userForm1.gender)
@@ -914,6 +915,8 @@ export default {
                   this.count = response.data.totalPages;
                   this.a = data.message,
                       this.dialogFormVisible = false;
+                  this.userForm1.password =  '';
+                      this.userForm1.confirmPassword = '',
                   await swal.fire({
                     toast: true,
                     title: "Xong!",
