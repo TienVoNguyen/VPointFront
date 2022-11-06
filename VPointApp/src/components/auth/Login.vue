@@ -27,8 +27,9 @@
                          id="email"
                          placeholder="Nhập email">
                 </div>
-                <small v-if="messageEmail" style="color: red">{{ messageEmail }}</small>
+                  <small v-if="messageEmail" style="color: red;margin-left:200px; ">{{ messageEmail }}</small>
               </div>
+
               <div class="form-group row">
                 <label class="control-label col-sm-4 p-2 text-left" for="password">Password<span
                     class="text-danger">*</span></label>
@@ -40,14 +41,16 @@
                          id="password"
                          placeholder="Nhập password">
                 </div>
-                <small v-if="messagePass !== null" style="color: red">{{ messagePass }}</small>
+                <small v-if="messagePass !== null" style="color: red;">{{ messagePass }}</small>
               </div>
-              <small v-if="messageForm" style="color: red">{{ messageForm }}</small>
+
+              <small v-if="messageForm" style="color: red; font-size: 15px">{{ messageForm }}</small>
+              <small v-if="message" style="color: red; font-size: 15px" role="alert">{{ message }}</small>
               <div class="form-group mt-3 row justify-content-center">
                 <button type="submit"
                         class="form-control col-md-3 col-lg-5 rounded submit px-3 buttonSubmit">Đăng nhập</button>
               </div>
-              <small v-if="message" class="alert alert-danger" role="alert">{{ message }}</small>
+
             </form>
           </div>
         </div>
@@ -127,7 +130,10 @@ export default {
             },
             error => {
               this.a = (error.response && error.response.data)
-              this.message = 'Email hoặc mật khẩu không chính xác'
+              this.messageEmail = '';
+              this.messagePass = '';
+              this.messageForm = '';
+              this.message = 'Sai thông tin đăng nhập. Vui lòng kiểm tra lại  '
             }
         );
       }
