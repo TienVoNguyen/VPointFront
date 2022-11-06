@@ -393,7 +393,7 @@ import swal from 'sweetalert2'
           },
           {
             value: 'NSQ',
-            label: 'Viên xuất sắc quý'
+            label: 'Nhân viên xuất sắc quý'
           }
         ],
         bestDepartmentYear: [
@@ -407,7 +407,7 @@ import swal from 'sweetalert2'
           },
           {
             value: 'NSN',
-            label: 'Viên xuất sắc năm'
+            label: 'Nhân viên xuất sắc năm'
           }
         ],
       };
