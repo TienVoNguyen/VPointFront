@@ -73,9 +73,9 @@
                          label="Thời gian"
                          width="300">
           <template slot-scope="scope">
-            <p height="50px">
-              tháng {{formatMonth(scope.row.date)}} năm {{formatYear(scope.row.date)}}
-            </p>
+
+              Tháng {{formatMonth(scope.row.date)}} năm {{formatYear(scope.row.date)}}
+
           </template>
         </el-table-column>
         <el-table-column align="center"
