@@ -103,8 +103,8 @@
         <td>{{td8}}</td>
       </tr>
       <tr >
-        <td>6</td>
-        <td colspan="3" style="background-color: #dc3545; line-height: 25px; color: white" > Tổng điểm</td>
+        
+        <td colspan="4" style="background-color: #dc3545; line-height: 25px; color: white" > Tổng điểm</td>
         <td style="line-height: 25px">{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
       </tr>
     </table>

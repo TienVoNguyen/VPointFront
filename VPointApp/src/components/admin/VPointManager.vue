@@ -3,7 +3,7 @@
     <div class="text-center">
       <br>
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
-      <div class="d-flex justify-content-center mb-4">
+      <div class="d-flex justify-content-center mb-1">
         <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
                v-model="fullName"
                @keyup="get(fullName)">
@@ -40,7 +40,6 @@
         <p style="color: #6c757d"> Xem: <span style="">
         <select class="input-group-text" v-model="size" @change="retrievePointList"
                 style="width: 62px; display: inherit; align-items: center;">
-
           <option v-bind:value="10">10</option>
           <option v-bind:value="15">15</option>
           <option v-bind:value="20">20</option>
@@ -53,7 +52,6 @@
         <el-button @click="toImport" style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
         <el-button @click="toExport" style="border: solid 1px; height: 50%; display: flex; align-items: center"> <i class="el-icon-download"></i>Export</el-button>
       </div>
-
     </div>
     <el-table border
               :data="listUser"
@@ -93,7 +91,7 @@
       <el-table-column align="center" class="w-100" style="width: 200px"
                        label="Tùy chọn">
         <template v-slot="scope">
-          <el-tooltip class="item" effect="dark" content="Thêm / Sửa điểm" placement="top">
+          <el-tooltip class="item" effect="dark" content="Nhập điểm" placement="top">
             <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default"
                  class="el-icon-plus"></i>
             </el-button>
