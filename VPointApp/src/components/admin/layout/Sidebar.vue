@@ -81,37 +81,36 @@
       </nav>
     </nav>
 
-    <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible1" width="30%" class="text-center" >
+    <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible1" width="30%" class="text-center">
       <span slot="title" style="width: 214px;
 height: 42px;
 left: 230px;
 top: 100px;
-
 font-family: 'Roboto';
 font-style: normal;
 font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 
-color: #246CD9;">Đổi mật khẩu</span><br><br>
+color: #246CD9;">Đổi mật khẩu</span>
       <el-form>
-        <el-form-item label="Nhập mật cũ">
-          <el-input v-model="changePass.oldPassword" type="password" autocomplete="off" show-password></el-input>
+        <el-form-item ><span slot="label">Mật khẩu hiện tại</span><span slot="label" class="text-danger"> *</span>
+          <el-input v-model="changePass.oldPassword" type="password" autocomplete="off" show-password placeholder="Nhập mật khẩu hiện tại"></el-input>
           <small v-if="oldPass != null" style="color: red">{{oldPass}}</small>
         </el-form-item>
-        <el-form-item label="Nhập mật khẩu mới">
-          <el-input v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
+        <el-form-item label="">
+          <span slot="label">Mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
+          <el-input v-model="changePass.newPassword" type="password" autocomplete="off" show-password placeholder="Nhập mật khẩu mới"></el-input>
           <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
         </el-form-item>
-        <el-form-item label="Xác nhận mật khẩu mới">
-          <el-input v-model="changePass.confirmNewPassword" type="password" autocomplete="off" show-password></el-input>
+        <el-form-item label="">
+          <span slot="label">Xác nhận mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
+          <el-input v-model="changePass.confirmNewPassword" type="password" autocomplete="off" show-password placeholder="Xác nhận mật khẩu mới"></el-input>
           <small v-if="errorsPass != null" style="color: red">{{errorsPass}}</small>
         </el-form-item>
+        <el-button type="danger" @click.prevent="RepassUser(currentUser.id)">Xác nhận</el-button>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click.prevent="RepassUser(currentUser.id)">Confirm</el-button>
-        <!--        <pre>{{changePass}}</pre>-->
-  </span>
+
     </el-dialog>
 
   </div>

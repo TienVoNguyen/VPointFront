@@ -40,7 +40,7 @@
       </div>
     </el-form>
 
-    <div class="justify-content-center row">
+    <div class="justify-content-center row" >
 <div class="col-4" >
   <h4 align="left" style="color: #6c757d"> Chọn năm: <span style="">
         <select class="form-control" v-model="selected" @change="getVpointByYear(selected)" style="width: 200px; display: inherit; align-items: center" >
