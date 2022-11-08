@@ -121,7 +121,6 @@
 import {UserService as userService} from "@/service/user-service";
 import authService from "@/service/auth-service";
 import moment from "moment";
-import Swal from 'sweetalert2'
 export default {
   name: 'HomeComponent',
   data: function () {
@@ -354,21 +353,22 @@ export default {
       this.$router.push('/admin/import-v-point-from-excel')
     },
     toExport() {
-      Swal.fire({
-        title: '<strong style="color: #246CD9; font-weight: 700;font-family: Roboto, sans-serif;">Export dữ liệu</strong>',
-        text: 'Chọn điều kiện xuất',
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Tổng điểm',
-        denyButtonText: 'Chi tiết điểm',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          Swal.fire('Saved!', '', 'success')
-        } else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
-        }
-      })
+      this.$router.push('/admin/export-v-point-to-excel')
+      // Swal.fire({
+      //   title: '<strong style="color: #246CD9; font-weight: 700;font-family: Roboto, sans-serif;">Export dữ liệu</strong>',
+      //   text: 'Chọn điều kiện xuất',
+      //   showDenyButton: true,
+      //   showCancelButton: true,
+      //   confirmButtonText: 'Tổng điểm',
+      //   denyButtonText: 'Chi tiết điểm',
+      // }).then((result) => {
+      //   /* Read more about isConfirmed, isDenied below */
+      //   if (result.isConfirmed) {
+      //     Swal.fire('Saved!', '', 'success')
+      //   } else if (result.isDenied) {
+      //     Swal.fire('Changes are not saved', '', 'info')
+      //   }
+      // })
     }
   },
   mounted() {
