@@ -337,26 +337,24 @@ export default {
           })
           this.file = null
         }
-
-        console.log(this.items.length)
         if (this.items.length > 0) {
           this.addStatus = true
         }
       }
       reader.readAsArrayBuffer(event.target.files[0])
     },
-    addMark() {
+    async addMark() {
       const markList = this.items
       this.items = []
-
-      markList.forEach(mark => {
-        console.log(mark)
-        ExcelService.addMark(mark).then(response => {
-          console.log(response)
+      let count = 0;
+      let err = 0;
+      for (const mark of markList) {
+        await ExcelService.addMark(mark).then(response => {
           let newMark = response.data
           newMark.year = mark.year
           newMark.month = mark.month
           this.listMark.push(newMark)
+          count ++;
           if (this.listMark.length > 0) {
             this.addStatus = false
             this.visibleTable = true
@@ -364,14 +362,22 @@ export default {
 
           }
         }).catch(error => {
+          err ++;
           console.log(error)
         })
-      })
-      swal.fire({
-        icon: 'success',
-        title: 'Thành công',
-        text: 'Thêm điểm thành công'
-      })
+      }
+      if (count>0) {
+        swal.fire({
+          icon: 'success',
+          title: 'Thành công',
+          text: `Thêm điểm thành công ${count}`
+        })
+      }else if (err>0)
+        swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Không thành công ${err}`
+        })
     },
 
   },

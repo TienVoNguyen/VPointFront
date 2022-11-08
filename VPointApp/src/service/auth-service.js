@@ -5,14 +5,12 @@ const API_URL = 'http://localhost:8080/';
 
 class AuthService {
     login(user) {
-        console.log(user)
         return axios
             .post(API_URL + 'login', {
                 email: user.email,
                 password: user.password
             })
             .then(response => {
-                console.log(response)
                 if (response.data.token) {
                     localStorage.setItem('user', JSON.stringify(response.data));
                 }
@@ -36,8 +34,6 @@ class AuthService {
     }
 
     getAllUser(){
-        console.log("auheader")
-        console.log(authHeader())
         let dataURL = `${API_URL}getAllUser`
         return axios.get(dataURL, { headers: authHeader() })
     }

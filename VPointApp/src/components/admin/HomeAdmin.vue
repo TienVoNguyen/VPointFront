@@ -12,8 +12,6 @@
     color: #246CD9;">Thông tin điểm V-Point
           </h2>
         </div>
-
-
         <el-form :model="user" id="userForm" class="text-left">
           <div class="row text-start" >
             <div class="col-2"></div>
@@ -30,21 +28,16 @@
                     <label for="staffId">Mã nhân sự:</label>
                     <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
                   </el-form-item>
-
                 </div>
                 <div class="col-4 text-start">
                   <el-form-item prop="email">
                     <label for="email">Email đăng nhập:</label>
                     <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
                   </el-form-item>
-
                 </div>
               </div>
             </div>
             <div class="col-2"></div>
-
-
-
           </div>
         </el-form>
         <div class="justify-content-center row" >
@@ -55,22 +48,15 @@
             {{ y }}
           </option>
         </select>
-
       </span>
-
             </h4>
           </div>
-          <!--      <div class="col-1"></div>-->
           <div class="col-4 text-right" >
-
             <h4 align="right" style="color: #6c757d">    Tổng điểm: {{sum}} </h4>
-
           </div>
-
         </div>
       </div>
     </div>
-
       <div class="justify-content-center">
         <table class="table table-bordered " align="center" :data="Point" style="width: 70%;">
           <tr>
@@ -140,10 +126,7 @@
           </tr>
         </table>
       </div>
-
   </div>
-
-
 </template>
 
 <script>
@@ -188,7 +171,6 @@ export default {
   },
   created() {
     this.idUser = this.currentUser.id
-    console.log(this.idUser)
     this.getVPoint()
     this.findByIdUser(this.idUser)
   },
@@ -263,15 +245,10 @@ export default {
       for (let i = 0; i < response1.data.length; i++) {
         this.year.push(this.formatYear(response1.data[i].date))
       }
-      console.log(this.year)
-      console.log(this.Point)
-
     },
 
     async getVpointByYear(params) {
-      console.log(params)
       if (this.currentUser != null) {
-        console.log(this.currentUser)
         this.idUser = this.currentUser.id;
       }
       let params1 = this.getRequestParams(params)
@@ -279,10 +256,8 @@ export default {
       this.Point = response.data
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
-        // this.Point[i].date = 'tháng ' + this.formatMonth(this.Point[i].date) + ' năm ' + this.formatYear(this.Point[i].date)
       }
       this.Point = response.data
-      console.log(this.Point)
     },
 
     getRequestParams(page) {

@@ -133,7 +133,6 @@ export default {
   },
   created() {
     this.idUser = this.currentUser.id
-    console.log(this.idUser)
     this.getVPoint()
     this.findByIdUser(this.idUser)
   },
@@ -173,15 +172,11 @@ export default {
       for (let i = 0; i < response1.data.length; i++) {
         this.year.push(this.formatYear(response1.data[i].date))
       }
-      console.log(this.year)
-      console.log(this.Point)
 
     },
 
     async getVpointByYear(params) {
-      console.log(params)
       if (this.currentUser != null) {
-        console.log(this.currentUser)
         this.idUser = this.currentUser.id;
       }
       let params1 = this.getRequestParams(params)
@@ -192,7 +187,6 @@ export default {
         // this.Point[i].date = 'tháng ' + this.formatMonth(this.Point[i].date) + ' năm ' + this.formatYear(this.Point[i].date)
       }
       this.Point = response.data
-      console.log(this.Point)
     },
 
     getRequestParams(page) {

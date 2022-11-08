@@ -356,8 +356,6 @@ export default {
       }
       MarkService.getAllMark(params).then(response => {
         this.allMark = response.data
-        console.log('this.allMark')
-        console.log(this.allMark)
       })
     }
   },
@@ -369,8 +367,6 @@ export default {
     })
     authService.getAllDepartment().then(response => {
       this.departmentData = response.data
-      console.log('this.department')
-      console.log(this.departmentData)
     })
     MarkService.getAllYear().then(response => {
       this.yearData = response.data

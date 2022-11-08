@@ -70,7 +70,7 @@
               <el-col :span="6" :offset="6">
                 <el-form-item >
                   <h6>3.1 Bộ phận xuất sắc tháng</h6>
-                  <el-checkbox v-model="mark.excellentDepartmentMonth" class="checkbox-form"><span class="text-checkbox">Bộ phận xuất sắc quý</span></el-checkbox>
+                  <el-checkbox v-model="mark.excellentDepartmentMonth" class="checkbox-form"><span class="text-checkbox">Bộ phận xuất sắc tháng</span></el-checkbox>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -238,7 +238,6 @@ import swal from 'sweetalert2'
     name: 'AddMarkComponent',
     data() {
       // var checkDate = (rule, value, callback) => {
-      //   console.log(12, value);
       //   if (!value) {
       //     return callback(new Error('Hãy chọn ngày'));
       //   }
@@ -393,7 +392,7 @@ import swal from 'sweetalert2'
           },
           {
             value: 'NSQ',
-            label: 'Viên xuất sắc quý'
+            label: 'Nhân viên xuất sắc quý'
           }
         ],
         bestDepartmentYear: [
@@ -407,7 +406,7 @@ import swal from 'sweetalert2'
           },
           {
             value: 'NSN',
-            label: 'Viên xuất sắc năm'
+            label: 'Nhân viên xuất sắc năm'
           }
         ],
       };
@@ -432,7 +431,6 @@ import swal from 'sweetalert2'
             this.mark.month = date.getMonth() + 1;
             this.mark.year = date.getFullYear();
             this.mark.staff_id = this.user.staff_id;
-            console.log(12, this.mark.month);
             markService.create(this.mark)
               .then(result => {
                 console.log(result.data);
@@ -460,7 +458,6 @@ import swal from 'sweetalert2'
                 )
               })
           } else {
-            console.log(valid);
             return false;
           }
         })
@@ -486,11 +483,9 @@ import swal from 'sweetalert2'
           month: this.mark.month,
           year: this.mark.year
         }
-        console.log(dataReq);
         markService.getMarkByUserAndDate(dataReq)
           .then(response => {
             this.mark = response.data;
-            console.log(response.data);
           })
           .catch (error => {
             console.log(error);

@@ -29,19 +29,19 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           </div>
       <div class="row ">
         <div class="col-6">
-          <div class="text-left input-group-prepend">
-            <p style="color: #6c757d"> Xem:
-              <span style="">
-                <select class="input-group-text" v-model="size" @change="retrieveUserList"
-                        style="width: 62px; display: inherit; align-items: center;">
-                  <option value="10">10</option>
-                  <option value="15">15</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                </select>
-              </span> mục
-            </p>
-          </div>
+<!--          <div class="text-left input-group-prepend">-->
+<!--            <p style="color: #6c757d"> Xem:-->
+<!--              <span style="">-->
+<!--                <select class="input-group-text" v-model="size" @change="retrieveUserList"-->
+<!--                        style="width: 62px; display: inherit; align-items: center;">-->
+<!--                  <option value="10">10</option>-->
+<!--                  <option value="15">15</option>-->
+<!--                  <option value="20">20</option>-->
+<!--                  <option value="30">30</option>-->
+<!--                </select>-->
+<!--              </span> mục-->
+<!--            </p>-->
+<!--          </div>-->
         </div>
         <div class="col-6">
           <div class="text-right">
@@ -91,7 +91,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         label="Tùy chọn">
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-              <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i size="default"
+              <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)" ><i size="default"
                                                                                                             class="el-icon-edit"></i>
               </el-button>
             </el-tooltip>
@@ -204,10 +204,10 @@ color: #246CD9;">Sửa thông tin</span>
                   </el-form-item>
                 </div>
 
-          <div class="col-4">
+          <div class="col-4" v-if="user.id !== currentUser.id">
             <el-form-item prop="role">
-              <label for="">Quyền truy cập</label>
-              <el-select style="width: 100%"  v-model="user.createBy"  value-key="id">
+              <label for="" >Quyền truy cập</label>
+              <el-select style="width: 100%"  v-model="user.createBy"  value-key="id" >
                 <el-option v-for="item in roles"
                            :key="item.id"
                            :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
@@ -359,6 +359,28 @@ import authService from "@/service/auth-service";
 export default {
   name: 'UserManagerComponent',
   data() {
+    // var changePass = (rule, value, callback) => {
+    //   value = String(value);
+    //       setTimeout( () => {
+    //         if(value === ''){
+    //           callback(new Error('Vui lòng nhập mật khẩu'))
+    //         } else if (!this.validPass(value)){
+    //           callback(new Error('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'))
+    //         } else {
+    //           callback()
+    //         }
+    //       })
+    // };
+    // var changeCfmPass = (rule, value, callback) => {
+    //   value = String(value);
+    //   setTimeout( () => {
+    //     if(value === ''){
+    //       callback(new Error('Vui lòng xác nhận mật khẩu'))
+    //     }  else {
+    //       callback()
+    //     }
+    //   })
+    // };
     var checkUserName = (rule, value, callback) => {
       value = String(value);
       setTimeout( () => {
@@ -476,6 +498,12 @@ export default {
     };
     return {
       rules: {
+        // newPassword: [
+        //   {validator: changePass, trigger: 'blur' }
+        // ],
+        // confirmNewPass: [
+        //   {validator: changeCfmPass, trigger: 'blur' }
+        // ],
         fullname: [
           {validator: checkUserName, trigger: 'blur' }
         ],
@@ -572,7 +600,6 @@ export default {
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
     this.departments = response2.data;
-    console.log(this.roles)
   },
   computed: {
     loggedIn() {
@@ -636,19 +663,13 @@ export default {
           this.errPhone = ''
     },
     async retrieveUserList() {
-      // if(this.size > 10){
-      //   this.page = 0
-      // }
       const params = this.getRequestParams(
           this.page,
           this.size
       );
-      console.log(params)
       let response = await userService.getAll(params)
       this.listUser = response.data.content;
       this.count = response.data.totalPages;
-      console.log('users')
-      console.log(this.listUser)
     },
 
     handleRegister(userForm) {
@@ -659,7 +680,6 @@ export default {
               formdata.append("department.id", this.userForm1.department)
               formdata.append("gender", this.userForm1.gender)
               formdata.append("role", this.userForm1.role)
-              console.log(formdata);
               authService.createUser(formdata)
                   .then(
                       async data => {
@@ -670,7 +690,6 @@ export default {
                             this.page,
                             this.size
                         );
-                        console.log(params)
                         let response = await userService.getAll(params)
                         this.listUser = response.data.content;
                         this.count = response.data.totalPages;
@@ -711,7 +730,6 @@ export default {
       let response = await userService.findById(userId);
       if (response) {
         this.user = response.data
-        console.log(this.user)
         this.user1 = response.data
         this.curStaffId = this.user1.staffId;
         this.curEmail = this.user1.email;
@@ -721,7 +739,8 @@ export default {
     deleteUser: async function (userId) {
       swal.fire({
         title: 'Bạn có chắc muốn xóa người này?',
-        text: 'Thao tác này không thể hoàn tác lại!',
+        text: 'Dữ liệu điểm của người này sẽ bị xóa vĩnh viễn',
+
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d63049',
@@ -736,7 +755,6 @@ export default {
                     this.page,
                     this.size
                 );
-                console.log(params)
                 let response = await userService.getAll(params)
                 this.listUser = response.data.content
                 this.count = response.data.totalPages;
@@ -757,14 +775,14 @@ export default {
 
     RepassUser(userId) {
       if (!this.changePass.newPassword && this.changePass.confirmNewPass || !this.changePass.newPassword && !this.changePass.confirmNewPass) {
-        this.errP1 = 'Vui lòng nhập mật khẩu'
-        this.check1 = false;
+        this.errP1 = 'Vui lòng điền đầy đủ thông tin'
+        this.checkPass = false;
       } else if (!this.validPass(this.changePass.newPassword)) {
         this.errP1 = 'Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'
-        this.check1 = false;
+        this.checkPass = false;
       } else {
         this.errP1 = ''
-        this.check1 = true;
+        this.checkPass = true;
       }
       if (this.changePass.newPassword && !this.changePass.confirmNewPass) {
         this.errorsPass = 'Vui lòng xác nhận mật khẩu'
@@ -777,7 +795,7 @@ export default {
         this.check1 = true;
       }
 
-      if (this.check1 === true) {
+      if (this.check1 === true && this.checkPass === true) {
         authService.adminRepass(userId, this.changePass)
             .then(
                 async data => {
@@ -785,9 +803,7 @@ export default {
                       this.page,
                       this.size
                   );
-                  console.log(params)
                   let response = await authService.getUserPage(params)
-                  console.log(response)
                   this.listUser = response.data.content
                   this.count = response.data.totalPages;
                   this.a = data.message,
@@ -906,9 +922,7 @@ export default {
                       this.page,
                       this.size
                   );
-                  console.log(params)
                   let response = await authService.getUserPage(params)
-                  console.log(response)
                   this.listUser = response.data.content
                   this.count = response.data.totalPages;
                   this.a = data.message,
@@ -964,7 +978,6 @@ export default {
     },
 
     getUser(params) {
-      console.log(params)
       if (params === '') {
         this.retrieveUserList()
       } else {

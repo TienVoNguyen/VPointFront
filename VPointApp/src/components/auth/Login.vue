@@ -116,7 +116,6 @@ export default {
       if (this.check === true) {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
-              console.log(this.currentUser.roles.length)
               if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
                 this.$router.push('/admin/home');
               }
