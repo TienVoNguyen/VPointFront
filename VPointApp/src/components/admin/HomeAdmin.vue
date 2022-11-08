@@ -4,7 +4,7 @@
       <div class="col col-lg-12">
         <div class="text-center">
           <h2 class="headerVPoint" style="text-align: center;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 30px;

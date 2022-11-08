@@ -75,6 +75,12 @@ const router = new Router({
                     alias: 'import-v-point-from-excel',
                     name: 'ImportFileExcel',
                     component: ImportExcel
+                },
+                {
+                    path: 'export',
+                    alias: 'export-v-point-to-excel',
+                    name: 'ExportFileExcel',
+                    component: () => import("@/components/admin/ExportExcel")
                 }
             ]
         },
