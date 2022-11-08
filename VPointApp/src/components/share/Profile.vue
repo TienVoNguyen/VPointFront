@@ -40,9 +40,6 @@ export default {
           this.user = response.data;
           this.user.gender = this.user.gender === 'MALE' ? 'Nam' : 'Nữ';
         })
-        .catch(error => {
-          console.log(error);
-        })
     },
     handleProfile() {
       this.$emit('closeProfile');
@@ -50,9 +47,7 @@ export default {
   },
   created() {
     this.id = JSON.parse(localStorage.getItem("user")).id;
-    console.log(11, this.id);
     this.getProfileUser(this.id);
-    console.log('object');
   },
 }
 </script>

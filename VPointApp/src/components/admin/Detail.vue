@@ -193,7 +193,6 @@ export default {
       let params = this.getRequestParams(this.selected)
       let response = await userService.getVpointByYear(this.idUser, params)
       this.Point = response.data
-      console.log(this.Point)
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
         if (this.formatMonth(this.Point[i].date) == 1){
@@ -253,7 +252,6 @@ export default {
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
       }
-      console.log(this.Point)
     },
 
     getRequestParams(page) {

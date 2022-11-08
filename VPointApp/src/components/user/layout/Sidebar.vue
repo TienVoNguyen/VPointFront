@@ -135,6 +135,7 @@ export default {
       errP1: '',
       check1: true,
       check: true,
+      checkNewPass: true,
       formLabelWidth: '120px',
       changePass: {
         oldPassword: '',
@@ -174,12 +175,13 @@ export default {
     RepassUser(userId) {
       if (!this.changePass.newPassword && this.changePass.confirmNewPassword || !this.changePass.newPassword && !this.changePass.confirmNewPassword) {
         this.errP1 = 'Vui lòng nhập mật khẩu mới'
-        this.check = false;
+        this.checkNewPass = false;
       } else if (!this.validPass(this.changePass.newPassword)) {
         this.errP1 = 'Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'
+        this.checkNewPass = false
       } else {
         this.errP1 = ''
-        this.check = true;
+        this.checkNewPass = true;
       }
       if (this.changePass.newPassword && this.changePass.confirmNewPassword && !this.changePass.oldPassword){
         this.oldPass = 'Nhập mật khẩu cũ'
@@ -198,7 +200,7 @@ export default {
         this.errorsPass = ''
         this.check1 = true;
       }
-      if (this.check1 === true && this.check === true) {
+      if (this.check1 === true && this.check === true && this.checkNewPass === true) {
         authService.userRepass(userId, this.changePass)
             .then(
                 async data => {

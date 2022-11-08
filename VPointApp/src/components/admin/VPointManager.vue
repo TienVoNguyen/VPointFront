@@ -13,10 +13,10 @@
       <div class="d-flex input-group mb-3 justify-content-center">
 
           <div class="text-left input-group-prepend d-inline-block">
-            <p style="color: #6c757d"> Tìm kiếm theo: <span style="">
+            <p style="color: #6c757d"><span style="">
         <select class="form-control" v-model="CateId" @change="getUser(CateId)"
-                style="width: 120px; display: inherit; align-items: center;">
-          <option v-bind:value="''">Tất cả</option>
+                style="width: 225px; display: inherit; align-items: center;">
+          <option v-bind:value="''">Tất cả bộ phận</option>
           <option v-for="d in departments" :value="d.id" :key="d.id">
             {{ d.name }}
           </option>
@@ -37,16 +37,16 @@
     </div>
     <div class="row">
       <div class=" col-lg-4 text-left input-group-prepend">
-        <p style="color: #6c757d"> Xem: <span style="">
-        <select class="input-group-text" v-model="size" @change="retrievePointList"
-                style="width: 62px; display: inherit; align-items: center;">
-          <option v-bind:value="10">10</option>
-          <option v-bind:value="15">15</option>
-          <option v-bind:value="20">20</option>
-          <option v-bind:value="30">30</option>
-        </select>
-      </span> mục
-        </p>
+<!--        <p style="color: #6c757d"> Xem: <span style="">-->
+<!--        <select class="input-group-text" v-model="size" @change="retrievePointList"-->
+<!--                style="width: 62px; display: inherit; align-items: center;">-->
+<!--          <option v-bind:value="10">10</option>-->
+<!--          <option v-bind:value="15">15</option>-->
+<!--          <option v-bind:value="20">20</option>-->
+<!--          <option v-bind:value="30">30</option>-->
+<!--        </select>-->
+<!--      </span> mục-->
+<!--        </p>-->
       </div>
       <div class="col-lg-8 d-flex justify-content-end" >
         <el-button @click="toImport" style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
@@ -160,9 +160,6 @@ export default {
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
     this.departments = response2.data;
-    console.log(this.roles)
-    console.log(this.departments)
-    console.log(this.currentUser)
   },
   computed: {
     loggedIn() {
@@ -201,19 +198,15 @@ export default {
           this.page,
           this.size
       );
-      console.log(params)
       let response = await userService.getAll(params)
       this.listUser = response.data.content;
       this.count = response.data.totalPages;
-      console.log(this.count)
-      console.log(this.listUser)
     },
     async retrievePointList() {
       await this.retrieveUserList()
       const params = this.getRequestParamsYear(
           this.selectedYear
       );
-      console.log(params)
       let response = await userService.getAllByYear(params)
       this.listPoint = response.data;
       for (let i = 0; i < this.listUser.length; i++) {
@@ -228,8 +221,6 @@ export default {
       let response = await userService.findById(userId);
       if (response) {
         this.user = response.data
-        console.log(this.user)
-        console.log(this.UserId)
         this.user1 = response.data
         this.curStaffId = this.user1.staffId;
         this.curEmail = this.user1.email;
@@ -286,8 +277,7 @@ export default {
           }
         }
       }
-      console.log("list")
-      console.log(this.listUser)
+
     },
 
     router(year, month){
@@ -308,7 +298,6 @@ export default {
         const params = this.getRequestParamsYear(
             this.selectedYear
         );
-        console.log(params)
         let response = await userService.getAllByYear(params)
         this.listPoint = response.data;
         for (let i = 0; i < this.listUser.length; i++) {
@@ -323,7 +312,6 @@ export default {
         const params = this.getRequestParamsYear(
             this.selectedYear
         );
-        console.log(params)
         let response = await userService.getAllByYear(params)
         this.listPoint = response.data;
         for (let i = 0; i < this.listUser.length; i++) {
