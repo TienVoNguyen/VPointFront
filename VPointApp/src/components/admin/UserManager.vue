@@ -359,28 +359,6 @@ import authService from "@/service/auth-service";
 export default {
   name: 'UserManagerComponent',
   data() {
-    // var changePass = (rule, value, callback) => {
-    //   value = String(value);
-    //       setTimeout( () => {
-    //         if(value === ''){
-    //           callback(new Error('Vui lòng nhập mật khẩu'))
-    //         } else if (!this.validPass(value)){
-    //           callback(new Error('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'))
-    //         } else {
-    //           callback()
-    //         }
-    //       })
-    // };
-    // var changeCfmPass = (rule, value, callback) => {
-    //   value = String(value);
-    //   setTimeout( () => {
-    //     if(value === ''){
-    //       callback(new Error('Vui lòng xác nhận mật khẩu'))
-    //     }  else {
-    //       callback()
-    //     }
-    //   })
-    // };
     var checkUserName = (rule, value, callback) => {
       value = String(value);
       setTimeout( () => {
