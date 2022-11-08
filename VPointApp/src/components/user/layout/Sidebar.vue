@@ -134,6 +134,7 @@ export default {
       errorsPass: '',
       errP1: '',
       check1: true,
+      check: true,
       formLabelWidth: '120px',
       changePass: {
         oldPassword: '',
@@ -172,16 +173,23 @@ export default {
     },
     RepassUser(userId) {
       if (!this.changePass.newPassword && this.changePass.confirmNewPassword || !this.changePass.newPassword && !this.changePass.confirmNewPassword) {
-        this.errP1 = 'Vui lòng nhập mật khẩu'
-        this.check1 = false;
+        this.errP1 = 'Vui lòng nhập mật khẩu mới'
+        this.check = false;
       } else if (!this.validPass(this.changePass.newPassword)) {
         this.errP1 = 'Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'
       } else {
         this.errP1 = ''
-        this.check1 = true;
+        this.check = true;
+      }
+      if (this.changePass.newPassword && this.changePass.confirmNewPassword && !this.changePass.oldPassword){
+        this.oldPass = 'Nhập mật khẩu cũ'
+        this.check = false;
+      } else if (this.changePass.newPassword && this.changePass.confirmNewPassword && this.changePass.oldPassword){
+        this.oldPass = ''
+        this.check = true;
       }
       if (this.changePass.newPassword && !this.changePass.confirmNewPassword) {
-        this.errorsPass = 'Vui lòng xác nhận mật khẩu'
+        this.errorsPass = 'Vui lòng xác nhận mật khẩu mới'
         this.check1 = false;
       } else if (this.changePass.newPassword !== this.changePass.confirmNewPassword) {
         this.errorsPass = 'Mật khẩu không trùng khớp'
@@ -190,21 +198,27 @@ export default {
         this.errorsPass = ''
         this.check1 = true;
       }
-      if (this.check1 === true) {
+      if (this.check1 === true && this.check === true) {
         authService.userRepass(userId, this.changePass)
             .then(
                 async data => {
-                  this.a = data.message,
-                      this.dialogFormVisible1 = false;
-                  await swal.fire({
-                        toast: true,
-                        title: "Xong!",
-                        icon: "success",
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000
-                      }
-                  )
+                  this.a = data.message;
+                  if(this.changePass.oldPassword === this.changePass.newPassword){
+                    this.dialogFormVisible1 = true;
+                    this.errP1 = 'Trùng với mật khẩu cũ'
+                  } else {
+                    this.errP1 = ''
+                    this.dialogFormVisible1 = false;
+                    await swal.fire({
+                          toast: true,
+                          title: "Xong!",
+                          icon: "success",
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 3000
+                        }
+                    )
+                  }
                 },
                 () => {
                   this.oldPass = 'Mật khẩu cũ không chính xác'

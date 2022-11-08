@@ -1,7 +1,6 @@
 
 <template>
 
-
   <div>
     <br>
     <h3 class="header"> Điểm V-Point năm: {{selected}} </h3>
@@ -53,7 +52,6 @@
 
   </h4>
 </div>
-<!--      <div class="col-1"></div>-->
 <div class="col-4 text-right" >
 
   <h4 align="right" style="color: #6c757d">    Tổng điểm: {{sum}} </h4>
@@ -61,39 +59,74 @@
 </div>
 
     </div>
-
-
-
-
-    <div align="center">
-      <el-table
-          :data="Point"
-          style="width: 70%">
-        <el-table-column align="center"
-                         label="Thời gian"
-                         width="300">
-          <template slot-scope="scope">
-
-              Tháng {{formatMonth(scope.row.date)}} năm {{formatYear(scope.row.date)}}
-
-          </template>
-        </el-table-column>
-        <el-table-column align="center"
-                         prop="sum"
-                         label="Điểm V-Point"
-                         width="300">
-        </el-table-column>
-        <el-table-column align="center"
-                         label="Tùy chọn">
-          <template slot-scope="scope">
-            <router-link :to="`/admin/AdminSeeDetailVPoint/${formatYear(scope.row.date)}/${formatMonth(scope.row.date)}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link>
-          </template>
-        </el-table-column>
-      </el-table>
-      <br>
-      <br>
-
-
+    <div class="justify-content-center">
+      <table class="table table-bordered " align="center" :data="Point" style="width: 70%;">
+        <tr>
+          <th>Tháng</th>
+          <th>Điểm V-Point</th>
+          <th>Tùy chọn</th>
+        </tr>
+        <tr>
+          <td>Tháng 1</td>
+          <td>{{td1}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${1}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 2</td>
+          <td>{{td2}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${2}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 3</td>
+          <td>{{td3}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${3}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 4</td>
+          <td>{{td4}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${4}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 5</td>
+          <td>{{td5}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${5}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 6</td>
+          <td>{{td6}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${6}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 7</td>
+          <td>{{td7}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${7}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 8</td>
+          <td>{{td8}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${8}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 9</td>
+          <td>{{td9}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${9}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 10</td>
+          <td>{{td10}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${10}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 11</td>
+          <td>{{td11}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${11}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+        <tr>
+          <td>Tháng 12</td>
+          <td>{{td12}}</td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${12}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+        </tr>
+      </table>
     </div>
   </div>
 
@@ -114,7 +147,19 @@ export default {
       search: '',
       year: [],
       selected: this.$route.params.year,
-      sum: 0
+      sum: 0,
+      td1: 0,
+      td2: 0,
+      td3: 0,
+      td4: 0,
+      td5: 0,
+      td6: 0,
+      td7: 0,
+      td8: 0,
+      td9: 0,
+      td10: 0,
+      td11: 0,
+      td12: 0,
     }
   },
 
@@ -148,8 +193,45 @@ export default {
       let params = this.getRequestParams(this.selected)
       let response = await userService.getVpointByYear(this.idUser, params)
       this.Point = response.data
+      console.log(this.Point)
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
+        if (this.formatMonth(this.Point[i].date) == 1){
+          this.td1 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 2){
+          this.td2 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 3){
+          this.td3 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 4){
+          this.td4 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 5){
+          this.td5 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 6){
+          this.td6 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 7){
+          this.td7 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 8){
+          this.td8 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 9){
+          this.td9 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 10){
+          this.td10 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 11){
+          this.td11 = this.Point[i].sum
+        }
+        if (this.formatMonth(this.Point[i].date) == 12){
+          this.td12 = this.Point[i].sum
+        }
       }
       let response1 = await userService.getYear(this.idUser)
       for (let i = 0; i < response1.data.length; i++) {
