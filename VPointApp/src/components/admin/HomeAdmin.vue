@@ -12,8 +12,8 @@
     color: #246CD9;">Thông tin điểm V-Point
           </h2>
         </div>
-        <br>
-        <br>
+
+
         <el-form :model="user" id="userForm" class="text-left">
           <div class="row text-start" >
             <div class="col-2"></div>
@@ -47,7 +47,7 @@
 
           </div>
         </el-form>
-        <div class="justify-content-center row">
+        <div class="justify-content-center row" >
           <div class="col-4" >
             <h4 align="left" style="color: #6c757d"> Chọn năm: <span style="">
         <select class="form-control" v-model="selected" @change="getVpointByYear(selected)" style="width: 200px; display: inherit; align-items: center" >
@@ -86,7 +86,7 @@
               label="Thời gian"
               width="300">
             <template slot-scope="scope">
-              tháng {{formatMonth(scope.row.date)}} năm {{formatYear(scope.row.date)}}
+              Tháng {{formatMonth(scope.row.date)}} năm {{formatYear(scope.row.date)}}
             </template>
           </el-table-column>
           <el-table-column
@@ -96,10 +96,12 @@
               width="180">
           </el-table-column>
           <el-table-column
-              label="Tùy chọn"
+              label="Thao tác"
               align="center">
             <template slot-scope="scope">
-              <router-link :to="`/admin/AdminSeeDetailVPoint/${formatYear(scope.row.date)}/${formatMonth(scope.row.date)}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link>
+<!--              <button @click="router(formatYear(scope.row.date),formatMonth(scope.row.date),idUser )">Xem chi tiết</button>-->
+              <el-button type="danger"><router-link :to="`/admin/AdminSeeDetailVPoint/${formatYear(scope.row.date)}/${formatMonth(scope.row.date)}/${idUser}`" style="color: white">Xem chi tiết</router-link> </el-button>
+
             </template>
           </el-table-column>
 <!--          -->

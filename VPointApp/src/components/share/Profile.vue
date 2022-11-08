@@ -1,9 +1,9 @@
 <template>
   <div class="profile">
-    <el-dialog 
+    <el-dialog
       :visible="toggeProfile"
       @close="handleProfile"
-      width="40%"
+      width="35%"
       >
       <span class="text-header" slot="title">Thông tin cá nhân</span>
       <el-row justify="">

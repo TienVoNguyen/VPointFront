@@ -16,7 +16,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
             <div class="text-right col-lg-">
               <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
-                <option value="">Tất cả nhân sự</option>
+                <option value="">Tất cả bộ phận</option>
                 <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
                   {{ d.name }}
                 </option>
@@ -153,7 +153,7 @@ color: #246CD9;">Đổi mật khẩu</span >
   </span>
     </el-dialog>
 
-          <el-dialog  class="text-center" :visible.sync="dialogFormVisible" width="70%">
+          <el-dialog  class="text-center" :visible.sync="dialogFormVisible" width="60%">
             <span slot="title" style="
 font-family: 'Roboto';
 font-style: normal;
@@ -237,22 +237,19 @@ color: #246CD9;">Sửa thông tin</span>
           <div class="col-3">
             <el-form-item  prop="confirmPassword">
               <label for="">Nhập lại mật khẩu</label>
-              <el-input name= "confirmPassword" type="password" v-model="user.password" autocomplete="off"></el-input>
+              <el-input name= "confirmPassword" type="password" v-model="user.password" autocomplete="off" ></el-input>
               <small v-if="errorsPass !== null" style="color: red">{{errorsPass}}</small>
             </el-form-item>
 
           </div>
         </div>
+        <div class="row justify-content-center">
+           <el-button type="danger" @click.prevent="editUser(user.id)">Lưu lại</el-button>
+        </div>
       </el-form>
-      <span slot="footer" class="dialog-footer"  style="padding: 30px">
-<!--    <el-button @click="removeValidate(false)">Cancel</el-button>-->
-        <el-button type="primary" @click.prevent="editUser(user.id)">Lưu lại</el-button>
-              <!--      <pre>{{userForm1}}</pre>-->
-      </span>
-
           </el-dialog>
 
-    <el-dialog :visible.sync="dialogFormVisible2" width="70%" class="text-center">
+    <el-dialog :visible.sync="dialogFormVisible2" width="60%" class="text-center">
       <span slot="title" style="
 font-family: 'Roboto';
 font-style: normal;
@@ -344,11 +341,10 @@ color: #246CD9;">Thêm mới người dùng</span>
             </el-form-item>
           </div>
         </div>
+        <div class="row justify-content-center">
+          <el-button type="danger" align="center" v-on:click.prevent="handleRegister('userForm')">Thêm mới</el-button>
+        </div>
       </el-form>
-      <pre>{{userForm1}}</pre>
-      <span slot="footer" class="dialog-footer" style="padding: 30px">
-        <el-button type="danger" align="center" v-on:click.prevent="handleRegister('userForm')">Thêm mới</el-button>
-      </span>
     </el-dialog>
   </el-container>
 
