@@ -91,17 +91,17 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         label="Tùy chọn">
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-              <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)"><i size="default"
+              <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i size="default"
                                                                                                             class="el-icon-edit"></i>
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-              <el-button class="btn btn-success" type="text" @click="removeValidate1(true, scope.row.id)"><i
+              <el-button class="btn btn-success" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i
                   size="default"
                   class="el-icon-key"></i>
               </el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
+            <el-tooltip class="item" effect="dark" content="Xóa" placement="top" v-if="scope.row.id !== currentUser.id">
               <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default"
                                                                                                  class="el-icon-delete"></i>
               </el-button>
@@ -139,18 +139,19 @@ line-height: 42px;
 
 color: #246CD9;">Đổi mật khẩu</span >
       <el-form style="padding: 30px">
-        <el-form-item label="Nhập mật khẩu mới">
+        <el-form-item label=""><span slot="label">Nhập mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
           <el-input v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
         </el-form-item>
         <el-form-item label="Xác nhận mật khẩu mới">
+          <span slot="label">Xác nhận mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
           <el-input v-model="changePass.confirmNewPass" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errorsPass != null" style="color: red">{{ errorsPass }}</small>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click.prevent="RepassUser(user.id)">Confirm</el-button>
-  </span>
+      <div class="row justify-content-center">
+        <el-button type="danger" @click.prevent="RepassUser(user.id)">Xác nhận</el-button>
+      </div>
     </el-dialog>
 
           <el-dialog  class="text-center" :visible.sync="dialogFormVisible" width="60%">
@@ -206,7 +207,7 @@ color: #246CD9;">Sửa thông tin</span>
           <div class="col-4">
             <el-form-item prop="role">
               <label for="">Quyền truy cập</label>
-              <el-select style="width: 100%"  v-model="user.role" multiple  value-key="id">
+              <el-select style="width: 100%"  v-model="user.createBy"  value-key="id">
                 <el-option v-for="item in roles"
                            :key="item.id"
                            :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
@@ -711,7 +712,6 @@ export default {
       if (response) {
         this.user = response.data
         console.log(this.user)
-        console.log(this.UserId)
         this.user1 = response.data
         this.curStaffId = this.user1.staffId;
         this.curEmail = this.user1.email;
@@ -891,12 +891,14 @@ export default {
         let form = document.querySelector('#userForm');
         let formdata = new FormData(form);
         formdata.append("department.id", this.user.department.id)
-        let roles = [];
-        this.user.role.forEach(r => {
-          roles.push(r.id)
-        })
-        console.log(roles)
-        formdata.append("role", roles)
+        if(this.user.createBy === 'Admin'){
+          formdata.append("role", 1)
+        } else if(this.user.createBy === 'Người dùng'){
+          formdata.append("role", 2)
+        } else {
+          formdata.append("role", this.user.createBy.id)
+        }
+
         authService.editUser(userId, formdata)
             .then(
                 async data => {
