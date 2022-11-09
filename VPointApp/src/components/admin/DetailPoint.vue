@@ -164,6 +164,7 @@ export default {
       params["month"] = this.month
       let response = await userService.getVpointByTime(this.idUser, params)
       this.Point = response.data
+      console.log(this.Point)
       for (let i = 0; i < this.Point.length; i++) {
         if (this.Point[i].item.id === 1){
           this.td1 = this.Point[i].point
