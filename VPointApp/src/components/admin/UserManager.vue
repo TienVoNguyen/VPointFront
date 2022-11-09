@@ -138,19 +138,19 @@ font-size: 30px;
 line-height: 42px;
 
 color: #246CD9;">Đổi mật khẩu</span >
-      <el-form style="padding: 30px">
-        <el-form-item label=""><span slot="label">Nhập mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
+      <el-form style="padding: 30px" :model="changePass" id="changePass" :rules="rulesChangePass" ref="changePass">
+        <el-form-item label="" prop="newPassword"><span slot="label">Nhập mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
           <el-input v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
         </el-form-item>
-        <el-form-item label="Xác nhận mật khẩu mới">
+        <el-form-item prop="confirmNewPass">
           <span slot="label">Xác nhận mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
           <el-input v-model="changePass.confirmNewPass" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errorsPass != null" style="color: red">{{ errorsPass }}</small>
         </el-form-item>
       </el-form>
       <div class="row justify-content-center">
-        <el-button type="danger" @click.prevent="RepassUser(user.id)">Xác nhận</el-button>
+        <el-button type="danger" @click.prevent="RepassUser('changePass', user.id)">Xác nhận</el-button>
       </div>
     </el-dialog>
 
@@ -359,28 +359,30 @@ import authService from "@/service/auth-service";
 export default {
   name: 'UserManagerComponent',
   data() {
-    // var changePass = (rule, value, callback) => {
-    //   value = String(value);
-    //       setTimeout( () => {
-    //         if(value === ''){
-    //           callback(new Error('Vui lòng nhập mật khẩu'))
-    //         } else if (!this.validPass(value)){
-    //           callback(new Error('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'))
-    //         } else {
-    //           callback()
-    //         }
-    //       })
-    // };
-    // var changeCfmPass = (rule, value, callback) => {
-    //   value = String(value);
-    //   setTimeout( () => {
-    //     if(value === ''){
-    //       callback(new Error('Vui lòng xác nhận mật khẩu'))
-    //     }  else {
-    //       callback()
-    //     }
-    //   })
-    // };
+    var checkNewPass = (rule, value, callback) => {
+      value = String(value);
+      setTimeout( () => {
+        if(value === ''){
+          callback(new Error('Vui lòng nhập mật khẩu'))
+        } else if (!this.validPass(value)) {
+          callback('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường')
+        } else {
+          callback()
+        }
+      }, 500);
+    };
+    var checkCfmNewPass = (rule, value, callback) => {
+      value = String(value);
+      setTimeout( () => {
+        if(value === ''){
+          callback(new Error('Vui lòng xác nhận mật khẩu'))
+        } else if (value !== this.changePass.newPassword) {
+          callback('Mật khẩu Không trùng khớp!')
+        } else {
+          callback()
+        }
+      }, 500);
+    };
     var checkUserName = (rule, value, callback) => {
       value = String(value);
       setTimeout( () => {
@@ -497,13 +499,15 @@ export default {
       }, 500);
     };
     return {
+      rulesChangePass: {
+        newPassword: [
+          {validator: checkNewPass, trigger: 'blur' }
+        ],
+        confirmNewPass: [
+          {validator: checkCfmNewPass, trigger: 'blur' }
+        ],
+      },
       rules: {
-        // newPassword: [
-        //   {validator: changePass, trigger: 'blur' }
-        // ],
-        // confirmNewPass: [
-        //   {validator: changeCfmPass, trigger: 'blur' }
-        // ],
         fullname: [
           {validator: checkUserName, trigger: 'blur' }
         ],
@@ -649,18 +653,7 @@ export default {
     },
 
     removeValidateCreate(check) {
-
-      this.dialogFormVisible2 = check,
-          this.message = '',
-          this.errId = '',
-          this.errP1 = '',
-          this.errorsPass = '',
-          this.errorsName = '',
-          this.matchName = '',
-          this.errorEmail = '',
-          this.errDpm = '',
-          this.errRole = '',
-          this.errPhone = ''
+      this.dialogFormVisible2 = check
     },
     async retrieveUserList() {
       const params = this.getRequestParams(
@@ -694,8 +687,6 @@ export default {
                         this.listUser = response.data.content;
                         this.count = response.data.totalPages;
                         this.a = data.message;
-                        // let response = authService.getAllUser()
-                        // this.user = response.data;
                         this.dialogFormVisible2 = false;
                         this.checkId = false;
                         this.checkEmail = false;
@@ -773,62 +764,45 @@ export default {
       );
     },
 
-    RepassUser(userId) {
-      if (!this.changePass.newPassword && this.changePass.confirmNewPass || !this.changePass.newPassword && !this.changePass.confirmNewPass) {
-        this.errP1 = 'Vui lòng điền đầy đủ thông tin'
-        this.checkPass = false;
-      } else if (!this.validPass(this.changePass.newPassword)) {
-        this.errP1 = 'Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường'
-        this.checkPass = false;
-      } else {
-        this.errP1 = ''
-        this.checkPass = true;
-      }
-      if (this.changePass.newPassword && !this.changePass.confirmNewPass) {
-        this.errorsPass = 'Vui lòng xác nhận mật khẩu'
-        this.check1 = false;
-      } else if (this.changePass.newPassword !== this.changePass.confirmNewPass) {
-        this.errorsPass = 'Mật khẩu không trùng khớp'
-        this.check1 = false;
-      } else if (this.changePass.newPassword === this.changePass.confirmNewPass && this.validPass(this.changePass.newPassword)) {
-        this.errorsPass = ''
-        this.check1 = true;
-      }
-
-      if (this.check1 === true && this.checkPass === true) {
-        authService.adminRepass(userId, this.changePass)
-            .then(
-                async data => {
-                  const params = this.getRequestParams(
-                      this.page,
-                      this.size
-                  );
-                  let response = await authService.getUserPage(params)
-                  this.listUser = response.data.content
-                  this.count = response.data.totalPages;
-                  this.a = data.message,
-                      this.dialogFormVisible1 = false;
-                  await swal.fire({
-                        toast: true,
-                        title: "Xong!",
-                        icon: "success",
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000
-                      }
-                  )
-                }, () => {
-                  this.dialogFormVisible1 = true;
-                  swal.fire({
-                    toast: true,
-                    title: "Đã có lỗi xảy ra!",
-                    icon: "error",
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
+    RepassUser(changePass, userId) {
+      this.$refs[changePass].validate((valid) => {
+        if (valid) {
+          let form = document.querySelector('#changePass');
+          console.log(this.currentUser.id, this.changePass)
+          authService.adminRepass(userId, this.changePass)
+              .then(
+                  async data => {
+             const params = this.getRequestParams(
+                       this.page,
+                       this.size
+             );
+             let response = await authService.getUserPage(params)
+             this.listUser = response.data.content
+             this.count = response.data.totalPages;
+                    this.dialogFormVisible1 = false;
+                    form.reset();
+                    this.a = data.message;
+                    await swal.fire({
+                          toast: true,
+                          title: "Xong!",
+                          icon: "success",
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 3000
+                        }
+                    )
+                  }, () => {
+                    swal.fire({
+                      toast: true,
+                      title: "Đã có lỗi xảy ra!",
+                      icon: "error",
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
                   });
-                });
-      }
+        }
+      })
     },
 
     async editUser(userId) {
