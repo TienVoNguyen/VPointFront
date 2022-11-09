@@ -2,7 +2,15 @@
 
   <div class="container">
     <a href="/user/home"><i class="el-icon-arrow-left item-absolute">Quay lại</i></a>
-    <h3 style="color: black">Điểm V-Point tháng {{month}} năm {{year}}</h3>
+    <h3 style="
+  /*  margin-top: 2rem;*/
+  /*margin-bottom: 2rem;*/
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  color: #246CD9;">Điểm V-Point tháng {{month}} năm {{year}}</h3>
     <el-form :model="user" id="userForm" class="text-left">
       <div class="row text-start" >
         <div class="col-2"></div>
@@ -95,8 +103,8 @@
         <td>{{td8}}</td>
       </tr>
       <tr >
-        <td>6</td>
-        <td colspan="3" style="background-color: #dc3545; line-height: 25px; color: white" > Tổng điểm</td>
+
+        <td colspan="4" style="background-color: #dc3545; line-height: 25px; color: white" > Tổng điểm</td>
         <td style="line-height: 25px">{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
       </tr>
     </table>
@@ -176,15 +184,12 @@ export default {
 
     async getVPoint() {
 
-      console.log(this.currentUser)
       this.idUser = this.currentUser.id;
       const params = {};
       params["year"] = this.year
       params["month"] = this.month
-      console.log(params)
       let response = await userService.getVpointByTime(this.idUser, params)
       this.Point = response.data
-      console.log(this.Point);
       for (let i = 0; i < this.Point.length; i++) {
         if (this.Point[i].item.id === 1){
           this.td1 = this.Point[i].point
@@ -220,7 +225,6 @@ export default {
           this.td11 = this.Point[i].point
         }
         if (this.Point[i].item.id === 12){
-          console.log(12, this.Point[i])
           this.td12 = this.Point[i].point
         }
         if (this.Point[i].item.id === 13){

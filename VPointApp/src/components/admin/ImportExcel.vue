@@ -246,9 +246,7 @@
 <script>
 import ExcelService from "@/service/excel.service";
 import swal from 'sweetalert2'
-
 const ExcelJS = require('exceljs');
-import * as fs from 'file-saver';
 
 export default {
   name: "ImportExcel",
@@ -339,151 +337,24 @@ export default {
           })
           this.file = null
         }
-
-        console.log(this.items.length)
         if (this.items.length > 0) {
           this.addStatus = true
         }
       }
       reader.readAsArrayBuffer(event.target.files[0])
     },
-    exportFile() {
-      const mark = [{
-        staff_id: 'VMG01',
-        department: 'PTPM',
-        fullName: 'NTV',
-        year: 2022,
-        month: 10,
-        kpi: 6,
-        nvxs: 6,
-        bsc: 8,
-        hdc: 9,
-        dt: 1,
-        stt: 3,
-        love: 8,
-        kyluat: 0,
-        tong: 222
-      },
-        {
-          staff_id: 'VMG02',
-          department: 'PTPM',
-          fullName: 'NTT',
-          year: 2022,
-          month: 10,
-          kpi: 6,
-          nvxs: 6,
-          bsc: 8,
-          hdc: 9,
-          dt: 5,
-          stt: 3,
-          love: 8,
-          kyluat: 0,
-          tong: 222
-        }]
-      const title = 'He Thong Quan Ly Diem VPoint';
-      const header = ['STT', 'Mã NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'NĂM', 'THÁNG', 'KPI',
-        'NVXS, BPXS', 'BSC BỘ PHẬN', 'HOẠT ĐỘNG CHUNG', 'ĐÀO TẠO', 'SÁNG TẠO THÁNG', 'I LOVE VMG', 'KỶ LUẬT', 'TỔNG']
-      let workbook = new ExcelJS.Workbook()
-      let worksheet = workbook.addWorksheet('VPOINT')
-      let titleRow = worksheet.addRow([title])
-      titleRow.font = {name: 'Time New Roman', family: 4, size: 16, bold: true}
-      worksheet.addRow([])
-      const subTitle = ['', '', '', '', '', '', 'HIỆU SUẤT CÔNG VIỆC', '', 'LÀM VIỆC NHÓM', '', 'ĐÀO TẠO',
-        'SÁNG TẠO', 'TUÂN THỦ']
-      let subtitle = worksheet.addRow(subTitle)
-      subtitle.font = {
-        name: 'Time New Roman'
-      }
-      subtitle.eachCell((cell) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: {argb: 'FFFFFF00'},
-          bgColor: {argb: 'FF0000FF'}
-        }
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
-      });
-      let headerRow = worksheet.addRow(header)
-      headerRow.font = {
-        name: 'Time New Roman'
-      }
-      worksheet.mergeCells('G3:H3')
-      worksheet.mergeCells('I3:J3')
-      worksheet.mergeCells('M3:N3')
-      headerRow.eachCell((cell) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: {argb: 'FFFFFF00'},
-          bgColor: {argb: 'FF0000FF'}
-        }
-        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
-      });
-      let count = 1
-      mark.forEach(d => {
-        let row = worksheet.addRow([count++, ...Object.values(d)]);
-        row.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: {
-            argb: 'FFFFFFFF'
-          }
-        };
-        row.font = {
-          color: {
-            argb: '00000000',
-          },
-          bold: false
-        }
-        row.eachCell((cell) => {
-          cell.border = {
-            top: {
-              style: 'thin'
-            },
-            left: {
-              style: 'thin'
-            },
-            bottom: {
-              style: 'thin'
-            },
-            right: {
-              style: 'thin'
-            }
-          };
-        });
-      });
-      worksheet.getColumn(1).width = 5;
-      worksheet.getColumn(2).width = 10;
-      worksheet.getColumn(3).width = 15;
-      worksheet.getColumn(4).width = 20;
-      worksheet.getColumn(5).width = 20;
-      worksheet.getColumn(6).width = 20;
-      worksheet.getColumn(7).width = 20;
-      worksheet.getColumn(8).width = 20;
-      worksheet.getColumn(9).width = 20;
-      worksheet.getColumn(10).width = 20;
-      worksheet.getColumn(11).width = 20;
-      worksheet.getColumn(12).width = 20;
-      worksheet.getColumn(13).width = 20;
-      worksheet.getColumn(14).width = 20;
-      worksheet.getColumn(15).width = 20;
-      workbook.xlsx.writeBuffer().then((mark) => {
-        let blob = new Blob([mark], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-        fs.saveAs(blob, 'CarData.xlsx');
-      });
-    },
-    addMark() {
+    async addMark() {
       const markList = this.items
       this.items = []
-
-      markList.forEach(mark => {
-        console.log(mark)
-        ExcelService.addMark(mark).then(response => {
-          console.log(response)
+      let count = 0;
+      let err = 0;
+      for (const mark of markList) {
+        await ExcelService.addMark(mark).then(response => {
           let newMark = response.data
           newMark.year = mark.year
           newMark.month = mark.month
           this.listMark.push(newMark)
+          count ++;
           if (this.listMark.length > 0) {
             this.addStatus = false
             this.visibleTable = true
@@ -491,14 +362,22 @@ export default {
 
           }
         }).catch(error => {
+          err ++;
           console.log(error)
         })
-      })
-      swal.fire({
-        icon: 'success',
-        title: 'Thành công',
-        text: 'Thêm điểm thành công'
-      })
+      }
+      if (count>0) {
+        swal.fire({
+          icon: 'success',
+          title: 'Thành công',
+          text: `Thêm điểm thành công ${count}`
+        })
+      }else if (err>0)
+        swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Không thành công ${err}`
+        })
     },
 
   },

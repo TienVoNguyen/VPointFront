@@ -1,9 +1,9 @@
 <template>
   <div class="profile">
-    <el-dialog 
+    <el-dialog
       :visible="toggeProfile"
       @close="handleProfile"
-      width="40%"
+      width="35%"
       >
       <span class="text-header" slot="title">Thông tin cá nhân</span>
       <el-row justify="">
@@ -40,9 +40,6 @@ export default {
           this.user = response.data;
           this.user.gender = this.user.gender === 'MALE' ? 'Nam' : 'Nữ';
         })
-        .catch(error => {
-          console.log(error);
-        })
     },
     handleProfile() {
       this.$emit('closeProfile');
@@ -50,9 +47,7 @@ export default {
   },
   created() {
     this.id = JSON.parse(localStorage.getItem("user")).id;
-    console.log(11, this.id);
     this.getProfileUser(this.id);
-    console.log('object');
   },
 }
 </script>

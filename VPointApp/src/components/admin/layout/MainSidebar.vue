@@ -39,7 +39,7 @@
         </router-link>
         <router-link to="/admin/my-v-point" style="text-decoration: none;">
           <el-menu-item @click="changeColor($event)" index="2">
-            <i class="el-icon-plus text-white"></i>
+            <i class="el-icon-finished text-white"></i>
             <span>V-Point của tôi </span>
           </el-menu-item>
         </router-link>

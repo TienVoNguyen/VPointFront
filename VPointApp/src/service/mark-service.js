@@ -22,6 +22,21 @@ class MarkSerive {
       headers: authHeader()
     })
   }
+
+  getAllMark(params) {
+    let allMarkURL = `${this.serverURL}/reportmark`;
+    return axios.get(allMarkURL, {
+      params: params,
+      headers: authHeader()
+    })
+  }
+
+  getAllYear() {
+    let allMarkURL = `${this.serverURL}/getallyear`;
+    return axios.get(allMarkURL, {
+      headers: authHeader()
+    })
+  }
 }
 
 export default new MarkSerive();

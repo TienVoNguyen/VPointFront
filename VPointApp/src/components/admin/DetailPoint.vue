@@ -95,9 +95,8 @@
         <td>{{td8}}</td>
       </tr>
       <tr >
-        <td>6</td>
-        <td colspan="3" style="background-color: #dc3545; line-height: 25px; color: white" > Tổng điểm</td>
-        <td style="line-height: 25px">{{Point.reduce((total, p)=>{return total += p.point},0)}}</td>
+        <th colspan="4" style="background-color: #dc3545; line-height: 25px; color: white; font-size: 20px" > Tổng điểm</th>
+        <th style="line-height: 25px; font-size: 20px ">{{Point.reduce((total, p)=>{return total += p.point},0)}}</th>
       </tr>
     </table>
   </div>
@@ -160,14 +159,11 @@ export default {
       }
     },
     async getVPoint() {
-      console.log("1231232131")
       const params = {};
       params["year"] = this.year
       params["month"] = this.month
-      // console.log(params)
       let response = await userService.getVpointByTime(this.idUser, params)
       this.Point = response.data
-      console.log(this.Point);
       for (let i = 0; i < this.Point.length; i++) {
         if (this.Point[i].item.id === 1){
           this.td1 = this.Point[i].point
@@ -203,7 +199,6 @@ export default {
           this.td11 = this.Point[i].point
         }
         if (this.Point[i].item.id === 12){
-          console.log(12, this.Point[i])
           this.td12 = this.Point[i].point
         }
         if (this.Point[i].item.id === 13){
@@ -222,23 +217,6 @@ export default {
           this.td17 = this.Point[i].point
         }
       }
-      console.log(11, this.td1)
-      // console.log(this.td2)
-      // console.log(this.td3)
-      // console.log(this.td4)
-      console.log(this.td5, "b")
-      // console.log(this.td6)
-      // console.log(this.td7)
-      // console.log(this.td8)
-      // console.log(this.td9)
-      // console.log(this.td10)
-      // console.log(this.td11)
-      console.log(this.td12, "a")
-      // console.log(this.td13)
-      // console.log(this.td14)
-      // console.log(this.td15)
-      // console.log(this.td16)
-      // console.log(this.td17)
     }
   }
 }

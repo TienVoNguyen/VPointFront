@@ -17,7 +17,7 @@
             <form name="form" @submit.prevent="handleLogin">
 
               <div class="form-group row">
-                <label class="control-label col-sm-4 p-2 text-left" for="email">Email Address<span
+                <label class="control-label col-sm-4 p-2 text-left" for="email">Email<span
                     class="text-danger">*</span></label>
                 <div class="col-sm-8">
                   <input v-model="user.email"
@@ -27,10 +27,11 @@
                          id="email"
                          placeholder="Nhập email">
                 </div>
-                <small v-if="messageEmail" style="color: red">{{ messageEmail }}</small>
+<!--                  <small v-if="messageEmail" style="color: red;margin-left:200px; ">{{ messageEmail }}</small>-->
               </div>
+
               <div class="form-group row">
-                <label class="control-label col-sm-4 p-2 text-left" for="password">Password<span
+                <label class="control-label col-sm-4 p-2 text-left" for="password">Mật khẩu<span
                     class="text-danger">*</span></label>
                 <div class="col-sm-8">
                   <input v-model="user.password"
@@ -40,14 +41,16 @@
                          id="password"
                          placeholder="Nhập password">
                 </div>
-                <small v-if="messagePass !== null" style="color: red">{{ messagePass }}</small>
+<!--                <small v-if="messagePass !== null" style="color: red;">{{ messagePass }}</small>-->
               </div>
-              <small v-if="messageForm" style="color: red">{{ messageForm }}</small>
+
+              <small v-if="messageForm" style="color: red; font-size: 15px">{{ messageForm }}</small>
+              <small v-if="message" style="color: red; font-size: 15px" role="alert">{{ message }}</small>
               <div class="form-group mt-3 row justify-content-center">
                 <button type="submit"
                         class="form-control col-md-3 col-lg-5 rounded submit px-3 buttonSubmit">Đăng nhập</button>
               </div>
-              <small v-if="message" class="alert alert-danger" role="alert">{{ message }}</small>
+
             </form>
           </div>
         </div>
@@ -94,20 +97,16 @@ export default {
     handleLogin() {
       if (!this.user.email && !this.user.password) {
         this.messageForm = 'Vui lòng nhập thông tin đăng nhập';
-        this.messageEmail = '';
-        this.messagePass = '';
         this.message = '';
         this.check = false
       }
       if (!this.user.email && this.user.password) {
-        this.messageEmail = 'Vui lòng nhập email';
-        this.messageForm = '';
+        this.messageForm = 'Vui lòng nhập email';
         this.message = '';
         this.check = false
       }
       if (!this.user.password && this.user.email) {
-        this.messagePass = 'Vui lòng nhập mật khẩu'
-        this.messageForm = '';
+        this.messageForm = 'Vui lòng nhập mật khẩu';
         this.message = '';
         this.check = false
       }
@@ -117,7 +116,6 @@ export default {
       if (this.check === true) {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
-              console.log(this.currentUser.roles.length)
               if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
                 this.$router.push('/admin/home');
               }
@@ -127,7 +125,10 @@ export default {
             },
             error => {
               this.a = (error.response && error.response.data)
-              this.message = 'Email hoặc mật khẩu không chính xác'
+              this.messageEmail = '';
+              this.messagePass = '';
+              this.messageForm = 'Sai thông tin đăng nhập. Vui lòng kiểm tra lại';
+              this.message = ''
             }
         );
       }

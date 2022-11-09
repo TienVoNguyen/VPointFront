@@ -155,7 +155,6 @@ export default {
 
     async getVpointByYear(params) {
       if (this.currentUser != null) {
-        console.log(this.currentUser)
         this.idUser = this.currentUser.id;
       }
       let params1 = this.getRequestParams(params)
@@ -164,7 +163,6 @@ export default {
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
       }
-      console.log(this.Point)
     },
 
     getRequestParams(page) {

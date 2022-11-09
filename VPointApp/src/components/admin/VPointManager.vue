@@ -1,8 +1,9 @@
 <template>
-  <el-container class="background">
+  <el-container>
     <div class="text-center">
+      <br>
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
-      <div class="d-flex justify-content-center mb-4">
+      <div class="d-flex justify-content-center mb-1">
         <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
                v-model="fullName"
                @keyup="get(fullName)">
@@ -12,10 +13,10 @@
       <div class="d-flex input-group mb-3 justify-content-center">
 
           <div class="text-left input-group-prepend d-inline-block">
-            <p style="color: #6c757d"> Tìm kiếm theo: <span style="">
+            <p style="color: #6c757d"><span style="">
         <select class="form-control" v-model="CateId" @change="getUser(CateId)"
-                style="width: 120px; display: inherit; align-items: center;">
-          <option v-bind:value="''">Tất cả</option>
+                style="width: 225px; display: inherit; align-items: center;">
+          <option v-bind:value="''">Tất cả bộ phận</option>
           <option v-for="d in departments" :value="d.id" :key="d.id">
             {{ d.name }}
           </option>
@@ -32,31 +33,27 @@
           </option>
         </select>
       </span></p>
-
       </div>
     </div>
     <div class="row">
       <div class=" col-lg-4 text-left input-group-prepend">
-        <p style="color: #6c757d"> Xem: <span style="">
-        <select class="input-group-text" v-model="size" @change="retrievePointList"
-                style="width: 62px; display: inherit; align-items: center;">
-
-          <option v-bind:value="10">10</option>
-          <option v-bind:value="15">15</option>
-          <option v-bind:value="20">20</option>
-          <option v-bind:value="30">30</option>
-        </select>
-      </span> mục
-        </p>
+<!--        <p style="color: #6c757d"> Xem: <span style="">-->
+<!--        <select class="input-group-text" v-model="size" @change="retrievePointList"-->
+<!--                style="width: 62px; display: inherit; align-items: center;">-->
+<!--          <option v-bind:value="10">10</option>-->
+<!--          <option v-bind:value="15">15</option>-->
+<!--          <option v-bind:value="20">20</option>-->
+<!--          <option v-bind:value="30">30</option>-->
+<!--        </select>-->
+<!--      </span> mục-->
+<!--        </p>-->
       </div>
       <div class="col-lg-8 d-flex justify-content-end" >
         <el-button @click="toImport" style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
         <el-button @click="toExport" style="border: solid 1px; height: 50%; display: flex; align-items: center"> <i class="el-icon-download"></i>Export</el-button>
       </div>
-
     </div>
     <el-table border
-
               :data="listUser"
               style="width: 100%">
       <el-table-column
@@ -76,45 +73,36 @@
           prop="fullName"
           label="Họ và tên"
           width="280">
-
       </el-table-column>
       <el-table-column
           prop="department.name"
           label="Phòng ban"
           width="190">
       </el-table-column>
-
       <el-table-column
           vertical-align="middle"
           align="center"
           width="100"
           label="V-point">
         <template v-slot="scope">
-
             {{scope.row.password.length > 4? 0: scope.row.password}}
-
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Tùy chọn">
+      <el-table-column align="center" class="w-100" style="width: 200px"
+                       label="Tùy chọn">
         <template v-slot="scope">
-          <el-tooltip class="item" effect="dark" content="Thêm / Sửa điểm" placement="top">
-            <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)">
-              <i size="default" class="el-icon-plus"></i>
+          <el-tooltip class="item" effect="dark" content="Nhập điểm" placement="top">
+            <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default"
+                 class="el-icon-plus"></i>
             </el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="Xem chi tiết" placement="top">
-            <router-link :to="`detail/${scope.row.id}/${selectedYear}`" style="color: white">
-              <el-button class="btn btn-warning m-2" type="text">
-                <i size="default" class="el-icon-view"></i>
+              <el-button class="btn btn-warning m-1" type="text" @click="router(scope.row.id, selectedYear)"><i size="default"
+                   class="el-icon-view"></i>
               </el-button>
-            </router-link>
           </el-tooltip>
-
-
-
         </template>
       </el-table-column>
-
     </el-table>
 
 
@@ -133,7 +121,6 @@
 import {UserService as userService} from "@/service/user-service";
 import authService from "@/service/auth-service";
 import moment from "moment";
-import Swal from 'sweetalert2'
 export default {
   name: 'HomeComponent',
   data: function () {
@@ -173,9 +160,6 @@ export default {
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
     this.departments = response2.data;
-    console.log(this.roles)
-    console.log(this.departments)
-    console.log(this.currentUser)
   },
   computed: {
     loggedIn() {
@@ -214,19 +198,15 @@ export default {
           this.page,
           this.size
       );
-      console.log(params)
       let response = await userService.getAll(params)
       this.listUser = response.data.content;
       this.count = response.data.totalPages;
-      console.log(this.count)
-      console.log(this.listUser)
     },
     async retrievePointList() {
       await this.retrieveUserList()
       const params = this.getRequestParamsYear(
           this.selectedYear
       );
-      console.log(params)
       let response = await userService.getAllByYear(params)
       this.listPoint = response.data;
       for (let i = 0; i < this.listUser.length; i++) {
@@ -241,8 +221,6 @@ export default {
       let response = await userService.findById(userId);
       if (response) {
         this.user = response.data
-        console.log(this.user)
-        console.log(this.UserId)
         this.user1 = response.data
         this.curStaffId = this.user1.staffId;
         this.curEmail = this.user1.email;
@@ -299,8 +277,11 @@ export default {
           }
         }
       }
-      console.log("list")
-      console.log(this.listUser)
+
+    },
+
+    router(year, month){
+      return this.$router.push(`detail/${year}/${month}`)
     },
 
     getNameParams(fullName) {
@@ -314,12 +295,23 @@ export default {
     async get(params1) {
       if (this.fullName === '') {
         await this.retrieveUserList()
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        let response = await userService.getAllByYear(params)
+        this.listPoint = response.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
       } else {
         await this.getUserListByName(params1)
         const params = this.getRequestParamsYear(
             this.selectedYear
         );
-        console.log(params)
         let response = await userService.getAllByYear(params)
         this.listPoint = response.data;
         for (let i = 0; i < this.listUser.length; i++) {
@@ -349,21 +341,22 @@ export default {
       this.$router.push('/admin/import-v-point-from-excel')
     },
     toExport() {
-      Swal.fire({
-        title: '<strong style="color: #246CD9; font-weight: 700;font-family: Roboto, sans-serif;">Export dữ liệu</strong>',
-        text: 'Chọn điều kiện xuất',
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Tổng điểm',
-        denyButtonText: 'Chi tiết điểm',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          Swal.fire('Saved!', '', 'success')
-        } else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
-        }
-      })
+      this.$router.push('/admin/export-v-point-to-excel')
+      // Swal.fire({
+      //   title: '<strong style="color: #246CD9; font-weight: 700;font-family: Roboto, sans-serif;">Export dữ liệu</strong>',
+      //   text: 'Chọn điều kiện xuất',
+      //   showDenyButton: true,
+      //   showCancelButton: true,
+      //   confirmButtonText: 'Tổng điểm',
+      //   denyButtonText: 'Chi tiết điểm',
+      // }).then((result) => {
+      //   /* Read more about isConfirmed, isDenied below */
+      //   if (result.isConfirmed) {
+      //     Swal.fire('Saved!', '', 'success')
+      //   } else if (result.isDenied) {
+      //     Swal.fire('Changes are not saved', '', 'info')
+      //   }
+      // })
     }
   },
   mounted() {
@@ -381,8 +374,7 @@ export default {
 }
 
 .vpointheader {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 700;
