@@ -4,9 +4,9 @@
       <br>
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
       <div class="d-flex justify-content-center mb-1">
-        <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
+        <input placeholder="Nhập tên để tìm kiếm" style="width: 385px; display: block" class="input-group-text text-left" type="text"
                v-model="fullName"
-               @keyup="get(fullName)">
+               @keyup="getUserListByCateIdAndName">
 
       </div>
 
@@ -14,7 +14,7 @@
 
           <div class="text-left input-group-prepend d-inline-block">
             <p style="color: #6c757d"><span style="">
-        <select class="form-control" v-model="CateId" @change="getUser(CateId)"
+        <select class="form-control" v-model="CateId" @change="getUserListByCateIdAndName"
                 style="width: 225px; display: inherit; align-items: center;">
           <option v-bind:value="''">Tất cả bộ phận</option>
           <option v-for="d in departments" :value="d.id" :key="d.id">
@@ -37,16 +37,6 @@
     </div>
     <div class="row">
       <div class=" col-lg-4 text-left input-group-prepend">
-<!--        <p style="color: #6c757d"> Xem: <span style="">-->
-<!--        <select class="input-group-text" v-model="size" @change="retrievePointList"-->
-<!--                style="width: 62px; display: inherit; align-items: center;">-->
-<!--          <option v-bind:value="10">10</option>-->
-<!--          <option v-bind:value="15">15</option>-->
-<!--          <option v-bind:value="20">20</option>-->
-<!--          <option v-bind:value="30">30</option>-->
-<!--        </select>-->
-<!--      </span> mục-->
-<!--        </p>-->
       </div>
       <div class="col-lg-8 d-flex justify-content-end" >
         <el-button @click="toImport" style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
@@ -59,7 +49,7 @@
       <el-table-column
           align="center"
           label="STT"
-          width="70">
+          width="100">
         <template v-slot="scope">
           <span>{{scope.$index +1}}</span>
         </template>
@@ -67,22 +57,22 @@
       <el-table-column
           prop="staffId"
           label="Mã nhân viên"
-          width="150">
+          width="200">
       </el-table-column>
       <el-table-column
           prop="fullName"
           label="Họ và tên"
-          width="280">
+          width="300">
       </el-table-column>
       <el-table-column
           prop="department.name"
           label="Phòng ban"
-          width="190">
+          width="300">
       </el-table-column>
       <el-table-column
           vertical-align="middle"
           align="center"
-          width="100"
+          width="200"
           label="V-point">
         <template v-slot="scope">
             {{scope.row.password.length > 4? 0: scope.row.password}}
@@ -187,7 +177,6 @@ export default {
     },
     removeValidate1(userId) {
       this.findByIdUser(userId)
-      // this.dialogFormVisible1 = check
       this.errP1 = ''
       this.errorsPass = ''
       this.$router.push(`mark/${userId}`);
@@ -203,7 +192,7 @@ export default {
       this.count = response.data.totalPages;
     },
     async retrievePointList() {
-      await this.retrieveUserList()
+      await this.getUserListByCateIdAndName()
       const params = this.getRequestParamsYear(
           this.selectedYear
       );
@@ -229,7 +218,6 @@ export default {
     },
 
     refreshList() {
-
       this.retrieveUserList();
       this.currentIndex = -1;
     },
@@ -254,30 +242,8 @@ export default {
     },
     getDpmParams(CateId) {
       let params = {};
-
       params["CateId"] = CateId;
-
       return params;
-    },
-    async getUser(params1) {
-      if (params1 === '') {
-        await this.retrievePointList()
-      } else {
-        await this.getUserListByDpm(params1)
-        const params = this.getRequestParamsYear(
-            this.selectedYear
-        );
-        let response = await userService.getAllByYear(params)
-        this.listPoint = response.data;
-        for (let i = 0; i < this.listUser.length; i++) {
-          for (let j = 0; j < this.listPoint.length; j++) {
-            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
-              this.listUser[i].password = this.listPoint[j].sum
-            }
-          }
-        }
-      }
-
     },
 
     router(year, month){
@@ -292,8 +258,15 @@ export default {
       return params;
     },
 
-    async get(params1) {
-      if (this.fullName === '') {
+    getSearchParams(CateId, fullName){
+      let params = {};
+      params["CateId"] = CateId;
+      params["fullName"] = fullName
+      return params;
+    },
+
+    async getUserListByCateIdAndName() {
+      if (!this.fullName && !this.CateId){
         await this.retrieveUserList()
         const params = this.getRequestParamsYear(
             this.selectedYear
@@ -307,8 +280,8 @@ export default {
             }
           }
         }
-      } else {
-        await this.getUserListByName(params1)
+      } else if (this.fullName && !this.CateId){
+        await this.getUserListByName(this.fullName)
         const params = this.getRequestParamsYear(
             this.selectedYear
         );
@@ -321,8 +294,39 @@ export default {
             }
           }
         }
+      } else if (!this.fullName && this.CateId){
+        await this.getUserListByDpm(this.CateId)
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        let response = await userService.getAllByYear(params)
+        this.listPoint = response.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
+      } else {
+        let param1 = this.getSearchParams(this.CateId, this.fullName)
+        let response = await userService.getUserByCateIdAndName(param1)
+        this.listUser = response.data;
+        const params = this.getRequestParamsYear(
+            this.selectedYear
+        );
+        let response1 = await userService.getAllByYear(params)
+        this.listPoint = response1.data;
+        for (let i = 0; i < this.listUser.length; i++) {
+          for (let j = 0; j < this.listPoint.length; j++) {
+            if (this.listUser[i].staffId === this.listPoint[j].staffId) {
+              this.listUser[i].password = this.listPoint[j].sum
+            }
+          }
+        }
       }
     },
+
 
     async getUserListByDpm(params) {
       let param1 = this.getDpmParams(params)

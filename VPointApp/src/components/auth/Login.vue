@@ -17,9 +17,10 @@
             <form name="form" @submit.prevent="handleLogin">
 
               <div class="form-group row">
-                <label class="control-label col-sm-4 p-2 text-left" for="email">Email<span
+                <div class="col-sm-1"></div>
+                <label class="control-label col-sm-3 p-2 text-left" for="email">Email<span
                     class="text-danger">*</span></label>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                   <input v-model="user.email"
                          type="email"
                          class="form-control"
@@ -27,20 +28,23 @@
                          id="email"
                          placeholder="Nhập email">
                 </div>
+                <div class="col-sm-1"></div>
 <!--                  <small v-if="messageEmail" style="color: red;margin-left:200px; ">{{ messageEmail }}</small>-->
               </div>
 
               <div class="form-group row">
-                <label class="control-label col-sm-4 p-2 text-left" for="password">Mật khẩu<span
+                <div class="col-sm-1"></div>
+                <label class="control-label col-sm-3 p-2 text-left" for="password">Mật khẩu<span
                     class="text-danger">*</span></label>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                   <input v-model="user.password"
                          type="password"
                          class="form-control"
                          name="password"
                          id="password"
-                         placeholder="Nhập password">
+                         placeholder="Nhập mật khẩu">
                 </div>
+                <div class="col-sm-1"></div>
 <!--                <small v-if="messagePass !== null" style="color: red;">{{ messagePass }}</small>-->
               </div>
 
@@ -152,6 +156,8 @@ export default {
   background-color: #FFFFFF;
   margin: 1.5rem;
   border-radius: 5%;
+  height: 390px;
+  width: 600px;
 }
 
 input {
