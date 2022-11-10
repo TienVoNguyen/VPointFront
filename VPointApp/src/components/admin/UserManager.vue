@@ -14,7 +14,7 @@
 color: #246CD9;">Quản lý người dùng</h3><br>
           <div class="row justify-content-center mb-3">
             <div class="text-right col-lg-2">
-              <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
+              <select class="input-group-text" v-model="CateId" @change="getUserListByCateIdAndName"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả bộ phận</option>
                 <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
@@ -24,7 +24,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
             </div>
             <div class="text-right col-lg-2">
               <input placeholder="Nhập tên nhân sự" style="width: 250px; display: inherit" class="input-group-text text-left" type="text" v-model="fullName"
-                     @keyup="get(fullName)">
+                     @keyup="getUserListByCateIdAndName">
             </div>
           </div>
       <div class="row ">
@@ -394,7 +394,7 @@ export default {
         if(value === ''){
           callback(new Error('Vui lòng nhập mã nhân sự'))
         } else if (!this.validStaffId(value)){
-          callback(new Error('Mã nhân sự không đúng định dạng ( bao  gồm VMG_ và 4 số)'))
+          callback(new Error('Bao gồm VMG_ và 4 số. Vd: VMG_0000...'))
         }else if (this.checkId === false ) {
           callback(new Error('Mã nhân sự đã tồn tại'))
         } else {
@@ -907,11 +907,11 @@ export default {
       }
       return params;
     },
-    getDpmParams(CateId) {
+
+    getSearchParams(CateId, fullName){
       let params = {};
-
       params["CateId"] = CateId;
-
+      params["fullName"] = fullName
       return params;
     },
 
@@ -931,13 +931,22 @@ export default {
       return params;
     },
 
-    get(params) {
-      if (this.fullName === '') {
-        this.retrieveUserList()
+
+    async getUserListByCateIdAndName() {
+      if (!this.fullName && !this.CateId){
+        await this.retrieveUserList()
+      } else if (this.fullName && !this.CateId){
+        await this.getUserListByName(this.fullName)
+      } else if (!this.fullName && this.CateId){
+        await this.getUserListByDpm(this.CateId)
       } else {
-        this.getUserListByName(params)
+        let param1 = this.getSearchParams(this.CateId, this.fullName)
+        let response = await userService.getUserByCateIdAndName(param1)
+        this.listUser = response.data;
       }
     },
+
+
 
     async getUserListByDpm(params) {
       let param1 = this.getDpmParams(params)
