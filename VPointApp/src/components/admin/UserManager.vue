@@ -13,7 +13,7 @@
       margin-top: 2rem;
 color: #246CD9;">Quản lý người dùng</h3><br>
           <div class="row justify-content-center mb-3">
-            <div class="text-right col-lg-">
+            <div class="text-right col-lg-2">
               <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả bộ phận</option>
@@ -22,8 +22,8 @@ color: #246CD9;">Quản lý người dùng</h3><br>
                 </option>
               </select>
             </div>
-            <div class="text-right col-lg-4">
-              <input placeholder="Nhập tên nhân sự" style="width: 300px; display: inherit" class="input-group-text text-left" type="text" v-model="fullName"
+            <div class="text-right col-lg-2">
+              <input placeholder="Nhập tên nhân sự" style="width: 250px; display: inherit" class="input-group-text text-left" type="text" v-model="fullName"
                      @keyup="get(fullName)">
             </div>
           </div>
@@ -60,12 +60,12 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="staffId"
             label="Mã nhân viên"
-            width="120">
+            width="150">
         </el-table-column>
         <el-table-column
             prop="fullName"
             label="Họ và tên"
-            width="180">
+            width="200">
         </el-table-column>
         <el-table-column
             prop="email"
@@ -75,7 +75,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="department.name"
             label="Phòng ban"
-            width="180">
+            width="300">
         </el-table-column>
         <el-table-column
             label="Quyền truy cập"

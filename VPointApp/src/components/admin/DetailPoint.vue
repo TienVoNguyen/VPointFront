@@ -218,6 +218,8 @@ export default {
           this.td17 = this.Point[i].point
         }
       }
+      console.log(this.td12)
+
     }
   }
 }
