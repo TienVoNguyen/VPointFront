@@ -10,7 +10,16 @@
 
 <script>
 export default {
-  setup() {
+  data() {
+    return {
+      dialogProfileVisible: false,
+      dialogChangeVisible : false
+    }
+  },
+  methods: {
+    handleOpenProfile() {
+      this.dialogProfileVisible = true;
+    },
 
   },
 }
