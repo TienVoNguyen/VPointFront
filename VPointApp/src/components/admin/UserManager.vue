@@ -719,6 +719,8 @@ export default {
                         );
                         let response = await userService.getAll(params)
                         this.listUser = response.data.content;
+                        let response1 = await authService.getAllUser()
+                        this.listU = response1.data;
                         this.count = response.data.totalPages;
                         this.a = data.message;
                         this.dialogFormVisible2 = false;
@@ -861,6 +863,8 @@ export default {
                     );
                     let response = await authService.getUserPage(params)
                     this.listUser = response.data.content
+                    let response1 = await authService.getAllUser()
+                    this.listU = response1.data;
                     this.count = response.data.totalPages;
                     this.a = data.message,
                         this.dialogFormVisible = false;
