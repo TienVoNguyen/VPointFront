@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :append-to-body="true" :visible="toggeChangePass" @close="handleChangePass" width="30%" class="text-center">
+  <el-dialog :append-to-body="true" :visible="toggeChangePass" @close="handleChangePass" width="25%" class="text-center">
       <span slot="title" style="width: 214px;
 height: 42px;
 left: 230px;

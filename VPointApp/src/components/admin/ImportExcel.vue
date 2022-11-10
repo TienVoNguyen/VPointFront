@@ -192,31 +192,31 @@
         <el-table-column
             prop="staff_id"
             label="Mã nhân viên"
-            width="120">
+            width="180">
         </el-table-column>
         <el-table-column
             prop="fullName"
             label="Họ tên"
-            width="150">
+            width="220">
         </el-table-column>
         <el-table-column
             prop="department"
             label="Bộ phận"
-            width="120">
+            width="250">
         </el-table-column>
         <el-table-column
             prop="month"
             label="Tháng"
-            width="120">
+            width="140">
         </el-table-column>
         <el-table-column
             prop="year"
             label="Năm"
-            width="120">
+            width="140">
         </el-table-column>
         <el-table-column
             label="Tổng điểm"
-            width="120">
+            width="140">
           <template v-slot="scope">
             {{
               scope.row.pointKPI + scope.row.pointBestDepartmentMonth + scope.row.pointBestDepartmentQuarter + scope.row.pointBestDepartmentYear

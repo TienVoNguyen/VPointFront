@@ -4,7 +4,7 @@
       <br>
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
       <div class="d-flex justify-content-center mb-1">
-        <input placeholder="Nhập để tìm kiếm" style="width: 385px; display: block" class="input-group-text" type="text"
+        <input placeholder="Nhập tên để tìm kiếm" style="width: 385px; display: block" class="input-group-text text-left" type="text"
                v-model="fullName"
                @keyup="get(fullName)">
 
@@ -59,7 +59,7 @@
       <el-table-column
           align="center"
           label="STT"
-          width="70">
+          width="100">
         <template v-slot="scope">
           <span>{{scope.$index +1}}</span>
         </template>
@@ -67,22 +67,22 @@
       <el-table-column
           prop="staffId"
           label="Mã nhân viên"
-          width="150">
+          width="200">
       </el-table-column>
       <el-table-column
           prop="fullName"
           label="Họ và tên"
-          width="280">
+          width="300">
       </el-table-column>
       <el-table-column
           prop="department.name"
           label="Phòng ban"
-          width="190">
+          width="300">
       </el-table-column>
       <el-table-column
           vertical-align="middle"
           align="center"
-          width="100"
+          width="200"
           label="V-point">
         <template v-slot="scope">
             {{scope.row.password.length > 4? 0: scope.row.password}}

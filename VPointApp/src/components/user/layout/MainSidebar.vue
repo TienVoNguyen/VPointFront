@@ -39,12 +39,6 @@
           <span>Trang chủ</span>
         </el-menu-item>
         </router-link>
-        <router-link to="importexcel" style="text-decoration: none;">
-          <el-menu-item index="3">
-            <i class="el-icon-folder-add"></i>
-            <span>Chi tiết điểm</span>
-          </el-menu-item>
-        </router-link>
 
       </el-menu>
     </div>
