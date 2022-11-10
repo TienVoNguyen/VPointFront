@@ -42,7 +42,7 @@
     <div class="justify-content-center row" >
 <div class="col-4" >
   <h4 align="left" style="color: #6c757d"> Chọn năm: <span style="">
-        <select class="form-control" v-model="selected" @change="getVpointByYear(selected)" style="width: 200px; display: inherit; align-items: center" >
+        <select class="form-control" v-model="selected" @change="getVPoint" style="width: 200px; display: inherit; align-items: center" >
           <option v-for="y in year" v-bind:value="y"  v-bind:key ="y" >
             {{ y }}
           </option>
@@ -173,6 +173,7 @@ export default {
   },
   created() {
     this.getVPoint()
+    this.getYear()
     this.findByIdUser(this.idUser)
   },
 
@@ -193,6 +194,20 @@ export default {
       let params = this.getRequestParams(this.selected)
       let response = await userService.getVpointByYear(this.idUser, params)
       this.Point = response.data
+      this.sum = 0
+      this.td1 = 0
+      this.td2 = 0
+      this.td3 = 0
+      this.td4 = 0
+      this.td5 = 0
+      this.td6 = 0
+      this.td7 = 0
+      this.td8 = 0
+      this.td9 = 0
+      this.td10 = 0
+      this.td11 = 0
+      this.td12 = 0
+      console.log(this.Point)
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum
         if (this.formatMonth(this.Point[i].date) == 1){
@@ -232,6 +247,9 @@ export default {
           this.td12 = this.Point[i].sum
         }
       }
+    },
+
+    async getYear(){
       let response1 = await userService.getYear(this.idUser)
       for (let i = 0; i < response1.data.length; i++) {
         this.year.push(this.formatYear(response1.data[i].date))
@@ -241,16 +259,6 @@ export default {
       let response = await userService.findById(userId);
       if (response) {
         this.user = response.data
-      }
-    },
-
-    async getVpointByYear(params) {
-      this.sum = ''
-      let params1 = this.getRequestParams(params)
-      let response = await userService.getVpointByYear(this.idUser, params1)
-      this.Point = response.data
-      for (let i = 0; i < this.Point.length; i++) {
-        this.sum += this.Point[i].sum
       }
     },
 
