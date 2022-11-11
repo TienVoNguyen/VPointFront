@@ -14,13 +14,13 @@ line-height: 42px;
 color: #246CD9;">Đổi mật khẩu</span>
     <el-form :model="changePass" id="changePass" :rules="rules" ref="changePass1">
       <el-form-item  prop="oldPassword"><span slot="label">Nhập mật cũ</span><span slot="label" class="text-danger"> *</span>
-        <el-input name="oldPassword" v-model="changePass.oldPassword" type="password" autocomplete="off" show-password></el-input>
+        <el-input name="oldPassword" v-model.trim="changePass.oldPassword" type="password" autocomplete="off" show-password></el-input>
       </el-form-item>
       <el-form-item label="" prop="newPassword"><span slot="label">Nhập mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
-        <el-input name="newPassword" v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
+        <el-input name="newPassword" v-model.trim="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
       </el-form-item>
       <el-form-item label="" prop="confirmNewPassword"><span slot="label">Xác nhận mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
-        <el-input name="confirmNewPassword" v-model="changePass.confirmNewPassword" type="password" autocomplete="off" show-password></el-input>
+        <el-input name="confirmNewPassword" v-model.trim="changePass.confirmNewPassword" type="password" autocomplete="off" show-password></el-input>
       </el-form-item>
       <el-button type="danger" v-on:click.prevent="RepassUser('changePass1')">Xác nhận</el-button>
     </el-form>
