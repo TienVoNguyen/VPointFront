@@ -136,12 +136,12 @@ line-height: 42px;
 color: #246CD9;">Đổi mật khẩu</span >
       <el-form style="padding: 30px" :model="changePass" id="changePass" :rules="rulesChangePass" ref="changePass">
         <el-form-item label="" prop="newPassword"><span slot="label">Nhập mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
-          <el-input v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
+          <el-input v-model.trim="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
         </el-form-item>
         <el-form-item prop="confirmNewPass">
           <span slot="label">Xác nhận mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
-          <el-input v-model="changePass.confirmNewPass" type="password" autocomplete="off" show-password></el-input>
+          <el-input v-model.trim="changePass.confirmNewPass" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errorsPass != null" style="color: red">{{ errorsPass }}</small>
         </el-form-item>
       </el-form>
@@ -314,7 +314,7 @@ color: #246CD9;">Thêm mới người dùng</span>
           <div class="col-4">
             <el-form-item prop="password">
               <label for="">Nhập mật khẩu:</label>
-              <el-input name="password" type="password" v-model="userForm1.password"
+              <el-input name="password" type="password" v-model.trim="userForm1.password"
                         autocomplete="off" show-password></el-input>
             </el-form-item>
           </div>
@@ -322,7 +322,7 @@ color: #246CD9;">Thêm mới người dùng</span>
           <div class="col-4">
             <el-form-item prop="confirmPassword">
               <label for="">Nhập lại mật khẩu:</label>
-              <el-input name="confirmPassword" type="password" v-model="userForm1.confirmPassword"
+              <el-input name="confirmPassword" type="password" v-model.trim="userForm1.confirmPassword"
                         autocomplete="off" show-password></el-input>
             </el-form-item>
           </div>
