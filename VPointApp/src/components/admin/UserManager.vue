@@ -962,6 +962,11 @@ export default {
       }
     },
 
+    getDpmParams(CateId) {
+      let params = {};
+      params["CateId"] = CateId;
+      return params;
+    },
 
 
     async getUserListByDpm(params) {
