@@ -13,7 +13,7 @@
       margin-top: 2rem;
 color: #246CD9;">Quản lý người dùng</h3><br>
           <div class="row justify-content-center mb-3">
-            <div class="text-right col-lg-2">
+            <div class=" col-4" align="right">
               <select class="input-group-text" v-model="CateId" @change="getUserListByCateIdAndName"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả bộ phận</option>
@@ -22,7 +22,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
                 </option>
               </select>
             </div>
-            <div class="text-right col-lg-2">
+            <div class="text-right col-lg-4">
               <input placeholder="Nhập tên nhân sự" style="width: 250px; display: inherit" class="input-group-text text-left" type="text" v-model="fullName"
                      @keyup="getUserListByCateIdAndName">
             </div>
@@ -515,7 +515,7 @@ export default {
       value = String(value);
       setTimeout( () => {
         if(value === ''){
-          callback(new Error('Vui lòng Nhập số điện thoại nhân viên'))
+          callback(new Error('Vui lòng nhập số điện thoại nhân viên'))
         } else if (!this.validPhone(value)) {
           callback('Số điện thoại không đúng định dạng!')
         } else {
@@ -664,7 +664,8 @@ export default {
     },
 
     validPhone: function (phone) {
-      var re = /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/g;
+      var re = /(((\+|)84)|0)(2|3|5|7|8|9)+([0-9]{8})\b/g;
+
       return re.test(phone);
     },
     validName: function (name) {
@@ -726,6 +727,15 @@ export default {
                         this.dialogFormVisible2 = false;
                         this.checkId = false;
                         this.checkEmail = false;
+                        this.userForm1.fullname = ''
+                        this.userForm1.staffId= ''
+                        this.userForm1.password = ''
+                        this.userForm1.confirmPassword = ''
+                        this.userForm1.email = ''
+                        this.userForm1.department= null
+                        this.userForm1.role= null
+                        this.userForm1.phone= ''
+                        this.userForm1.gender= ''
                         form.reset();
                         swal.fire({
                               toast: true,
