@@ -371,7 +371,7 @@ export default {
     var checkUserName = (rule, value, callback) => {
       value = String(value);
       setTimeout( () => {
-        if(value === ''){
+        if(value.trim() === ''){
           callback(new Error('Vui lòng nhập tên nhân viên'))
         } else if (!this.validName(value)){
           callback(new Error('Tên không đúng định dạng'))
@@ -381,7 +381,7 @@ export default {
       }, 500);
     };
     var checkStaffId = (rule, value, callback) => {
-      value = String(value);
+      value = String(value.trim());
       setTimeout( () => {
         for (let i = 0; i < this.listU.length; i++) {
           if (value.toLowerCase() === this.listU[i].staffId.toLowerCase()) {
@@ -403,7 +403,7 @@ export default {
       }, 500);
     };
     var checkStaffIdEdit = (rule, value, callback) => {
-      value = String(value);
+      value = String(value.trim());
       setTimeout( () => {
         for (let i = 0; i < this.listU.length; i++) {
           if (value.toLowerCase() === this.listU[i].staffId.toLowerCase() && value.toLowerCase() !== this.curStaffId.toLowerCase()) {
@@ -425,7 +425,7 @@ export default {
       }, 500);
     };
     var checkEmailEdit = (rule, value, callback) => {
-      value = String(value);
+      value = String(value.trim());
       setTimeout( () => {
         for (let i = 0; i < this.listU.length; i++) {
           if (value.toLowerCase() === this.listU[i].email.toLowerCase() && value.toLowerCase() !== this.curEmail.toLowerCase()) {
@@ -447,7 +447,7 @@ export default {
       }, 500);
     };
     var checkEmail = (rule, value, callback) => {
-      value = String(value);
+      value = String(value.trim());
       setTimeout( () => {
         for (let i = 0; i < this.listU.length; i++) {
           if (value.toLowerCase() === this.listU[i].email.toLowerCase()) {
