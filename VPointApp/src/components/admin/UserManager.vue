@@ -828,6 +828,8 @@ export default {
                     this.dialogFormVisible1 = false;
                     form.reset();
                     this.a = data.message;
+                    this.changePass.newPassword = ''
+                    this.changePass.confirmNewPass = ''
                     await swal.fire({
                           toast: true,
                           title: "Xong!",
