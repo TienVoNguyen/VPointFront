@@ -42,6 +42,8 @@ export default {
       setTimeout(() => {
         if (value === '') {
           callback(new Error('Vui lòng nhập mật khẩu cũ'))
+        } else if (this.checkOldPass === false) {
+          callback( new Error('Mật khẩu cũ không chính xác'))
         } else {
           callback()
         }
@@ -85,6 +87,7 @@ export default {
         ],
       },
       dialogFormVisible: true,
+      checkOldPass: true,
       changePass: {
         oldPassword: '',
         newPassword: '',
@@ -113,6 +116,7 @@ export default {
       this.$emit('closeChangePass')
     },
     RepassUser(changePass) {
+      this.checkOldPass = true
       this.$refs[changePass].validate((valid) => {
         if (valid) {
           let form = document.querySelector('#changePass');
@@ -126,6 +130,7 @@ export default {
                     this.changePass.newPassword = ''
                     this.changePass.confirmNewPassword = ''
                     this.a = data.message;
+                    this.checkOldPass = true
                     await swal.fire({
                           toast: true,
                           title: "Xong!",
@@ -136,14 +141,8 @@ export default {
                         }
                     )
                   }, () => {
-                    swal.fire({
-                      toast: true,
-                      title: "Mật khẩu cũ không chính xác!",
-                      icon: "error",
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 3000
-                    });
+                    this.RepassUser(changePass)
+                    this.checkOldPass = false
                   });
         }
       })
