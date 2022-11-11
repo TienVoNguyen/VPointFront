@@ -122,6 +122,9 @@ export default {
                   async data => {
                     this.handleChangePassLayout()
                     form.reset();
+                    this.changePass.oldPassword = ''
+                    this.changePass.newPassword = ''
+                    this.changePass.confirmNewPassword = ''
                     this.a = data.message;
                     await swal.fire({
                           toast: true,
@@ -135,7 +138,7 @@ export default {
                   }, () => {
                     swal.fire({
                       toast: true,
-                      title: "Đã có lỗi xảy ra!",
+                      title: "Mật khẩu cũ không chính xác!",
                       icon: "error",
                       position: 'top-end',
                       showConfirmButton: false,
