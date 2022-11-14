@@ -214,6 +214,18 @@ export default {
       let response = await userService.getVpointByYear(this.idUser, params)
       this.Point = response.data
       this.sum = 0
+      this.td1 = 0
+      this.td2 = 0
+      this.td3 = 0
+      this.td4 = 0
+      this.td5 = 0
+      this.td6 = 0
+      this.td7 = 0
+      this.td8 = 0
+      this.td9 = 0
+      this.td10 = 0
+      this.td11 = 0
+      this.td12 = 0
       console.log(this.Point)
       for (let i = 0; i < this.Point.length; i++) {
         this.sum += this.Point[i].sum

@@ -13,14 +13,14 @@ line-height: 42px;
 
 color: #246CD9;">Đổi mật khẩu</span>
     <el-form :model="changePass" id="changePass" :rules="rules" ref="changePass1">
-      <el-form-item label="Nhập mật cũ" prop="oldPassword">
-        <el-input name="oldPassword" v-model="changePass.oldPassword" type="password" autocomplete="off" show-password></el-input>
+      <el-form-item  prop="oldPassword"><span slot="label">Nhập mật cũ</span><span slot="label" class="text-danger"> *</span>
+        <el-input name="oldPassword" v-model.trim="changePass.oldPassword" type="password" autocomplete="off" show-password></el-input>
       </el-form-item>
-      <el-form-item label="Nhập mật khẩu mới" prop="newPassword">
-        <el-input name="newPassword" v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
+      <el-form-item label="" prop="newPassword"><span slot="label">Nhập mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
+        <el-input name="newPassword" v-model.trim="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
       </el-form-item>
-      <el-form-item label="Xác nhận mật khẩu mới" prop="confirmNewPassword">
-        <el-input name="confirmNewPassword" v-model="changePass.confirmNewPassword" type="password" autocomplete="off" show-password></el-input>
+      <el-form-item label="" prop="confirmNewPassword"><span slot="label">Xác nhận mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
+        <el-input name="confirmNewPassword" v-model.trim="changePass.confirmNewPassword" type="password" autocomplete="off" show-password></el-input>
       </el-form-item>
       <el-button type="danger" v-on:click.prevent="RepassUser('changePass1')">Xác nhận</el-button>
     </el-form>
@@ -42,6 +42,8 @@ export default {
       setTimeout(() => {
         if (value === '') {
           callback(new Error('Vui lòng nhập mật khẩu cũ'))
+        } else if (this.checkOldPass === false) {
+          callback( new Error('Mật khẩu cũ không chính xác'))
         } else {
           callback()
         }
@@ -85,6 +87,7 @@ export default {
         ],
       },
       dialogFormVisible: true,
+      checkOldPass: true,
       changePass: {
         oldPassword: '',
         newPassword: '',
@@ -113,6 +116,7 @@ export default {
       this.$emit('closeChangePass')
     },
     RepassUser(changePass) {
+      this.checkOldPass = true
       this.$refs[changePass].validate((valid) => {
         if (valid) {
           let form = document.querySelector('#changePass');
@@ -122,7 +126,11 @@ export default {
                   async data => {
                     this.handleChangePassLayout()
                     form.reset();
+                    this.changePass.oldPassword = ''
+                    this.changePass.newPassword = ''
+                    this.changePass.confirmNewPassword = ''
                     this.a = data.message;
+                    this.checkOldPass = true
                     await swal.fire({
                           toast: true,
                           title: "Xong!",
@@ -133,19 +141,12 @@ export default {
                         }
                     )
                   }, () => {
-                    swal.fire({
-                      toast: true,
-                      title: "Đã có lỗi xảy ra!",
-                      icon: "error",
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 3000
-                    });
+                    this.RepassUser(changePass)
+                    this.checkOldPass = false
                   });
         }
       })
     },
-
   }
 }
 </script>

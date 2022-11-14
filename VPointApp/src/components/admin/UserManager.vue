@@ -13,8 +13,8 @@
       margin-top: 2rem;
 color: #246CD9;">Quản lý người dùng</h3><br>
           <div class="row justify-content-center mb-3">
-            <div class="text-right col-lg-2">
-              <select class="input-group-text" v-model="CateId" @change="getUser(CateId)"
+            <div class=" col-4" align="right">
+              <select class="input-group-text" v-model="CateId" @change="getUserListByCateIdAndName"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả bộ phận</option>
                 <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
@@ -22,9 +22,9 @@ color: #246CD9;">Quản lý người dùng</h3><br>
                 </option>
               </select>
             </div>
-            <div class="text-right col-lg-2">
+            <div class="text-right col-lg-4">
               <input placeholder="Nhập tên nhân sự" style="width: 250px; display: inherit" class="input-group-text text-left" type="text" v-model="fullName"
-                     @keyup="get(fullName)">
+                     @keyup="getUserListByCateIdAndName">
             </div>
           </div>
       <div class="row ">
@@ -52,7 +52,6 @@ color: #246CD9;">Quản lý người dùng</h3><br>
       </div>
     </el-header>
     <el-main >
-
       <el-table
           border
           :data="listUser"
@@ -106,9 +105,6 @@ color: #246CD9;">Quản lý người dùng</h3><br>
                                                                                                  class="el-icon-delete"></i>
               </el-button>
             </el-tooltip>
-
-
-
           </template>
         </el-table-column>
       </el-table>
@@ -140,12 +136,12 @@ line-height: 42px;
 color: #246CD9;">Đổi mật khẩu</span >
       <el-form style="padding: 30px" :model="changePass" id="changePass" :rules="rulesChangePass" ref="changePass">
         <el-form-item label="" prop="newPassword"><span slot="label">Nhập mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
-          <el-input v-model="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
+          <el-input v-model.trim="changePass.newPassword" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errP1 != null" style="color: red">{{ errP1 }}</small>
         </el-form-item>
         <el-form-item prop="confirmNewPass">
           <span slot="label">Xác nhận mật khẩu mới</span><span slot="label" class="text-danger"> *</span>
-          <el-input v-model="changePass.confirmNewPass" type="password" autocomplete="off" show-password></el-input>
+          <el-input v-model.trim="changePass.confirmNewPass" type="password" autocomplete="off" show-password></el-input>
           <small v-if="errorsPass != null" style="color: red">{{ errorsPass }}</small>
         </el-form-item>
       </el-form>
@@ -154,45 +150,42 @@ color: #246CD9;">Đổi mật khẩu</span >
       </div>
     </el-dialog>
 
-          <el-dialog  class="text-center" :visible.sync="dialogFormVisible" width="60%">
-            <span slot="title" style="
+    <el-dialog  class="text-center" :visible.sync="dialogFormVisible" width="60%">
+      <span slot="title" style="
 font-family: 'Roboto';
 font-style: normal;
 font-weight: 700;
 font-size: 30px;
 line-height: 42px;
 color: #246CD9;">Sửa thông tin</span>
-            <el-form :model="user" id="userForm" style="padding: 30px" class="text-left">
-              <div class="row text-start">
-                <div class="col-4">
-                  <el-form-item prop="staffId">
-                    <label for="staffId">Mã nhân sự</label>
-                    <el-input name="staffId" v-model="user.staffId" autocomplete="off"></el-input>
-                    <small v-if="errId !== null" style="color: red">{{ errId }}</small>
-                  </el-form-item>
+      <el-form :model="user" id="userForm" style="padding: 30px" class="text-left" :rules="rulesEdit" ref="userForm1">
+        <div class="row text-start">
+          <div class="col-4">
+            <el-form-item prop="staffId">
+              <span slot="label">Mã nhân sự</span><span slot="label" class="text-danger"> *</span>
 
-                </div>
-                <div class="col-4">
-                  <el-form-item prop="fullname">
-                    <label for="fullname">Họ và tên</label>
-                    <el-input name="fullname" v-model="user.fullName" autocomplete="off"></el-input>
-                    <small v-if="errorsName !== null" style="color: red">{{ errorsName }}</small>
-                  </el-form-item>
-                </div>
-                <div class="col-4 text-start">
-                  <el-form-item prop="email">
-                    <label for="email">Email đăng nhập</label>
-                    <el-input type="email" name="email" v-model="user.email" autocomplete="off"></el-input>
-                    <small v-if="errorEmail != null" style="color: red">{{ errorEmail }}</small>
-                  </el-form-item>
+              <el-input name="staffId" v-model="user.staffId" autocomplete="off"></el-input>
+            </el-form-item>
 
-                </div>
-              </div>
+          </div>
+          <div class="col-4">
+            <el-form-item prop="fullName">
+              <span slot="label">Họ và tên</span><span slot="label" class="text-danger"> *</span>
+              <el-input name="fullname" v-model="user.fullName" autocomplete="off"></el-input>
+            </el-form-item>
+          </div>
+          <div class="col-4 text-start">
+            <el-form-item prop="email">
+              <span slot="label">Email đăng nhập</span><span slot="label" class="text-danger"> *</span>
+              <el-input type="email" name="email" v-model="user.email" autocomplete="off"></el-input>
+            </el-form-item>
 
-              <div class="row">
+          </div>
+        </div>
+        <div class="row">
                 <div class="col-4">
                   <el-form-item prop="department">
-                    <label for="a">Phòng ban</label> <br>
+                    <span slot="label">Phòng ban</span><span slot="label" class="text-danger"> *</span>
                     <el-select style="width: 100%" v-model="user.department" value-key="id">
                       <el-option v-for="item in departments"
                                  :key="item.id"
@@ -200,52 +193,43 @@ color: #246CD9;">Sửa thông tin</span>
                                  :value="item"
                       ></el-option>
                     </el-select>
-                    <small v-if="errDpm !== null" style="color: red">{{ errDpm }}</small>
                   </el-form-item>
                 </div>
 
           <div class="col-4" v-if="user.id !== currentUser.id">
             <el-form-item prop="role">
-              <label for="" >Quyền truy cập</label>
+              <span slot="label">Quyền truy cập</span><span slot="label" class="text-danger"> *</span>
               <el-select style="width: 100%"  v-model="user.createBy"  value-key="id" >
                 <el-option v-for="item in roles"
                            :key="item.id"
                            :label="item.name==='ROLE_ADMIN'?'Admin':'Người dùng'"
                            :value="item"></el-option>
               </el-select>
-              <small v-if="errRole !== null" style="color: red">{{errRole}}</small>
             </el-form-item>
           </div>
           <div class="col-4 text-start">
             <el-form-item prop="phone">
-              <label for="phone">Số điện thoại</label>
+              <span slot="label">Số điện thoại</span><span slot="label" class="text-danger"> *</span>
               <el-input type="number" name= "phone" v-model="user.phone" autocomplete="off"></el-input>
-                          <small v-if="errPhone != null" style="color: red">{{errPhone}}</small>
             </el-form-item>
 
           </div>
         </div>
-
-
         <div style="display: none">
           <div class="col-3">
             <el-form-item prop="password">
-              <label for="">Nhập mật khẩu</label>
               <el-input name= "password" type="password" v-model="user.password" autocomplete="off"></el-input>
-              <small v-if="errP1 != null" style="color: red">{{errP1}}</small>
             </el-form-item>
           </div>
           <div class="col-3">
             <el-form-item  prop="confirmPassword">
-              <label for="">Nhập lại mật khẩu</label>
               <el-input name= "confirmPassword" type="password" v-model="user.password" autocomplete="off" ></el-input>
-              <small v-if="errorsPass !== null" style="color: red">{{errorsPass}}</small>
             </el-form-item>
 
           </div>
         </div>
         <div class="row justify-content-center">
-           <el-button type="danger" @click.prevent="editUser(user.id)">Lưu lại</el-button>
+           <el-button type="danger" @click.prevent="editUser('userForm1', user.id)">Lưu lại</el-button>
         </div>
       </el-form>
           </el-dialog>
@@ -262,20 +246,20 @@ color: #246CD9;">Thêm mới người dùng</span>
         <div class="row text-start">
           <div class="col-4">
             <el-form-item prop="fullname">
-              <label for="fullname">Họ và tên:</label>
+              <span slot="label">Họ và tên</span><span slot="label" class="text-danger"> *</span>
               <el-input name="fullname" v-model="userForm1.fullname" autocomplete="off"></el-input>
             </el-form-item>
           </div>
           <div class="col-4">
             <el-form-item prop="staffId">
-              <label for="staffId">Mã nhân sự:</label>
+              <span slot="label">Mã nhân sự</span><span slot="label" class="text-danger"> *</span>
               <el-input name="staffId" v-model="userForm1.staffId" autocomplete="off"></el-input>
             </el-form-item>
 
           </div>
           <div class="col-4 text-start">
             <el-form-item prop="email">
-              <label for="email">Email đăng nhập:</label>
+              <span slot="label">Email đăng nhập</span><span slot="label" class="text-danger"> *</span>
               <el-input type="email" name="email" v-model="userForm1.email" autocomplete="off"></el-input>
             </el-form-item>
 
@@ -286,7 +270,7 @@ color: #246CD9;">Thêm mới người dùng</span>
         <div class="row">
           <div class="col-4 text-start">
             <el-form-item prop="gender">
-              <label for="gender">Giới tính:</label>
+              <label style="color: red" for="gender">*</label><span slot="label">Giới tính</span>
               <br>
               <el-radio v-model="userForm1.gender" label="MALE">Nam</el-radio>
               <el-radio v-model="userForm1.gender" label="FEMALE">Nữ</el-radio>
@@ -295,7 +279,8 @@ color: #246CD9;">Thêm mới người dùng</span>
           </div>
           <div class="col-4">
             <el-form-item prop="department">
-              <label for="a">Phòng ban:</label> <br>
+              <label for="a"></label> <br>
+              <span slot="label">Phòng ban</span><span slot="label" class="text-danger"> *</span>
               <el-select style="width: 100%" v-model="userForm1.department" value-key="id" placeholder="Vui lòng chọn phòng ban">
 
                 <el-option v-for="item in departments"
@@ -308,7 +293,7 @@ color: #246CD9;">Thêm mới người dùng</span>
           <div class="col-4">
 
             <el-form-item prop="phone">
-              <label for="phone">Số điện thoại:</label>
+              <span slot="label">Số điện thoại</span><span slot="label" class="text-danger"> *</span>
               <el-input type="number" name= "phone" v-model="userForm1.phone" autocomplete="off"></el-input>
             </el-form-item>
           </div>
@@ -317,7 +302,7 @@ color: #246CD9;">Thêm mới người dùng</span>
         <div class="row">
           <div class="col-4">
             <el-form-item prop="role">
-              <label for="">Quyền truy cập:</label>
+              <span slot="label">Quyền truy cập</span><span slot="label" class="text-danger"> *</span>
               <el-select style="width: 100%" v-model="userForm1.role" placeholder="Chọn quyền truy cập">
                 <el-option v-for="item in roles"
                            :key="item.id"
@@ -328,20 +313,21 @@ color: #246CD9;">Thêm mới người dùng</span>
           </div>
           <div class="col-4">
             <el-form-item prop="password">
-              <label for="">Nhập mật khẩu:</label>
-              <el-input name="password" type="password" v-model="userForm1.password"
+              <span slot="label">Nhập mật khẩu</span><span slot="label" class="text-danger"> *</span>
+              <el-input name="password" type="password" v-model.trim="userForm1.password"
                         autocomplete="off" show-password></el-input>
             </el-form-item>
           </div>
 
           <div class="col-4">
             <el-form-item prop="confirmPassword">
-              <label for="">Nhập lại mật khẩu:</label>
-              <el-input name="confirmPassword" type="password" v-model="userForm1.confirmPassword"
+              <span slot="label">Nhập lại mật khẩu</span><span slot="label" class="text-danger"> *</span>
+              <el-input name="confirmPassword" type="password" v-model.trim="userForm1.confirmPassword"
                         autocomplete="off" show-password></el-input>
             </el-form-item>
           </div>
         </div>
+        <br>
         <div class="row justify-content-center">
           <el-button type="danger" align="center" v-on:click.prevent="handleRegister('userForm')">Thêm mới</el-button>
         </div>
@@ -386,18 +372,20 @@ export default {
     var checkUserName = (rule, value, callback) => {
       value = String(value);
       setTimeout( () => {
-        if(value === ''){
+        if(value.trim() === ''){
           callback(new Error('Vui lòng nhập tên nhân viên'))
+        } else if (!this.validName(value)){
+          callback(new Error('Tên không đúng định dạng'))
         } else {
           callback()
         }
       }, 500);
     };
     var checkStaffId = (rule, value, callback) => {
-      value = String(value);
+      value = String(value.trim());
       setTimeout( () => {
         for (let i = 0; i < this.listU.length; i++) {
-          if (value === this.listU[i].staffId) {
+          if (value.toLowerCase() === this.listU[i].staffId.toLowerCase()) {
             this.checkId = false;
             break
           } else {
@@ -406,6 +394,30 @@ export default {
         }
         if(value === ''){
           callback(new Error('Vui lòng nhập mã nhân sự'))
+        } else if (!this.validStaffId(value)){
+          callback(new Error('Bao gồm VMG_ và 4 số. Vd: VMG_0000...'))
+        }else if (this.checkId === false ) {
+          callback(new Error('Mã nhân sự đã tồn tại'))
+        } else {
+          callback()
+        }
+      }, 500);
+    };
+    var checkStaffIdEdit = (rule, value, callback) => {
+      value = String(value.trim());
+      setTimeout( () => {
+        for (let i = 0; i < this.listU.length; i++) {
+          if (value.toLowerCase() === this.listU[i].staffId.toLowerCase() && value.toLowerCase() !== this.curStaffId.toLowerCase()) {
+            this.checkId = false;
+            break
+          } else {
+            this.checkId = true;
+          }
+        }
+        if(value === ''){
+          callback(new Error('Vui lòng nhập mã nhân sự'))
+        } else if (!this.validStaffId(value)){
+          callback(new Error('Bao gồm VMG_ và 4 số. Vd: VMG_0000...'))
         } else if (this.checkId === false ) {
           callback(new Error('Mã nhân sự đã tồn tại'))
         } else {
@@ -413,11 +425,11 @@ export default {
         }
       }, 500);
     };
-    var checkEmail = (rule, value, callback) => {
-      value = String(value);
+    var checkEmailEdit = (rule, value, callback) => {
+      value = String(value.trim());
       setTimeout( () => {
         for (let i = 0; i < this.listU.length; i++) {
-          if (value === this.listU[i].email) {
+          if (value.toLowerCase() === this.listU[i].email.toLowerCase() && value.toLowerCase() !== this.curEmail.toLowerCase()) {
             this.checkEmail = false;
             break
           } else {
@@ -428,6 +440,30 @@ export default {
           callback(new Error('Vui lòng nhập email nhân viên'))
         } else if (this.checkEmail === false ) {
           callback(new Error('Email này đã tồn tại trong hệ thống'))
+        } else if (!this.validEmail(value)) {
+          callback(new Error('Email không đúng định dạng'))
+        }else {
+          callback()
+        }
+      }, 500);
+    };
+    var checkEmail = (rule, value, callback) => {
+      value = String(value.trim());
+      setTimeout( () => {
+        for (let i = 0; i < this.listU.length; i++) {
+          if (value.toLowerCase() === this.listU[i].email.toLowerCase()) {
+            this.checkEmail = false;
+            break
+          } else {
+            this.checkEmail = true;
+          }
+        }
+        if(value === ''){
+          callback(new Error('Vui lòng nhập email nhân viên'))
+        } else if (this.checkEmail === false ) {
+          callback(new Error('Email này đã tồn tại trong hệ thống'))
+        } else if (!this.validEmail(value)) {
+          callback(new Error('Email không đúng định dạng'))
         } else {
           callback()
         }
@@ -480,7 +516,7 @@ export default {
       value = String(value);
       setTimeout( () => {
         if(value === ''){
-          callback(new Error('Vui lòng Nhập số điện thoại nhân viên'))
+          callback(new Error('Vui lòng nhập số điện thoại nhân viên'))
         } else if (!this.validPhone(value)) {
           callback('Số điện thoại không đúng định dạng!')
         } else {
@@ -499,6 +535,26 @@ export default {
       }, 500);
     };
     return {
+      rulesEdit:{
+        fullName: [
+          {validator: checkUserName, trigger: 'blur' }
+        ],
+        staffId: [
+          {validator: checkStaffIdEdit, trigger: 'blur' }
+        ],
+        email: [
+          {validator: checkEmailEdit, trigger: 'blur' }
+        ],
+        department: [
+          {validator: checkDepartment, trigger: 'blur' }
+        ],
+        role: [
+          {validator: checkRole, trigger: 'blur' }
+        ],
+        phone: [
+          {validator: checkPhone, trigger: 'blur' }
+        ],
+      },
       rulesChangePass: {
         newPassword: [
           {validator: checkNewPass, trigger: 'blur' }
@@ -569,26 +625,9 @@ export default {
       dialogFormVisible2: false,
       message: '',
       roles: [],
-      errId: '',
-      errP1: '',
-      errorsPass: '',
       departments: [],
-      errorsName: '',
-      matchName: '',
-      errorEmail: '',
-      errDpm: '',
-      errRole: '',
-      checkButton: true,
-      selected: '',
-      check1: true,
       checkId: true,
       checkEmail: true,
-      checkName: true,
-      checkDpm: true,
-      checkRole: true,
-      checkPass: true,
-      checkPhone: true,
-      errPhone: '',
       changePass: {
         newPassword: '',
         confirmNewPass: '',
@@ -626,30 +665,27 @@ export default {
     },
 
     validPhone: function (phone) {
-      var re = /((0)+([0-9]{9,})\b)/g;
+      var re = /(((\+|)84)|0)(2|3|5|7|8|9)+([0-9]{8})\b/g;
+
       return re.test(phone);
+    },
+    validName: function (name) {
+      var re = /^[\sa-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$/;
+      return re.test(name);
+    },
+    validStaffId: function (staffId) {
+      var re = /((VMG_)+([0-9]{4}))\b/g;
+      return re.test(staffId);
     },
 
     removeValidate1(check, userId) {
       this.findByIdUser(userId)
       this.dialogFormVisible1 = check
-      this.errP1 = ''
-      this.errorsPass = ''
     },
 
     removeValidate(check, userId) {
       this.findByIdUser(userId)
-      this.dialogFormVisible = check,
-          this.message = '',
-          this.errId = '',
-          this.errP1 = '',
-          this.errorsPass = '',
-          this.errorsName = '',
-          this.matchName = '',
-          this.errorEmail = '',
-          this.errDpm = '',
-          this.errRole = '',
-          this.errPhone = ''
+      this.dialogFormVisible = check
     },
 
     removeValidateCreate(check) {
@@ -685,11 +721,22 @@ export default {
                         );
                         let response = await userService.getAll(params)
                         this.listUser = response.data.content;
+                        let response1 = await authService.getAllUser()
+                        this.listU = response1.data;
                         this.count = response.data.totalPages;
                         this.a = data.message;
                         this.dialogFormVisible2 = false;
                         this.checkId = false;
                         this.checkEmail = false;
+                        this.userForm1.fullname = ''
+                        this.userForm1.staffId= ''
+                        this.userForm1.password = ''
+                        this.userForm1.confirmPassword = ''
+                        this.userForm1.email = ''
+                        this.userForm1.department= null
+                        this.userForm1.role= null
+                        this.userForm1.phone= ''
+                        this.userForm1.gender= ''
                         form.reset();
                         swal.fire({
                               toast: true,
@@ -782,6 +829,8 @@ export default {
                     this.dialogFormVisible1 = false;
                     form.reset();
                     this.a = data.message;
+                    this.changePass.newPassword = ''
+                    this.changePass.confirmNewPass = ''
                     await swal.fire({
                           toast: true,
                           title: "Xong!",
@@ -805,124 +854,56 @@ export default {
       })
     },
 
-    async editUser(userId) {
-      let response = await authService.getAllUser()
-      this.listU = response.data;
-      if (!this.user.fullName) {
-        this.errorsName = 'Vui lòng nhập tên nhân viên'
-        this.check1 = false;
-      } else {
-        this.errorsName = ''
-        this.check1 = true;
-      }
-      for (let i = 0; i < this.listU.length; i++) {
-        if (this.user.staffId === this.listU[i].staffId && this.user.staffId !== this.curStaffId) {
-          this.errId = 'Mã nhân sự đã tồn tại'
-          this.checkId = false;
-          break
-        } else {
-          this.checkId = true;
-          this.errId = ''
-        }
-      }
-      if (!this.user.phone) {
-        this.errPhone = 'Vui lòng nhập số điện thoại nhân viên'
-        this.checkPhone = false;
-      } else if (!this.validPhone(this.user.phone)) {
-        this.errPhone = 'Số điện thoại không đúng'
-        this.checkPhone = false;
-      } else if (this.validPhone(this.user.phone) && this.user.phone) {
-        this.errPhone = ''
-        this.checkPhone = true
-      }
-
-      if (!this.user.staffId) {
-        this.errId = 'Hãy nhập mã nhân sự'
-        this.check1 = false;
-        this.checkId = false;
-      }
-      for (let i = 0; i < this.listU.length; i++) {
-        if (this.user.email === this.listU[i].email && this.user.email !== this.curEmail) {
-          this.errorEmail = 'Email này đã tồn tại trong hệ thống'
-          this.checkEmail = false;
-          break
-        } else {
-          this.checkEmail = true;
-        }
-      }
-      if (!this.user.email) {
-        this.errorEmail = 'Vui lòng nhập email nhân viên'
-        this.checkEmail = false;
-      } else if (!this.validEmail(this.user.email)) {
-        this.errorEmail = 'Vui lòng nhập đúng định dạng email'
-        this.checkEmail = false;
-      } else if (this.validEmail(this.user.email) && this.user.email && this.checkEmail === true) {
-        this.errorEmail = ''
-        this.checkEmail = true;
-      }
-      if (!this.user.department) {
-        this.checkDpm = false;
-        this.errDpm = 'Hãy chọn phòng ban'
-      } else {
-        this.errDpm = ''
-        this.checkDpm = true;
-      }
-      if (this.user.role.length === 0) {
-        this.checkDpm = false;
-        this.errRole = 'Hãy chọn quyền truy cập'
-      } else if (this.user.role.length > 1) {
-        this.checkDpm = false;
-        this.errRole = 'Chỉ chọn 1 quyền truy cập'
-      } else {
-        this.errRole = ''
-        this.checkDpm = true;
-      }
-      if (this.check1 === true && this.checkId === true && this.checkEmail === true && this.checkRole === true && this.checkDpm === true && this.checkPhone === true) {
-        let form = document.querySelector('#userForm');
-        let formdata = new FormData(form);
-        formdata.append("department.id", this.user.department.id)
-        if(this.user.createBy === 'Admin'){
-          formdata.append("role", 1)
-        } else if(this.user.createBy === 'Người dùng'){
-          formdata.append("role", 2)
-        } else {
-          formdata.append("role", this.user.createBy.id)
-        }
-
-        authService.editUser(userId, formdata)
-            .then(
-                async data => {
-                  const params = this.getRequestParams(
-                      this.page,
-                      this.size
-                  );
-                  let response = await authService.getUserPage(params)
-                  this.listUser = response.data.content
-                  this.count = response.data.totalPages;
-                  this.a = data.message,
-                      this.dialogFormVisible = false;
-                  this.userForm1.password =  '';
-                      this.userForm1.confirmPassword = '',
-                  await swal.fire({
-                    toast: true,
-                    title: "Xong!",
-                    icon: "success",
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                  })
-                }, () => {
-                  this.dialogFormVisible = true;
-                  swal.fire({
-                    toast: true,
-                    title: "Đã có lỗi xảy ra!",
-                    icon: "error",
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
+    async editUser(userForm, userId) {
+      this.$refs[userForm].validate((valid) => {
+        if (valid){
+          let form = document.querySelector('#userForm');
+          let formdata = new FormData(form);
+          formdata.append("department.id", this.user.department.id)
+          if(this.user.createBy === 'Admin'){
+            formdata.append("role", 1)
+          } else if(this.user.createBy === 'Người dùng'){
+            formdata.append("role", 2)
+          } else {
+            formdata.append("role", this.user.createBy.id)
+          }
+          authService.editUser(userId, formdata)
+              .then(
+                  async data => {
+                    const params = this.getRequestParams(
+                        this.page,
+                        this.size
+                    );
+                    let response = await authService.getUserPage(params)
+                    this.listUser = response.data.content
+                    let response1 = await authService.getAllUser()
+                    this.listU = response1.data;
+                    this.count = response.data.totalPages;
+                    this.a = data.message,
+                        this.dialogFormVisible = false;
+                    this.userForm1.password =  '';
+                    this.userForm1.confirmPassword = '',
+                        await swal.fire({
+                          toast: true,
+                          title: "Xong!",
+                          icon: "success",
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 3000
+                        })
+                  }, () => {
+                    this.dialogFormVisible = true;
+                    swal.fire({
+                      toast: true,
+                      title: "Đã có lỗi xảy ra!",
+                      icon: "error",
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    });
                   });
-                });
-      }
+        }
+      })
     },
     refreshList() {
       this.retrieveUserList();
@@ -943,11 +924,11 @@ export default {
       }
       return params;
     },
-    getDpmParams(CateId) {
+
+    getSearchParams(CateId, fullName){
       let params = {};
-
       params["CateId"] = CateId;
-
+      params["fullName"] = fullName
       return params;
     },
 
@@ -967,13 +948,27 @@ export default {
       return params;
     },
 
-    get(params) {
-      if (this.fullName === '') {
-        this.retrieveUserList()
+
+    async getUserListByCateIdAndName() {
+      if (!this.fullName && !this.CateId){
+        await this.retrieveUserList()
+      } else if (this.fullName && !this.CateId){
+        await this.getUserListByName(this.fullName)
+      } else if (!this.fullName && this.CateId){
+        await this.getUserListByDpm(this.CateId)
       } else {
-        this.getUserListByName(params)
+        let param1 = this.getSearchParams(this.CateId, this.fullName)
+        let response = await userService.getUserByCateIdAndName(param1)
+        this.listUser = response.data;
       }
     },
+
+    getDpmParams(CateId) {
+      let params = {};
+      params["CateId"] = CateId;
+      return params;
+    },
+
 
     async getUserListByDpm(params) {
       let param1 = this.getDpmParams(params)
