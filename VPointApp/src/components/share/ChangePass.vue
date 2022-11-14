@@ -56,7 +56,7 @@ export default {
         if (value === '') {
           callback(new Error('Vui lòng nhập mật khẩu mới'))
         } else if (!this.validPass(value)) {
-          callback('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường')
+          callback('8 ký tự trở lên kết hợp số, chữ hoa và chữ thường')
         } else {
           callback()
         }
