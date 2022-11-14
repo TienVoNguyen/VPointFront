@@ -162,20 +162,21 @@ color: #246CD9;">Sửa thông tin</span>
         <div class="row text-start">
           <div class="col-4">
             <el-form-item prop="staffId">
-              <label for="staffId">Mã nhân sự</label>
+              <span slot="label">Mã nhân sự</span><span slot="label" class="text-danger"> *</span>
+
               <el-input name="staffId" v-model="user.staffId" autocomplete="off"></el-input>
             </el-form-item>
 
           </div>
           <div class="col-4">
             <el-form-item prop="fullName">
-              <label for="fullname">Họ và tên</label>
+              <span slot="label">Họ và tên</span><span slot="label" class="text-danger"> *</span>
               <el-input name="fullname" v-model="user.fullName" autocomplete="off"></el-input>
             </el-form-item>
           </div>
           <div class="col-4 text-start">
             <el-form-item prop="email">
-              <label for="email">Email đăng nhập</label>
+              <span slot="label">Email đăng nhập</span><span slot="label" class="text-danger"> *</span>
               <el-input type="email" name="email" v-model="user.email" autocomplete="off"></el-input>
             </el-form-item>
 
@@ -184,7 +185,7 @@ color: #246CD9;">Sửa thông tin</span>
         <div class="row">
                 <div class="col-4">
                   <el-form-item prop="department">
-                    <label for="a">Phòng ban</label> <br>
+                    <span slot="label">Phòng ban</span><span slot="label" class="text-danger"> *</span>
                     <el-select style="width: 100%" v-model="user.department" value-key="id">
                       <el-option v-for="item in departments"
                                  :key="item.id"
@@ -197,7 +198,7 @@ color: #246CD9;">Sửa thông tin</span>
 
           <div class="col-4" v-if="user.id !== currentUser.id">
             <el-form-item prop="role">
-              <label for="" >Quyền truy cập</label>
+              <span slot="label">Quyền truy cập</span><span slot="label" class="text-danger"> *</span>
               <el-select style="width: 100%"  v-model="user.createBy"  value-key="id" >
                 <el-option v-for="item in roles"
                            :key="item.id"
@@ -208,7 +209,7 @@ color: #246CD9;">Sửa thông tin</span>
           </div>
           <div class="col-4 text-start">
             <el-form-item prop="phone">
-              <label for="phone">Số điện thoại</label>
+              <span slot="label">Số điện thoại</span><span slot="label" class="text-danger"> *</span>
               <el-input type="number" name= "phone" v-model="user.phone" autocomplete="off"></el-input>
             </el-form-item>
 
@@ -217,13 +218,11 @@ color: #246CD9;">Sửa thông tin</span>
         <div style="display: none">
           <div class="col-3">
             <el-form-item prop="password">
-              <label for="">Nhập mật khẩu</label>
               <el-input name= "password" type="password" v-model="user.password" autocomplete="off"></el-input>
             </el-form-item>
           </div>
           <div class="col-3">
             <el-form-item  prop="confirmPassword">
-              <label for="">Nhập lại mật khẩu</label>
               <el-input name= "confirmPassword" type="password" v-model="user.password" autocomplete="off" ></el-input>
             </el-form-item>
 
@@ -247,20 +246,20 @@ color: #246CD9;">Thêm mới người dùng</span>
         <div class="row text-start">
           <div class="col-4">
             <el-form-item prop="fullname">
-              <label for="fullname">Họ và tên:</label>
+              <span slot="label">Họ và tên</span><span slot="label" class="text-danger"> *</span>
               <el-input name="fullname" v-model="userForm1.fullname" autocomplete="off"></el-input>
             </el-form-item>
           </div>
           <div class="col-4">
             <el-form-item prop="staffId">
-              <label for="staffId">Mã nhân sự:</label>
+              <span slot="label">Mã nhân sự</span><span slot="label" class="text-danger"> *</span>
               <el-input name="staffId" v-model="userForm1.staffId" autocomplete="off"></el-input>
             </el-form-item>
 
           </div>
           <div class="col-4 text-start">
             <el-form-item prop="email">
-              <label for="email">Email đăng nhập:</label>
+              <span slot="label">Email đăng nhập</span><span slot="label" class="text-danger"> *</span>
               <el-input type="email" name="email" v-model="userForm1.email" autocomplete="off"></el-input>
             </el-form-item>
 
@@ -271,7 +270,7 @@ color: #246CD9;">Thêm mới người dùng</span>
         <div class="row">
           <div class="col-4 text-start">
             <el-form-item prop="gender">
-              <label for="gender">Giới tính:</label>
+              <label style="color: red" for="gender">*</label><span slot="label">Giới tính</span>
               <br>
               <el-radio v-model="userForm1.gender" label="MALE">Nam</el-radio>
               <el-radio v-model="userForm1.gender" label="FEMALE">Nữ</el-radio>
@@ -280,7 +279,8 @@ color: #246CD9;">Thêm mới người dùng</span>
           </div>
           <div class="col-4">
             <el-form-item prop="department">
-              <label for="a">Phòng ban:</label> <br>
+              <label for="a"></label> <br>
+              <span slot="label">Phòng ban</span><span slot="label" class="text-danger"> *</span>
               <el-select style="width: 100%" v-model="userForm1.department" value-key="id" placeholder="Vui lòng chọn phòng ban">
 
                 <el-option v-for="item in departments"
@@ -293,7 +293,7 @@ color: #246CD9;">Thêm mới người dùng</span>
           <div class="col-4">
 
             <el-form-item prop="phone">
-              <label for="phone">Số điện thoại:</label>
+              <span slot="label">Số điện thoại</span><span slot="label" class="text-danger"> *</span>
               <el-input type="number" name= "phone" v-model="userForm1.phone" autocomplete="off"></el-input>
             </el-form-item>
           </div>
@@ -302,7 +302,7 @@ color: #246CD9;">Thêm mới người dùng</span>
         <div class="row">
           <div class="col-4">
             <el-form-item prop="role">
-              <label for="">Quyền truy cập:</label>
+              <span slot="label">Quyền truy cập</span><span slot="label" class="text-danger"> *</span>
               <el-select style="width: 100%" v-model="userForm1.role" placeholder="Chọn quyền truy cập">
                 <el-option v-for="item in roles"
                            :key="item.id"
@@ -313,7 +313,7 @@ color: #246CD9;">Thêm mới người dùng</span>
           </div>
           <div class="col-4">
             <el-form-item prop="password">
-              <label for="">Nhập mật khẩu:</label>
+              <span slot="label">Nhập mật khẩu</span><span slot="label" class="text-danger"> *</span>
               <el-input name="password" type="password" v-model.trim="userForm1.password"
                         autocomplete="off" show-password></el-input>
             </el-form-item>
@@ -321,12 +321,13 @@ color: #246CD9;">Thêm mới người dùng</span>
 
           <div class="col-4">
             <el-form-item prop="confirmPassword">
-              <label for="">Nhập lại mật khẩu:</label>
+              <span slot="label">Nhập lại mật khẩu</span><span slot="label" class="text-danger"> *</span>
               <el-input name="confirmPassword" type="password" v-model.trim="userForm1.confirmPassword"
                         autocomplete="off" show-password></el-input>
             </el-form-item>
           </div>
         </div>
+        <br>
         <div class="row justify-content-center">
           <el-button type="danger" align="center" v-on:click.prevent="handleRegister('userForm')">Thêm mới</el-button>
         </div>
