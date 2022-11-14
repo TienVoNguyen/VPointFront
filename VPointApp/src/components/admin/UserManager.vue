@@ -371,7 +371,7 @@ export default {
     var checkUserName = (rule, value, callback) => {
       value = String(value);
       setTimeout( () => {
-        if(value === ''){
+        if(value.trim() === ''){
           callback(new Error('Vui lòng nhập tên nhân viên'))
         } else if (!this.validName(value)){
           callback(new Error('Tên không đúng định dạng'))
