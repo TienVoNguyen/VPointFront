@@ -3,6 +3,7 @@
     <div style="margin: 20px;"></div>
     <p class="text-title">Nhập dữ liệu tính điểm VPoint</p>
     <el-form :label-position="labelPosition" :rules="rules" label-width="100px" :model="mark" ref="mark">
+      <el-collapse>
       <el-form-item class="inline profile" >
         <el-row :gutter="20" type="flex" justify="space-around">
           <el-col :span="4">
@@ -42,11 +43,12 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-row>
-        <el-col :offset="2">
+      <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục I. Hiệu suất công việc</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row>
         <el-col :span="6" :offset="4">
           <el-form-item prop="kpi" >
@@ -108,15 +110,17 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-              </el-col>     
+              </el-col>   
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục II. Làm việc nhóm</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row justify="space-around">
         <el-col>
             <el-row>
@@ -135,11 +139,13 @@
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục III. Đào tạo và phát triển</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row>
         <el-col>
             <el-row >
@@ -167,11 +173,13 @@
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục IV. Sáng tạo</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row>
         <el-col>
             <el-row>
@@ -184,11 +192,13 @@
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục V. Tuân thủ</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row justify="space-around">
         <el-col>
           <el-row >
@@ -222,9 +232,11 @@
           </el-row>
         </el-col>
       </el-row>
+    </el-collapse-item>
       <el-form-item>
-        <el-button type="primary" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
+        <el-button class="btn-submit" type="danger" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
       </el-form-item>
+    </el-collapse>
     </el-form>
   </el-main>
 </template>
@@ -521,6 +533,7 @@ import swal from 'sweetalert2'
     font-size: 25px;
     line-height: 29px;
     font-weight: 600;
+    padding-top: 25px;
 
     /* đỏ */
 
@@ -598,5 +611,9 @@ import swal from 'sweetalert2'
     color: #000;
     padding-top: 15px;
     font-weight: 500;
+  }
+
+  .btn-submit {
+    margin-top: 20px
   }
 </style>
