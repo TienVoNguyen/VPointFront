@@ -3,6 +3,7 @@
     <div style="margin: 20px;"></div>
     <p class="text-title">Nhập dữ liệu tính điểm VPoint</p>
     <el-form :label-position="labelPosition" :rules="rules" label-width="100px" :model="mark" ref="mark">
+      <el-collapse>
       <el-form-item class="inline profile" >
         <el-row :gutter="20" type="flex" justify="space-around">
           <el-col :span="4">
@@ -42,11 +43,12 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-row>
-        <el-col :offset="2">
+      <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục I. Hiệu suất công việc</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row>
         <el-col :span="6" :offset="4">
           <el-form-item prop="kpi" >
@@ -108,22 +110,24 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-              </el-col>
+              </el-col>   
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục II. Làm việc nhóm</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row justify="space-around">
         <el-col>
             <el-row>
               <el-col :span="6" :offset="4">
                 <el-form-item prop="bcsDepartment"  >
                   <p class="text-content">3. Điểm BSC bộ phận</p>
-                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" v-model.number="mark.bcsDepartment"></el-input>
+                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="6">
@@ -135,11 +139,13 @@
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục III. Đào tạo và phát triển</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row>
         <el-col>
             <el-row >
@@ -147,9 +153,9 @@
                 <p class="text-content">5. Đào tạo</p>
               </el-col>
               <el-col :span="6" :offset="4">
-                <el-form-item >
+                <el-form-item prop="train">
                   <h6>5.1. Người đào tạo</h6>
-                  <el-input placeholder="Nhập điểm DGC" type="number" v-model="mark.train"></el-input>
+                  <el-input placeholder="Nhập điểm" type="number" v-model="mark.train"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="6">
@@ -167,11 +173,13 @@
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục IV. Sáng tạo</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row>
         <el-col>
             <el-row>
@@ -184,11 +192,13 @@
             </el-row>
           </el-col>
       </el-row>
-      <el-row>
-        <el-col :offset="2">
+    </el-collapse-item>
+    <el-collapse-item>
+      <!-- <el-row> -->
+        <el-col slot="title" :offset="2">
           <p class="text-header">Mục V. Tuân thủ</p>
         </el-col>
-      </el-row>
+      <!-- </el-row> -->
       <el-row justify="space-around">
         <el-col>
           <el-row >
@@ -201,7 +211,7 @@
           </el-row>
         </el-col>
       </el-row>
-        <el-row justify="space-around">
+      <el-row justify="space-around">
           <el-col>
             <el-row>
               <el-col :offset="4">
@@ -222,9 +232,11 @@
           </el-row>
         </el-col>
       </el-row>
+    </el-collapse-item>
       <el-form-item>
-        <el-button type="danger" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
+        <el-button class="btn-submit" type="danger" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
       </el-form-item>
+      </el-collapse>
     </el-form>
   </el-main>
 </template>
@@ -282,16 +294,16 @@ import swal from 'sweetalert2'
           }
         }, 500)
       };
-      var checkNumber = (rule, value, callback) => {
-        // value = Number(value);
-        setTimeout(() => {
-          if ( value && !Number.isInteger(value)) {
-            callback(new Error('Hãy nhập số'));
-          } else {
-            callback();
-          }
-        }, 500);
-      };
+      // var checkNumber = (rule, value, callback) => {
+      //   // value = Number(value);
+      //   setTimeout(() => {
+      //     if ( value && !Number.isInteger(value)) {
+      //       callback(new Error('Hãy nhập số'));
+      //     } else {
+      //       callback();
+      //     }
+      //   }, 500);
+      // };
       var checkTrainVmg = (rule, value, callback) => {
         value = Number(value);
         setTimeout(() => {
@@ -302,6 +314,16 @@ import swal from 'sweetalert2'
           }
         }, 500)
       };
+      var checkTrain = (rule, value, callback) => {
+        value = Number(value);
+        setTimeout(() => {
+          if( value > 5) {
+            callback(new Error('Giá trị không được lớn hơn 5'));
+          } else {
+            callback();
+          }
+        }, 500)
+      }; 
       return {
         labelPosition: 'top',
         rules: {
@@ -313,9 +335,6 @@ import swal from 'sweetalert2'
           ],
           jointActivities: [
             {validator: checkJointActivities, trigger: 'blur' }
-          ],
-          train: [
-            {validator: checkNumber, trigger: 'blur'}
           ],
           trainStaff: [
             {validator: checkPercent, trigger: 'blur' }
@@ -332,12 +351,9 @@ import swal from 'sweetalert2'
           disciplineViolate: [
             {validator: checkDisciplineViolate, trigger: 'blur' }
           ],
-          // date: [
-          //   { type: 'date', required: true, message: 'Please pick a date', trigger: 'change' }
-          // ],
-          // date : [
-          //   {validator: checkDate, trigger: 'change'}
-          // ]
+          train: [
+            {validator: checkTrain, trigger: 'blur' }
+          ],
         },
         user: {
           department: '',
@@ -511,11 +527,14 @@ import swal from 'sweetalert2'
 
   .text-header{
     /* margin-left: 50px; */
+    /* display: inline; */
     font-family: 'Roboto';
     font-style: normal;
     font-size: 25px;
     line-height: 29px;
     font-weight: 600;
+    /* padding-top: 25px; */
+    margin: auto;
 
     /* đỏ */
 
@@ -593,5 +612,8 @@ import swal from 'sweetalert2'
     color: #000;
     padding-top: 15px;
     font-weight: 500;
+  }
+  .btn-submit {
+    margin-top: 20px
   }
 </style>
