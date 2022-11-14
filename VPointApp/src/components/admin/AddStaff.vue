@@ -133,9 +133,6 @@ export default {
       this.roles = response1.data;
       let response2 = await authService.getAllDepartment()
       this.department = response2.data;
-      console.log(this.roles)
-      console.log(this.department)
-      console.log(this.user)
     } catch (error) {
       console.log(error)
     }
@@ -190,12 +187,7 @@ export default {
           this.errDpm = '',
           this.errRole = ''
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
+
     async handleRegister() {
       let response = await authService.getAllUser()
       this.user = response.data;
@@ -305,7 +297,6 @@ export default {
         let formdata = new FormData(form);
         formdata.append("department.id", this.userForm1.department)
         formdata.append("role", this.userForm1.role)
-        console.log(formdata);
         authService.createUser(formdata)
             .then(
                 data => {

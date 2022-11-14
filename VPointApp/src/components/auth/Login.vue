@@ -17,9 +17,10 @@
             <form name="form" @submit.prevent="handleLogin">
 
               <div class="form-group row">
-                <label class="control-label col-sm-4 p-2 text-left" for="email">Email Address<span
+                <div class="col-sm-1"></div>
+                <label class="control-label col-sm-3 p-2 text-left" for="email">Email<span
                     class="text-danger">*</span></label>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                   <input v-model="user.email"
                          type="email"
                          class="form-control"
@@ -27,21 +28,24 @@
                          id="email"
                          placeholder="Nhập email">
                 </div>
-                  <small v-if="messageEmail" style="color: red;margin-left:200px; ">{{ messageEmail }}</small>
+                <div class="col-sm-1"></div>
+<!--                  <small v-if="messageEmail" style="color: red;margin-left:200px; ">{{ messageEmail }}</small>-->
               </div>
 
               <div class="form-group row">
-                <label class="control-label col-sm-4 p-2 text-left" for="password">Password<span
+                <div class="col-sm-1"></div>
+                <label class="control-label col-sm-3 p-2 text-left" for="password">Mật khẩu<span
                     class="text-danger">*</span></label>
-                <div class="col-sm-8">
+                <div class="col-sm-7">
                   <input v-model="user.password"
                          type="password"
                          class="form-control"
                          name="password"
                          id="password"
-                         placeholder="Nhập password">
+                         placeholder="Nhập mật khẩu">
                 </div>
-                <small v-if="messagePass !== null" style="color: red;">{{ messagePass }}</small>
+                <div class="col-sm-1"></div>
+<!--                <small v-if="messagePass !== null" style="color: red;">{{ messagePass }}</small>-->
               </div>
 
               <small v-if="messageForm" style="color: red; font-size: 15px">{{ messageForm }}</small>
@@ -97,20 +101,16 @@ export default {
     handleLogin() {
       if (!this.user.email && !this.user.password) {
         this.messageForm = 'Vui lòng nhập thông tin đăng nhập';
-        this.messageEmail = '';
-        this.messagePass = '';
         this.message = '';
         this.check = false
       }
       if (!this.user.email && this.user.password) {
-        this.messageEmail = 'Vui lòng nhập email';
-        this.messageForm = '';
+        this.messageForm = 'Vui lòng nhập email';
         this.message = '';
         this.check = false
       }
       if (!this.user.password && this.user.email) {
-        this.messagePass = 'Vui lòng nhập mật khẩu'
-        this.messageForm = '';
+        this.messageForm = 'Vui lòng nhập mật khẩu';
         this.message = '';
         this.check = false
       }
@@ -120,7 +120,6 @@ export default {
       if (this.check === true) {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
-              console.log(this.currentUser.roles.length)
               if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
                 this.$router.push('/admin/home');
               }
@@ -132,8 +131,8 @@ export default {
               this.a = (error.response && error.response.data)
               this.messageEmail = '';
               this.messagePass = '';
-              this.messageForm = '';
-              this.message = 'Sai thông tin đăng nhập. Vui lòng kiểm tra lại  '
+              this.messageForm = 'Sai thông tin đăng nhập. Vui lòng kiểm tra lại';
+              this.message = ''
             }
         );
       }
@@ -157,6 +156,8 @@ export default {
   background-color: #FFFFFF;
   margin: 1.5rem;
   border-radius: 5%;
+  height: 390px;
+  width: 600px;
 }
 
 input {

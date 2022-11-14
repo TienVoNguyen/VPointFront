@@ -10,19 +10,19 @@
           <el-form-item class="form-item">
             <span class="text-item">Mã nhân viên</span>
             <el-input v-model="mark.staff_id" :disabled="true"></el-input>
-          </el-form-item>    
+          </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item class="form-item">
               <span class="text-item">Tên nhân viên</span>
               <el-input v-model="user.name" :disabled="true"></el-input>
-            </el-form-item>    
+            </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item class="form-item">
               <span class="text-item">Bộ phận</span>
               <el-input v-model="user.department" :disabled="true" ></el-input>
-            </el-form-item>    
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row >
@@ -39,7 +39,7 @@
                 style="width: 100%"
                 >
               </el-date-picker>
-            </el-form-item>    
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form-item>
@@ -54,7 +54,7 @@
           <el-form-item prop="kpi" >
             <p class="text-content">1. KPI cá nhân</p>
             <el-input placeholder="Nhập KPI(%)" type="number" v-model="mark.kpi" ></el-input>
-          </el-form-item>    
+          </el-form-item>
         </el-col>
       </el-row>
       <el-row justify="space-around">
@@ -68,13 +68,13 @@
                   <h6>2.1 Nhân viên xuất sắc tháng</h6>
                   <el-checkbox v-model="mark.bestDepartmentMonth" class="checkbox-form"><span class="text-checkbox">Nhân viên xuất sắc tháng</span></el-checkbox>
                 </el-form-item>
-              </el-col>   
+              </el-col>
               <el-col :span="6" :offset="6">
                 <el-form-item >
                   <h6>3.1 Bộ phận xuất sắc tháng</h6>
-                  <el-checkbox v-model="mark.excellentDepartmentMonth" class="checkbox-form"><span class="text-checkbox">Bộ phận xuất sắc quý</span></el-checkbox>
+                  <el-checkbox v-model="mark.excellentDepartmentMonth" class="checkbox-form"><span class="text-checkbox">Bộ phận xuất sắc tháng</span></el-checkbox>
                 </el-form-item>
-              </el-col>   
+              </el-col>
             </el-row>
           </el-col>
           <el-col>
@@ -91,7 +91,7 @@
                   </el-option>
                 </el-select>
                 </el-form-item>
-              </el-col>   
+              </el-col>
               <el-col :span="6" :offset="6">
                 <el-form-item >
                   <h6>3.2 Bộ phận xuất sắc năm</h6>
@@ -127,15 +127,15 @@
               <el-col :span="6" :offset="4">
                 <el-form-item prop="bcsDepartment"  >
                   <p class="text-content">3. Điểm BSC bộ phận</p>
-                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" v-model.number="mark.bcsDepartment"></el-input>
+                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment"></el-input>
                 </el-form-item>
-              </el-col>   
+              </el-col>
               <el-col :span="6" :offset="6">
                 <p class="text-content">4. Hoạt động chung</p>
                 <el-form-item prop="jointActivities" >
                   <el-input placeholder="Nhập điểm hoạt động chung" type="number" v-model="mark.jointActivities"></el-input>
                 </el-form-item>
-              </el-col>   
+              </el-col>
             </el-row>
           </el-col>
       </el-row>
@@ -153,23 +153,23 @@
                 <p class="text-content">5. Đào tạo</p>
               </el-col>
               <el-col :span="6" :offset="4">
-                <el-form-item >
+                <el-form-item prop="train">
                   <h6>5.1. Người đào tạo</h6>
-                  <el-input placeholder="Nhập điểm DGC" type="number" v-model="mark.train"></el-input>
+                  <el-input placeholder="Nhập điểm" type="number" v-model="mark.train"></el-input>
                 </el-form-item>
-              </el-col>   
+              </el-col>
               <el-col :span="6" :offset="6">
                 <el-form-item prop="trainStaff" >
                   <h6>5.2. Người tham gia đào tạo</h6>
                   <el-input placeholder="Nhập điểm đào tạo(%)" type="number" v-model="mark.trainStaff"></el-input>
                 </el-form-item>
-              </el-col>   
+              </el-col>
               <el-col :span="6" :offset="4">
                 <h6>5.3. Chương trình phát triển cùng VMG</h6>
                 <el-form-item prop="trainVmg" >
                   <el-input placeholder="Nhập điểm" type="number" v-model="mark.trainVmg"></el-input>
                 </el-form-item>
-              </el-col>    
+              </el-col>
             </el-row>
           </el-col>
       </el-row>
@@ -188,7 +188,7 @@
                   <p class="text-content">6. Cải tiến đổi mới</p>
                   <el-checkbox v-model="mark.improve"><span class="text-checkbox">Nhân sự có ý tưởng cải tiến đổi mới tháng</span></el-checkbox>
                 </el-form-item>
-              </el-col>   
+              </el-col>
             </el-row>
           </el-col>
       </el-row>
@@ -207,11 +207,11 @@
                 <p class="text-content">7. Tôi yêu VMG</p>
                 <el-input type="number" v-model="mark.loveVmg" placeholder="Nhập điểm test(%)" ></el-input>
               </el-form-item>
-            </el-col>   
+            </el-col>
           </el-row>
         </el-col>
       </el-row>
-        <el-row justify="space-around">
+      <el-row justify="space-around">
           <el-col>
             <el-row>
               <el-col :offset="4">
@@ -222,13 +222,13 @@
                   <h6>8.1. Vi phạm kỷ luật</h6>
                   <el-input type="number" v-model="mark.disciplineViolate" placeholder="Nhập điểm"></el-input>
                 </el-form-item>
-              </el-col> 
+              </el-col>
             <el-col :span="6" :offset="6">
               <el-form-item prop="disciplineBonus" >
                 <h6>8.2. Điểm thưởng</h6>
                 <el-input placeholder="Nhập điểm thưởng" type="number" v-model="mark.disciplineBonus"></el-input>
-              </el-form-item>    
-            </el-col>     
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-col>
       </el-row>
@@ -236,7 +236,7 @@
       <el-form-item>
         <el-button class="btn-submit" type="danger" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
       </el-form-item>
-    </el-collapse>
+      </el-collapse>
     </el-form>
   </el-main>
 </template>
@@ -250,7 +250,6 @@ import swal from 'sweetalert2'
     name: 'AddMarkComponent',
     data() {
       // var checkDate = (rule, value, callback) => {
-      //   console.log(12, value);
       //   if (!value) {
       //     return callback(new Error('Hãy chọn ngày'));
       //   }
@@ -295,16 +294,16 @@ import swal from 'sweetalert2'
           }
         }, 500)
       };
-      var checkNumber = (rule, value, callback) => {
-        // value = Number(value);
-        setTimeout(() => {
-          if ( value && !Number.isInteger(value)) {
-            callback(new Error('Hãy nhập số'));
-          } else {
-            callback();
-          }
-        }, 500);
-      };
+      // var checkNumber = (rule, value, callback) => {
+      //   // value = Number(value);
+      //   setTimeout(() => {
+      //     if ( value && !Number.isInteger(value)) {
+      //       callback(new Error('Hãy nhập số'));
+      //     } else {
+      //       callback();
+      //     }
+      //   }, 500);
+      // };
       var checkTrainVmg = (rule, value, callback) => {
         value = Number(value);
         setTimeout(() => {
@@ -315,6 +314,16 @@ import swal from 'sweetalert2'
           }
         }, 500)
       };
+      var checkTrain = (rule, value, callback) => {
+        value = Number(value);
+        setTimeout(() => {
+          if( value > 5) {
+            callback(new Error('Giá trị không được lớn hơn 5'));
+          } else {
+            callback();
+          }
+        }, 500)
+      }; 
       return {
         labelPosition: 'top',
         rules: {
@@ -326,9 +335,6 @@ import swal from 'sweetalert2'
           ],
           jointActivities: [
             {validator: checkJointActivities, trigger: 'blur' }
-          ],
-          train: [
-            {validator: checkNumber, trigger: 'blur'}
           ],
           trainStaff: [
             {validator: checkPercent, trigger: 'blur' }
@@ -345,12 +351,9 @@ import swal from 'sweetalert2'
           disciplineViolate: [
             {validator: checkDisciplineViolate, trigger: 'blur' }
           ],
-          // date: [
-          //   { type: 'date', required: true, message: 'Please pick a date', trigger: 'change' }
-          // ],
-          // date : [
-          //   {validator: checkDate, trigger: 'change'}
-          // ]
+          train: [
+            {validator: checkTrain, trigger: 'blur' }
+          ],
         },
         user: {
           department: '',
@@ -444,7 +447,6 @@ import swal from 'sweetalert2'
             this.mark.month = date.getMonth() + 1;
             this.mark.year = date.getFullYear();
             this.mark.staff_id = this.user.staff_id;
-            console.log(12, this.mark.month);
             markService.create(this.mark)
               .then(result => {
                 console.log(result.data);
@@ -470,9 +472,8 @@ import swal from 'sweetalert2'
                     timer: 3000
                   }
                 )
-              })  
+              })
           } else {
-            console.log(valid);
             return false;
           }
         })
@@ -498,11 +499,9 @@ import swal from 'sweetalert2'
           month: this.mark.month,
           year: this.mark.year
         }
-        console.log(dataReq);
         markService.getMarkByUserAndDate(dataReq)
           .then(response => {
             this.mark = response.data;
-            console.log(response.data);
           })
           .catch (error => {
             console.log(error);
@@ -528,12 +527,14 @@ import swal from 'sweetalert2'
 
   .text-header{
     /* margin-left: 50px; */
+    /* display: inline; */
     font-family: 'Roboto';
     font-style: normal;
     font-size: 25px;
     line-height: 29px;
     font-weight: 600;
-    padding-top: 25px;
+    /* padding-top: 25px; */
+    margin: auto;
 
     /* đỏ */
 
@@ -612,7 +613,6 @@ import swal from 'sweetalert2'
     padding-top: 15px;
     font-weight: 500;
   }
-
   .btn-submit {
     margin-top: 20px
   }

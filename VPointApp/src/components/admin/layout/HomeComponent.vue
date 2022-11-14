@@ -2,12 +2,32 @@
 <div class="background">
   <h1 class="welcome">Chào mừng bạn đến với</h1>
   <h1 class="system">Hệ thống quản lý điểm V-Point</h1>
+
 </div>
 </template>
 
 <script>
 export default {
-  name: "HomeComponent"
+  name: "HomeComponent",
+  data() {
+    return {
+
+      b: '',
+      c: false
+    }
+  },
+  created() {
+    this.get()
+  },
+  methods: {
+    get(){
+
+      if (this.a.equals(this.b)){
+        this.c = true
+      }
+      console.log(this.c)
+    }
+  }
 }
 </script>
 
@@ -17,12 +37,12 @@ export default {
 .background {
   padding: 0;
   margin: 0;
-  background-image: url('@/assets/images/backgroundhome.jpg');
+  background-image: url('@/assets/images/anhnen1.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-position: center center;
-  height: 505px;
+  height: 730px;
 }
 
 .welcome {
