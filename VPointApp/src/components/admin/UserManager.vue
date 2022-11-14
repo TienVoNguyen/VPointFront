@@ -29,19 +29,6 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           </div>
       <div class="row ">
         <div class="col-6">
-<!--          <div class="text-left input-group-prepend">-->
-<!--            <p style="color: #6c757d"> Xem:-->
-<!--              <span style="">-->
-<!--                <select class="input-group-text" v-model="size" @change="retrieveUserList"-->
-<!--                        style="width: 62px; display: inherit; align-items: center;">-->
-<!--                  <option value="10">10</option>-->
-<!--                  <option value="15">15</option>-->
-<!--                  <option value="20">20</option>-->
-<!--                  <option value="30">30</option>-->
-<!--                </select>-->
-<!--              </span> mục-->
-<!--            </p>-->
-<!--          </div>-->
         </div>
         <div class="col-6">
           <div class="text-right">
@@ -55,7 +42,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
       <el-table
           border
           :data="listUser"
-          style="width: 100%">
+          style="width: auto">
         <el-table-column
             prop="staffId"
             label="Mã nhân viên"
@@ -494,7 +481,7 @@ export default {
         if(value === ''){
           callback(new Error('Vui lòng nhập mật khẩu'))
         } else if (!this.validPass(value)) {
-          callback('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường')
+          callback('8 ký tự trở lên kết hợp số, chữ hoa và chữ thường')
         } else {
           callback()
         }
@@ -665,7 +652,7 @@ export default {
     },
 
     validPhone: function (phone) {
-      var re = /(((\+|)84)|0)(2|3|5|7|8|9)+([0-9]{8})\b/g;
+      var re = /((0)+([0-9]{9}))\b/g;
 
       return re.test(phone);
     },
