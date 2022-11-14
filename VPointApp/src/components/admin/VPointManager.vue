@@ -45,7 +45,7 @@
     </div>
     <el-table border
               :data="listUser"
-              style="width: 100%">
+              style="width: auto">
       <el-table-column
           align="center"
           label="STT"
