@@ -77,18 +77,18 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         label="Tùy chọn">
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-              <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)" ><i size="default"
+              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate(true, scope.row.id)" ><i style="font-size: 20px; color: #000000"
                                                                                                             class="el-icon-edit"></i>
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-              <el-button class="btn btn-success" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i
-                  size="default"
+              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i
+                  style="font-size: 20px; color: #001aff"
                   class="el-icon-key"></i>
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Xóa" placement="top" v-if="scope.row.id !== currentUser.id">
-              <el-button class="btn btn-danger" type="text" @click="deleteUser(scope.row.id)"><i size="default"
+              <el-button class="btn btn-primary-outline" type="text" @click="deleteUser(scope.row.id)"><i style="font-size: 20px; color: red"
                                                                                                  class="el-icon-delete"></i>
               </el-button>
             </el-tooltip>
