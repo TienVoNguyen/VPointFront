@@ -52,7 +52,7 @@
             </h4>
           </div>
           <div class="col-4 text-right" >
-            <h4 align="right" style="color: #6c757d">    Tổng điểm: {{sum}} </h4>
+            <h4 align="right" style="color: #6c757d">    Tổng điểm: {{sum === 0 ? 0 : sum.toFixed(1)}} </h4>
           </div>
         </div>
       </div>
@@ -182,7 +182,6 @@ export default {
         return moment(String(value)).format('YYYY')
       }
     },
-
     formatMonth(value){
       if (value) {
         return moment(String(value)).format('MM')
@@ -228,6 +227,7 @@ export default {
       this.td12 = 0
       console.log(this.Point)
       for (let i = 0; i < this.Point.length; i++) {
+        this.Point[i].sum.toFixed(1)
         this.sum += this.Point[i].sum
         if (this.formatMonth(this.Point[i].date) == 1){
           this.td1 = this.Point[i].sum
@@ -281,7 +281,6 @@ export default {
     //   }
     //   this.Point = response.data
     // },
-
     getRequestParams(page) {
       let params = {};
       if (page) {

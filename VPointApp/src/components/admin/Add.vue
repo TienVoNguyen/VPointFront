@@ -9,19 +9,19 @@
           <el-col :span="4">
           <el-form-item class="form-item">
             <span class="text-item">Mã nhân viên</span>
-            <el-input v-model="mark.staff_id" :disabled="true"></el-input>
+            <el-input v-model="mark.staff_id" readonly></el-input>
           </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item class="form-item">
               <span class="text-item">Tên nhân viên</span>
-              <el-input v-model="user.name" :disabled="true"></el-input>
+              <el-input v-model="user.name" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item class="form-item">
               <span class="text-item">Bộ phận</span>
-              <el-input v-model="user.department" :disabled="true" ></el-input>
+              <el-input v-model="user.department" readonly></el-input>
             </el-form-item>
           </el-col>
         </el-row>
