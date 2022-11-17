@@ -57,17 +57,17 @@
       <el-table-column
           prop="staffId"
           label="Mã nhân viên"
-          width="200">
+          width="120">
       </el-table-column>
       <el-table-column
           prop="fullName"
           label="Họ và tên"
-          width="300">
+          width="200">
       </el-table-column>
       <el-table-column
           prop="department.name"
           label="Phòng ban"
-          width="300">
+          width="150">
       </el-table-column>
       <el-table-column
           vertical-align="middle"

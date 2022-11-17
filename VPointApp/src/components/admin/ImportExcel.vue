@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <div v-if="addFileStatus">
-      <h4 class="header-import">Thêm mới dữ liệu tính điểm V-Point bằng cách import file excel</h4>
+      <h4 class="header-import">Thêm mới dữ liệu tính điểm V-Point</h4>
       <b-form-file @change="addFile($event)"
                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                    v-model="file" class="mb-2"></b-form-file>
@@ -181,43 +181,43 @@
     <div v-if="!addFileStatus">
       <el-table
           border
-          :data="listMark"
-          style="width: 100%">
+          :data="listMark">
         <el-table-column
             label="STT"
-            width="80">
+            width="80"
+        align="center">
           <template v-slot="scope">
-            <span>{{ scope.$index + 1 }}</span>
+            <p >{{ scope.$index + 1 }}</p>
           </template>
         </el-table-column>
         <el-table-column
             prop="staff_id"
             label="Mã nhân viên"
-            width="180">
+            width="150">
         </el-table-column>
         <el-table-column
             prop="fullName"
             label="Họ tên"
-            width="220">
+            width="200">
         </el-table-column>
         <el-table-column
             prop="department"
             label="Bộ phận"
-            width="250">
+            width="200">
         </el-table-column>
         <el-table-column
             prop="month"
             label="Tháng"
-            width="140">
+            width="80">
         </el-table-column>
         <el-table-column
             prop="year"
             label="Năm"
-            width="140">
+            width="80">
         </el-table-column>
         <el-table-column
             label="Tổng điểm"
-            width="140">
+            width="80">
           <template v-slot="scope">
             {{
               scope.row.pointKPI + scope.row.pointBestDepartmentMonth + scope.row.pointBestDepartmentQuarter + scope.row.pointBestDepartmentYear

@@ -46,22 +46,22 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="staffId"
             label="Mã nhân viên"
-            width="150">
+            width="130">
         </el-table-column>
         <el-table-column
             prop="fullName"
             label="Họ và tên"
-            width="200">
+            width="180">
         </el-table-column>
         <el-table-column
             prop="email"
             label="Email"
-            width="250">
+            width="200">
         </el-table-column>
         <el-table-column
             prop="department.name"
             label="Phòng ban"
-            width="300">
+            width="150">
         </el-table-column>
         <el-table-column
             label="Quyền truy cập"
