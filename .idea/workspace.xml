@@ -2,24 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec85564a-452e-4652-8729-3f8d60aa55b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/VPointFront.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VPointFront.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/common/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/common/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/Add.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/DetailPoint.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/DetailPoint.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/HomeAdmin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/HomeAdmin.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/layout/MainSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/layout/MainSidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/auth/AccessRights.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/auth/AccessRights.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/auth/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/share/ChangePass.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/share/ChangePass.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/user/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/user/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/user/layout/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/user/layout/Sidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/service/auth-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/service/auth-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/service/user-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/service/user-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +31,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -101,7 +95,8 @@
       <workItem from="1669120128178" duration="4211000" />
       <workItem from="1669132621959" duration="2897000" />
       <workItem from="1669136928220" duration="525000" />
-      <workItem from="1669167836098" duration="5811000" />
+      <workItem from="1669167836098" duration="8980000" />
+      <workItem from="1669183591573" duration="1166000" />
     </task>
     <servers />
   </component>
