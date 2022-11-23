@@ -11,20 +11,20 @@
             <div class="col-4 ">
               <el-form-item prop="fullname">
                 <label for="fullname" >Họ và tên:</label>
-                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" readonly></el-input>
               </el-form-item>
             </div>
             <div class="col-4">
               <el-form-item prop="staffId">
                 <label for="staffId">Mã nhân sự:</label>
-                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" readonly></el-input>
               </el-form-item>
 
             </div>
             <div class="col-4 text-start">
               <el-form-item prop="email">
                 <label for="email">Email đăng nhập:</label>
-                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" readonly></el-input>
               </el-form-item>
 
             </div>

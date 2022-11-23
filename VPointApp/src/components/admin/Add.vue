@@ -223,7 +223,7 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="danger" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
+        <el-button type="danger" v-on:click.prevent="onSubmit('mark')">{{checkMArk === true? 'Chỉnh sửa' : 'Thêm mới'}}</el-button>
       </el-form-item>
     </el-form>
   </el-main>
@@ -346,6 +346,7 @@ import swal from 'sweetalert2'
           id: ''
         },
         date: null,
+        checkMArk: false,
         mark: {
           staff_id: '',
           kpiID: 1,
@@ -486,6 +487,8 @@ import swal from 'sweetalert2'
         markService.getMarkByUserAndDate(dataReq)
           .then(response => {
             this.mark = response.data;
+            console.log(response.data)
+            // this.checkMArk = true;
           })
           .catch (error => {
             console.log(error);

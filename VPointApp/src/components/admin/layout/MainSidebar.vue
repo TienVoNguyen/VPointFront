@@ -51,8 +51,14 @@
         </router-link>
         <router-link to="/admin/user-manager" style="text-decoration: none;">
           <el-menu-item @click="changeColor($event)" index="4">
-            <i class="fa-solid fa-user-gear text-white"></i>
-            <span>&nbsp;&nbsp;Quản lý người dùng</span>
+            <i class="el-icon-user-solid text-white"></i>
+            <span>Quản lý người dùng</span>
+          </el-menu-item>
+        </router-link>
+        <router-link to="/admin/department-manager" style="text-decoration: none;">
+          <el-menu-item @click="changeColor($event)" index="5">
+            <i class="el-icon-no-smoking text-white"></i>
+            <span>Quản lý phòng ban</span>
           </el-menu-item>
         </router-link>
       </el-menu>
