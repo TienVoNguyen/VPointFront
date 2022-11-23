@@ -1,11 +1,10 @@
 <template>
   <div class="login-bg p-4">
-    <div class="row justify-content-center pt-lg-3">
-      <div class="col-md-12 col-lg-12">
-        <h3 class="text-white">HỆ THỐNG QUẢN LÝ ĐIỂM V-POINT</h3>
-      </div>
-      <div class="col-md-3 col-lg-5">
-        <div class="wrap">
+    <h3 class="text-semibold text-white">HỆ THỐNG QUẢN LÝ ĐIỂM V-POINT</h3>
+<!--    <div class="row justify-content-center pt-lg-3">-->
+<!--      -->
+<!--      <div class="col-md-3 col-lg-5">-->
+        <div class="d-flex justify-content-center">
           <div class="login-wrap p-md-4">
             <div class="d-flex">
               <div class="w-100">
@@ -59,8 +58,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+<!--    </div>-->
+<!--  </div>-->
 </template>
 
 <script>
