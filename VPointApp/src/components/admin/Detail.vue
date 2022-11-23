@@ -13,20 +13,20 @@
             <div class="col-4 ">
               <el-form-item prop="fullname">
                 <label for="fullname" >Họ và tên:</label>
-                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" readonly></el-input>
               </el-form-item>
             </div>
             <div class="col-4">
               <el-form-item prop="staffId">
                 <label for="staffId">Mã nhân sự:</label>
-                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" readonly></el-input>
               </el-form-item>
 
             </div>
             <div class="col-4 text-start">
               <el-form-item prop="email">
                 <label for="email">Email đăng nhập:</label>
-                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" readonly></el-input>
               </el-form-item>
 
             </div>
@@ -54,7 +54,7 @@
 </div>
 <div class="col-4 text-right" >
 
-  <h4 align="right" style="color: #6c757d">    Tổng điểm: {{sum}} </h4>
+  <h4 align="right" style="color: #6c757d">    Tổng điểm: {{sum === 0? 0 : sum.toFixed(1)}} </h4>
 
 </div>
 
@@ -209,6 +209,7 @@ export default {
       this.td12 = 0
       console.log(this.Point)
       for (let i = 0; i < this.Point.length; i++) {
+        this.Point[i].sum.toFixed(1)
         this.sum += this.Point[i].sum
         if (this.formatMonth(this.Point[i].date) == 1){
           this.td1 = this.Point[i].sum

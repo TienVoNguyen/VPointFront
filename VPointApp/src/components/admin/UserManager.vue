@@ -14,7 +14,7 @@
 color: #246CD9;">Quản lý người dùng</h3><br>
           <div class="row justify-content-center mb-3">
             <div class=" col-4" align="right">
-              <select class="input-group-text" v-model="CateId" @change="getUserListByCateIdAndName"
+              <select v-model="CateId" @change="getUserListByCateIdAndName"
                       style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả bộ phận</option>
                 <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
@@ -51,23 +51,31 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="staffId"
             label="Mã nhân viên"
+<<<<<<< HEAD
 
             width="150">
+=======
+            width="130">
+>>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
         </el-table-column>
         <el-table-column
             prop="fullName"
             label="Họ và tên"
-            width="200">
+            width="180">
         </el-table-column>
         <el-table-column
             prop="email"
             label="Email"
-            width="250">
+            width="200">
         </el-table-column>
         <el-table-column
             prop="department.name"
             label="Phòng ban"
+<<<<<<< HEAD
             width="250">
+=======
+            width="150">
+>>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
         </el-table-column>
         <el-table-column
             label="Quyền truy cập"
@@ -96,11 +104,12 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         label="Tùy chọn">
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-              <el-button class="btn btn-warning" type="text" @click="removeValidate(true, scope.row.id)" ><i size="default"
+              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate(true, scope.row.id)" ><i style="font-size: 20px; color: #000000"
                                                                                                             class="el-icon-edit"></i>
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
+<<<<<<< HEAD
               <el-button class="btn btn-success" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id">
                 <i size="default"
                   class="el-icon-key"></i>
@@ -114,6 +123,16 @@ color: #246CD9;">Quản lý người dùng</h3><br>
             <el-tooltip class="item" effect="dark" content="Mở khóa" placement="top" v-if="scope.row.id !== currentUser.id && scope.row.status === false">
               <el-button class="btn btn-primary" type="text" @click="unlockUser(scope.row.id)">
                 <i size="default" class="el-icon-unlock"></i>
+=======
+              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i
+                  style="font-size: 20px; color: #001aff"
+                  class="el-icon-key"></i>
+              </el-button>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="Xóa" placement="top" v-if="scope.row.id !== currentUser.id">
+              <el-button class="btn btn-primary-outline" type="text" @click="deleteUser(scope.row.id)"><i style="font-size: 20px; color: red"
+                                                                                                 class="el-icon-delete"></i>
+>>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
               </el-button>
             </el-tooltip>
           </template>

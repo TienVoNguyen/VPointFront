@@ -57,17 +57,17 @@
       <el-table-column
           prop="staffId"
           label="Mã nhân viên"
-          width="200">
+          width="120">
       </el-table-column>
       <el-table-column
           prop="fullName"
           label="Họ và tên"
-          width="300">
+          width="200">
       </el-table-column>
       <el-table-column
           prop="department.name"
           label="Phòng ban"
-          width="300">
+          width="150">
       </el-table-column>
       <el-table-column
           vertical-align="middle"
@@ -82,12 +82,12 @@
                        label="Tùy chọn">
         <template v-slot="scope">
           <el-tooltip class="item" effect="dark" content="Nhập điểm" placement="top">
-            <el-button class="btn btn-success" type="text" @click="removeValidate1(scope.row.id)"><i size="default"
+            <el-button class="btn btn-primary-outline" type="text" @click="removeValidate1(scope.row.id)"><i style="font-size: 20px; color: #001aff"
                  class="el-icon-plus"></i>
             </el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="Xem chi tiết" placement="top">
-              <el-button class="btn btn-warning m-1" type="text" @click="router(scope.row.id, selectedYear)"><i size="default"
+              <el-button class="btn btn-primary-outline" type="text" @click="router(scope.row.id, selectedYear)"><i style="font-size: 20px; color: red"
                    class="el-icon-view"></i>
               </el-button>
           </el-tooltip>
