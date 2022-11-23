@@ -47,6 +47,31 @@ class AuthService {
         return axios.post(dataURL, user, {headers: authHeader()})
     }
 
+    createDpm(dpm){
+        let dataURL = `${API_URL}department/create`
+        return axios.post(dataURL, dpm, {headers: authHeader()})
+    }
+
+    editDpm(dpmId, dpm){
+        let dataURL = `${API_URL}department/update/${dpmId}`
+        return axios.put(dataURL, dpm, {headers: authHeader()})
+    }
+
+    findDpm(dpmId){
+        let dataURL = `${API_URL}department/${dpmId}`
+        return axios.get(dataURL, {headers: authHeader()})
+    }
+
+    lockUser(userId){
+        let dataURL = `${API_URL}lockUser/${userId}`
+        return axios.put(dataURL, {headers: authHeader()})
+    }
+
+    unlockUser(userId){
+        let dataURL = `${API_URL}unlockUser/${userId}`
+        return axios.put(dataURL, {headers: authHeader()})
+    }
+
     editUser(userId, user){
         let dataURL = `${API_URL}update/${userId}`
         return axios.put(dataURL, user, {headers: authHeader()})

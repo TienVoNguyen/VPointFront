@@ -167,13 +167,17 @@ export default {
     },
     currentUser() {
       return this.$store.state.auth.user;
-    },
+    }
   },
   created() {
     this.idUser = this.currentUser.id
     this.getVPoint()
     this.getYear()
     this.findByIdUser(this.idUser)
+    console.log(this.currentUser.status)
+    if (this.currentUser.status === false){
+      this.logOut()
+    }
   },
 
   methods: {
@@ -181,6 +185,11 @@ export default {
       if (value) {
         return moment(String(value)).format('YYYY')
       }
+    },
+
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
     },
 
     formatMonth(value){
