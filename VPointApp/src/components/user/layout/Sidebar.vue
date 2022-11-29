@@ -100,6 +100,12 @@ export default {
     currentUser() {
       return this.$store.state.auth.user;
     },
+    // eslint-disable-next-line vue/return-in-computed-property
+    check() {
+      if (this.currentUser().status === false){
+        this.logOut()
+      }
+    }
   },
   methods: {
     handleProfileLayout() {

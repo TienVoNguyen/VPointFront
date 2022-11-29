@@ -88,15 +88,24 @@ export default {
   },
   created() {
 
-    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
+    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === true) {
       this.$router.push('/admin/home');
+    } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
+      this.logOut()
+      this.$router.push('/access');
     }
-    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER") {
-
+    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER" && this.currentUser.status === true) {
       this.$router.push('/user/home');
+    } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
+      this.logOut()
+      this.$router.push('/access');
     }
   },
   methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    },
     handleLogin() {
       if (!this.user.email && !this.user.password) {
         this.messageForm = 'Vui lòng nhập thông tin đăng nhập';
@@ -119,18 +128,26 @@ export default {
       if (this.check === true) {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
-              if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
-                this.$router.push('/admin/home');
-              }
-              if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER") {
-                this.$router.push('/user/home');
-              }
+              console.log(this.currentUser)
+                if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
+                  this.$router.push('/admin/home');
+                }
+                if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER") {
+                  this.$router.push('/user/home');
+                }
             },
             error => {
+              console.log(error)
               this.a = (error.response && error.response.data)
+              this.messageForm = '';
+              if (error.response.data === 'User has locked'){
+                this.messageForm = 'Tài khoản của bạn đã bị khóa! Vui lòng liên hệ bộ phận nhân sự';
+              } else {
+                this.messageForm = 'Sai thông tin đăng nhập! Vui lòng kiểm tra lại';
+              }
               this.messageEmail = '';
               this.messagePass = '';
-              this.messageForm = 'Sai thông tin đăng nhập. Vui lòng kiểm tra lại';
+
               this.message = ''
             }
         );

@@ -174,6 +174,7 @@ export default {
     this.getVPoint()
     this.getYear()
     this.findByIdUser(this.idUser)
+    console.log(this.currentUser)
   },
 
   methods: {

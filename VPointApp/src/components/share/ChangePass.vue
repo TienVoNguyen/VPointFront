@@ -4,13 +4,11 @@
 height: 42px;
 left: 230px;
 top: 100px;
-
 font-family: 'Roboto';
 font-style: normal;
 font-weight: 700;
 font-size: 30px;
 line-height: 42px;
-
 color: #246CD9;">Đổi mật khẩu</span>
     <el-form :model="changePass" id="changePass" :rules="rules" ref="changePass1">
       <el-form-item  prop="oldPassword"><span slot="label">Nhập mật cũ</span><span slot="label" class="text-danger"> *</span>
