@@ -179,6 +179,9 @@
       </el-table>
     </div>
     <div v-if="!addFileStatus">
+      <div class="d-flex justify-content-end mb-2">
+        <b-button variant="danger" @click="sendMail" class="mr-2">Gửi Điểm</b-button>
+      </div>
       <el-table
           border
           :data="listMark">
@@ -261,7 +264,8 @@ export default {
       addStatus: false,
       listMark: [],
       visibleTable: false,
-      addFileStatus: true
+      addFileStatus: true,
+
     }
   },
   methods: {
@@ -361,7 +365,7 @@ export default {
         icon: 'info',
         title: 'Kết quả thêm điểm',
         text: `Thêm thành công: ${count} dòng. Thất bại: ${err} dòng.`,
-        confirmButtonText: 'Oke',
+        confirmButtonText: 'Xong!',
         denyButtonText: `Lưu kết quả`,
       }).then((result) => {
         if (result.isDenied) {
@@ -449,6 +453,28 @@ export default {
         let blob = new Blob([mark], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
         fs.saveAs(blob, 'result.xlsx');
       });
+    },
+    sendMail() {
+      let mailDetails = []
+      this.listMark.forEach(mark => {
+        mailDetails.push({
+          staffId: mark.staff_id,
+          year: mark.year,
+          month: mark.month,
+          totalPoint: (mark.pointKPI + mark.pointBestDepartmentMonth + mark.pointBestDepartmentQuarter + mark.pointBestDepartmentYear
+              + mark.pointBCSDepartment + mark.pointJointActivities + mark.pointLoveVmg +
+              +mark.pointTrain + mark.pointTrainStaff + mark.pointTrainVmg + mark.pointImprove
+              + mark.pointDisciplineBonus + mark.pointDisciplineViolate + mark.pointExcellentDepartmentMonth
+              + mark.pointExcellentDepartmentMonth + mark.pointExcellentDepartmentYear)
+        })
+      })
+      ExcelService.sendMail(mailDetails).then(() => {
+        swal.fire({
+          icon: 'success',
+          title: 'Gửi mail thành công',
+          confirmButtonText: 'Xong!',
+        })
+      })
     }
 
   },
