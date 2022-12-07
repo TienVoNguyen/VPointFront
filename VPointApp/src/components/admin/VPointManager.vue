@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container align="center">
     <div class="text-center">
       <br>
       <h2 class="vpointheader">Quản lý điểm V-Point</h2>
@@ -39,11 +39,14 @@
       <div class=" col-lg-4 text-left input-group-prepend">
       </div>
       <div class="col-lg-8 d-flex justify-content-end" >
+<!--        <el-button @click="sendMail" style="border: solid 1px; height: 50%; display: flex; align-items: center">Gửi Điểm</el-button>-->
         <el-button @click="toImport" style="border: solid 1px; height: 50%; display: flex; align-items: center"><i class="el-icon-upload2"></i>Import</el-button>
         <el-button @click="toExport" style="border: solid 1px; height: 50%; display: flex; align-items: center"> <i class="el-icon-download"></i>Export</el-button>
       </div>
     </div>
     <el-table border
+              fixed="true"
+              resizable="false"
               :data="listUser"
               style="width: 99%; margin-left: auto; margin-right: auto">
       <el-table-column
@@ -51,7 +54,7 @@
           label="STT"
           width="100">
         <template v-slot="scope">
-          <span>{{scope.$index +1}}</span>
+          <span>{{scope.$index +1 + index}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -82,22 +85,21 @@
                        label="Tùy chọn">
         <template v-slot="scope">
           <el-tooltip class="item" effect="dark" content="Nhập điểm" placement="top">
-            <el-button class="btn btn-primary-outline" type="text" @click="removeValidate1(scope.row.id)"><i style="font-size: 20px; color: #001aff"
-                 class="el-icon-plus"></i>
-            </el-button>
+            <i style="font-size: 18px; color: #0de3bb;" @click="removeValidate1(scope.row.id)"
+               class="el-icon-plus"></i>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="Xem chi tiết" placement="top">
-              <el-button class="btn btn-primary-outline" type="text" @click="router(scope.row.id, selectedYear)"><i style="font-size: 20px; color: red"
-                   class="el-icon-view"></i>
-              </el-button>
+              <i style="font-size: 18px; color: #ff5900; margin-left: 50px" @click="router(scope.row.id, selectedYear)"
+                 class="el-icon-view"></i>
           </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
 
 
-    <el-footer class="text-right">
+    <el-footer class="text-center">
       <el-pagination
+          page-sizes="10"
           layout="prev, pager, next"
           :page-count="count"
           @current-change="handlePageChange"
@@ -111,10 +113,13 @@
 import {UserService as userService} from "@/service/user-service";
 import authService from "@/service/auth-service";
 import moment from "moment";
+import ExcelService from "@/service/excel.service";
+import swal from "sweetalert2";
 export default {
   name: 'HomeComponent',
   data: function () {
     return {
+      index: 0,
       CateId: '',
       fullName: '',
       UserId: '',
@@ -223,6 +228,9 @@ export default {
     },
 
     handlePageChange(value) {
+
+        this.index = (value - 1) * 10
+
       this.page = value;
       this.retrievePointList()
       this.retrieveUserList();
@@ -361,11 +369,34 @@ export default {
       //     Swal.fire('Changes are not saved', '', 'info')
       //   }
       // })
-    }
+    },
+    sendMail() {
+      let mailDetails = []
+      this.listUser.forEach(mark => {
+        mailDetails.push({
+          staffId: mark.staff_id,
+          year: mark.year,
+          month: mark.month,
+          totalPoint: (mark.pointKPI + mark.pointBestDepartmentMonth + mark.pointBestDepartmentQuarter + mark.pointBestDepartmentYear
+              + mark.pointBCSDepartment + mark.pointJointActivities + mark.pointLoveVmg +
+              +mark.pointTrain + mark.pointTrainStaff + mark.pointTrainVmg + mark.pointImprove
+              + mark.pointDisciplineBonus + mark.pointDisciplineViolate + mark.pointExcellentDepartmentMonth
+              + mark.pointExcellentDepartmentMonth + mark.pointExcellentDepartmentYear)
+        })
+      })
+      ExcelService.sendMail(mailDetails).then(() => {
+        swal.fire({
+          icon: 'success',
+          title: 'Gửi mail thành công',
+          confirmButtonText: 'Xong!',
+        })
+      })
+    },
   },
+
   mounted() {
     this.retrieveUserList();
-  },
+  }
 };
 </script>
 

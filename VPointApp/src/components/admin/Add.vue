@@ -129,7 +129,9 @@
               <el-col :span="6" :offset="4">
                 <el-form-item prop="bcsDepartment"  >
                   <p class="text-content">3. Điểm BSC bộ phận</p>
-                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment"></el-input>
+                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment">
+                    <template slot="append">%</template>
+                  </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="6">

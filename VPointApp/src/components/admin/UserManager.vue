@@ -71,6 +71,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
             width="200">
         </el-table-column>
         <el-table-column
+             align="center"
             label="Quyền truy cập"
             width="125">
           <template v-slot="scope">
@@ -82,7 +83,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             align="center"
             label="Trạng thái"
-            width="125">
+            width="180">
           <template v-slot="scope">
             <span v-if="scope.row.status === true" style="color: #1dad33">
               {{scope.row.status === true? 'Đang hoạt động' : 'Đã tạm ngừng'}}
@@ -97,37 +98,31 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         label="Tùy chọn">
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate(true, scope.row.id)" ><i style="font-size: 20px; color: #f8d109"
-                                                                                                            class="el-icon-edit"></i>
-              </el-button>
+              <i style="font-size: 18px; color: #f8d109" @click="removeValidate(true, scope.row.id)" class="el-icon-edit"></i>
+
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id">
-                <i style="font-size: 20px; color: #1dad33"
+                <i @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id" style="font-size: 18px; color: #1dad33; margin-left: 30px"
                   class="el-icon-key"></i>
-              </el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Khóa người dùng" placement="top" v-if="scope.row.id !== currentUser.id && scope.row.status === true">
-              <el-button class="btn btn-primary-outline" type="text" @click="lockUser(scope.row.id)">
-                <i style="font-size: 20px; color: red" class="el-icon-lock"></i>
-              </el-button>
+            <el-tooltip class="item" effect="dark" content="Khóa người dùng" placement="top" >
+                <i v-if="scope.row.id !== currentUser.id && scope.row.status === true" @click="lockUser(scope.row.id)" style="font-size: 18px; color: red; margin-left: 30px" class="el-icon-lock"></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Mở khóa" placement="top" v-if="scope.row.id !== currentUser.id && scope.row.status === false">
-              <el-button class="btn btn-primary-outline" type="text" @click="unlockUser(scope.row.id)">
-                <i style="font-size: 20px; color: dodgerblue" class="el-icon-unlock"></i></el-button>
+            <el-tooltip class="item" effect="dark" content="Mở khóa" placement="top">
+                <i @click="unlockUser(scope.row.id)" v-if="scope.row.id !== currentUser.id && scope.row.status === false" style="font-size: 18px; color: dodgerblue; margin-left: 30px" class="el-icon-unlock"></i>
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
-    </el-main>
-    <br>
-    <el-footer>
       <el-pagination
           layout="prev, pager, next"
           :page-count="count"
           @current-change="handlePageChange"
           hide-on-single-page>
       </el-pagination>
+    </el-main>
+    <el-footer>
+
     </el-footer>
 
     <!-- change pass -->
@@ -362,7 +357,7 @@ export default {
         if(value === ''){
           callback(new Error('Vui lòng nhập mật khẩu'))
         } else if (!this.validPass(value)) {
-          callback('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường')
+          callback('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thườn')
         } else {
           callback()
         }

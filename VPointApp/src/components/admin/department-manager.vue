@@ -33,13 +33,12 @@ color: #246CD9;">Quản lý phòng ban</h3>
           style="width: 80%; margin-right: auto; margin-left: auto"
       >
         <el-table-column
-            type="index"
             align="center"
             label="STT"
             width="100">
-<!--          <template v-slot="scope">-->
-<!--            <span>{{scope.$index + 1}}</span>-->
-<!--          </template>-->
+          <template v-slot="scope">
+            <span>{{scope.$index + 1 + x}}</span>
+          </template>
         </el-table-column>
         <el-table-column
             prop="name"
@@ -65,24 +64,18 @@ color: #246CD9;">Quản lý phòng ban</h3>
             label="Tùy chọn">
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-              <el-button class="btn btn-warning" type="text" @click="findByIdDpm( scope.row.id)" ><i size="default"
-                                                                                                             class="el-icon-edit"></i>
-              </el-button>
+              <i size="default" @click="findByIdDpm( scope.row.id)" style="color: #ff6b00" class="el-icon-edit"></i>
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
-    </el-main>
-    <el-footer>
       <el-pagination
           layout="prev, pager, next"
           :page-count="count"
           @current-change="handlePageChange"
           hide-on-single-page>
       </el-pagination>
-    </el-footer>
-
-
+    </el-main>
     <el-dialog :visible.sync="dialogFormVisible1"
                width="30%"><span slot="title" style="width: 214px;
 height: 42px;
@@ -366,12 +359,7 @@ export default {
       this.retrievePointList();
     },
     handlePageChange(value) {
-      // if (this.page > value){
-      //   this.indexMethod(-(this.page - value)*10)
-      // }
-      // if (this.page < value){
-      //   this.indexMethod((value - this.page)*10)
-      // }
+      this.x = (value - 1) * 10
       this.page = value;
       this.retrievePointList();
     },

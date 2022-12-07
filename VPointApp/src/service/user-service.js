@@ -33,7 +33,10 @@ export class UserService {
         return axios.get(dataURL, {params, headers: authHeader()});
     }
 
-
+    static getAllSymbol() {
+        let dataURL = `${this.serverURL}/getAllSymbol`
+        return axios.get(dataURL, { headers: authHeader()});
+    }
 
     static deleteUser(userId){
         let dataURL = `${this.serverURL}/delete/${userId}`
