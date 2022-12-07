@@ -129,7 +129,9 @@
               <el-col :span="6" :offset="4">
                 <el-form-item prop="bcsDepartment"  >
                   <p class="text-content">3. Điểm BSC bộ phận</p>
-                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment"></el-input>
+                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment">
+                    <template slot="append">%</template>
+                  </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="6">
@@ -249,11 +251,7 @@
       </el-row>
     </el-collapse-item>
       <el-form-item>
-<<<<<<< HEAD
-        <el-button type="danger" v-on:click.prevent="onSubmit('mark')">{{checkMArk === true? 'Chỉnh sửa' : 'Thêm mới'}}</el-button>
-=======
         <el-button class="btn-submit" type="danger" v-on:click.prevent="onSubmit('mark')">Nhập điểm</el-button>
->>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
       </el-form-item>
       </el-collapse>
     </el-form>

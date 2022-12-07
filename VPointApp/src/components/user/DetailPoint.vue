@@ -1,7 +1,7 @@
 <template>
 
-  <div class="container">
-    <a href="/user/home"><i class="el-icon-arrow-left item-absolute">Quay lại</i></a>
+  <div class="container" style="margin-top: 60px">
+<!--    <a href="/user/home"><i class="el-icon-arrow-left item-absolute">Quay lại</i></a>-->
     <h3 style="
   /*  margin-top: 2rem;*/
   /*margin-bottom: 2rem;*/

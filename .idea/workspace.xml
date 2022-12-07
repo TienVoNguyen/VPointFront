@@ -2,24 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec85564a-452e-4652-8729-3f8d60aa55b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/VPointFront.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VPointFront.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/package-lock.json" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/ScoringRules.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VPointApp/src/components/auth/Locked.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/common/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/common/router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/Add.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/DetailPoint.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/DetailPoint.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/Detail.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/HomeAdmin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/HomeAdmin.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/layout/MainSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/layout/MainSidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/auth/AccessRights.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/auth/AccessRights.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/auth/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/share/ChangePass.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/share/ChangePass.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/user/DetailPoint.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/user/DetailPoint.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/user/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/user/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/user/layout/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/user/layout/Sidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/service/auth-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/service/auth-service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/service/user-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/service/user-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VPointApp/src/store/auth.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/store/auth.module.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +39,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -58,7 +59,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/doahoavodanh/Desktop/SourceCode/SourceCode/css-tpb-cms&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/TPBank/cssTpBank/SourceCode/css-tpb-cms&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
@@ -101,7 +102,23 @@
       <workItem from="1669120128178" duration="4211000" />
       <workItem from="1669132621959" duration="2897000" />
       <workItem from="1669136928220" duration="525000" />
-      <workItem from="1669167836098" duration="5811000" />
+      <workItem from="1669167836098" duration="8980000" />
+      <workItem from="1669183591573" duration="5508000" />
+      <workItem from="1669207752426" duration="4000" />
+      <workItem from="1669609925103" duration="7913000" />
+      <workItem from="1669652280429" duration="1587000" />
+      <workItem from="1669686062925" duration="3078000" />
+      <workItem from="1669702236713" duration="4566000" />
+      <workItem from="1669781205095" duration="2779000" />
+      <workItem from="1669788670995" duration="3114000" />
+      <workItem from="1669814847644" duration="2972000" />
+      <workItem from="1669945596384" duration="1254000" />
+      <workItem from="1669949417960" duration="874000" />
+      <workItem from="1669954892279" duration="2117000" />
+      <workItem from="1669961160104" duration="1420000" />
+      <workItem from="1670308293774" duration="31000" />
+      <workItem from="1670317526903" duration="732000" />
+      <workItem from="1670378168074" duration="29000" />
     </task>
     <servers />
   </component>
