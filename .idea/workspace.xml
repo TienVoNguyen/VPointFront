@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec85564a-452e-4652-8729-3f8d60aa55b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/ScoringRules.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VPointApp/src/components/auth/Locked.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/common/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/common/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/Add.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/Detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/HomeAdmin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/HomeAdmin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/ScoringRules.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/ScoringRules.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/department-manager.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/layout/MainSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/layout/MainSidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/auth/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/user/DetailPoint.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/user/DetailPoint.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/user/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/user/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/service/user-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/service/user-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/store/auth.module.js" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/store/auth.module.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +107,11 @@
       <workItem from="1670308293774" duration="31000" />
       <workItem from="1670317526903" duration="732000" />
       <workItem from="1670378168074" duration="29000" />
+      <workItem from="1670394933224" duration="639000" />
+      <workItem from="1670396354782" duration="743000" />
+      <workItem from="1670750548322" duration="1820000" />
+      <workItem from="1670818205784" duration="3355000" />
+      <workItem from="1670826286771" duration="1587000" />
     </task>
     <servers />
   </component>
