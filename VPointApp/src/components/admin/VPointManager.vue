@@ -48,7 +48,7 @@
               fixed="true"
               resizable="false"
               :data="listUser"
-              style="width: 99%; margin-left: auto; margin-right: auto">
+              style="width: 1350px; margin-right: auto; margin-left: auto">
       <el-table-column
           align="center"
           label="STT"

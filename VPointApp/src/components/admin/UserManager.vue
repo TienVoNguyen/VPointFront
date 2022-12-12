@@ -15,7 +15,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           <div class="row justify-content-center mb-3">
             <div class=" col-4" align="right">
               <select v-model="CateId" @change="getUserListByCateIdAndName"
-                      style="width: 250px; height: 34px; display: inherit; align-items: center;">
+                      class="input-group-text text-left" style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả bộ phận</option>
                 <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
                   {{ d.name }}
