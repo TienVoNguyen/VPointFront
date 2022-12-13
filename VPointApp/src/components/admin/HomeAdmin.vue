@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row justify-content-center mt-4">
+    <div class="row justify-content-center ">
       <div class="col col-lg-12">
         <div class="text-center">
           <h2 class="headerVPoint" style="text-align: center;
@@ -67,62 +67,62 @@
         <tr>
           <td>Tháng 1</td>
           <td>{{td1}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${1}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${1}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 2</td>
           <td>{{td2}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${2}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${2}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 3</td>
           <td>{{td3}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${3}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${3}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 4</td>
           <td>{{td4}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${4}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${4}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 5</td>
           <td>{{td5}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${5}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${5}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 6</td>
           <td>{{td6}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${6}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${6}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 7</td>
           <td>{{td7}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${7}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${7}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 8</td>
           <td>{{td8}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${8}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${8}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 9</td>
           <td>{{td9}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${9}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${9}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 10</td>
           <td>{{td10}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${10}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${10}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 11</td>
           <td>{{td11}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${11}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${11}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 12</td>
           <td>{{td12}}</td>
-          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${12}/${idUser}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`/admin/AdminSeeDetailVPoint/${selected}/${12}/${idUser}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
       </table>
     </div>

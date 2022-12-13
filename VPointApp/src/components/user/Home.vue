@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row justify-content-center mt-4">
+    <div class="row justify-content-center">
       <div class="col col-lg-12">
         <div class="text-center">
           <h2 class="headerVPoint" style="text-align: center;
@@ -20,19 +20,19 @@
                 <div class="col-4 ">
                   <el-form-item prop="fullname">
                     <label for="fullname" >Họ và tên:</label>
-                    <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+                    <el-input name= "fullname" v-model="user.fullName" autocomplete="off" readonly></el-input>
                   </el-form-item>
                 </div>
                 <div class="col-4">
                   <el-form-item prop="staffId">
                     <label for="staffId">Mã nhân sự:</label>
-                    <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+                    <el-input name= "staffId" v-model="user.staffId" autocomplete="off" readonly></el-input>
                   </el-form-item>
                 </div>
                 <div class="col-4 text-start">
                   <el-form-item prop="email">
                     <label for="email">Email đăng nhập:</label>
-                    <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+                    <el-input type="email" name= "email" v-model="user.email" autocomplete="off" readonly></el-input>
                   </el-form-item>
                 </div>
               </div>
@@ -67,62 +67,62 @@
         <tr>
           <td>Tháng 1</td>
           <td>{{td1}}</td>
-          <td><router-link :to="`api/mark/${selected}/${1}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${1}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 2</td>
           <td>{{td2}}</td>
-          <td><router-link :to="`api/mark/${selected}/${2}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${2}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 3</td>
           <td>{{td3}}</td>
-          <td><router-link :to="`api/mark/${selected}/${3}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${3}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 4</td>
           <td>{{td4}}</td>
-          <td><router-link :to="`api/mark/${selected}/${4}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${4}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 5</td>
           <td>{{td5}}</td>
-          <td><router-link :to="`api/mark/${selected}/${5}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${5}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 6</td>
           <td>{{td6}}</td>
-          <td><router-link :to="`api/mark/{selected}/${6}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/{selected}/${6}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 7</td>
           <td>{{td7}}</td>
-          <td><router-link :to="`api/mark/${selected}/${7}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${7}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 8</td>
           <td>{{td8}}</td>
-          <td><router-link :to="`api/mark/${selected}/${8}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${8}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 9</td>
           <td>{{td9}}</td>
-          <td><router-link :to="`api/mark/${selected}/${9}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${9}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 10</td>
           <td>{{td10}}</td>
-          <td><router-link :to="`api/mark/${selected}/${10}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${10}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 11</td>
           <td>{{td11}}</td>
-          <td><router-link :to="`api/mark/${selected}/${11}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${11}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
         <tr>
           <td>Tháng 12</td>
           <td>{{td12}}</td>
-          <td><router-link :to="`api/mark/${selected}/${12}`" class="btn btn-warning">Xem chi tiết</router-link></td>
+          <td><router-link :to="`api/mark/${selected}/${12}`" style="color: #DC143C">Xem chi tiết</router-link></td>
         </tr>
       </table>
     </div>
@@ -201,6 +201,7 @@ export default {
         this.idUser = this.currentUser.id;
       }
       let response1 = await userService.getYear(this.idUser)
+      console.log(response1.data)
       for (let i = 0; i < response1.data.length; i++) {
         this.year.push(this.formatYear(response1.data[i].date))
       }

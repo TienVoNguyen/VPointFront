@@ -86,21 +86,21 @@ export default {
       return this.$store.state.auth.user;
     },
   },
-  created() {
-
-    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === true) {
-      this.$router.push('/admin/home');
-    } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
-      this.logOut()
-      this.$router.push('/access');
-    }
-    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER" && this.currentUser.status === true) {
-      this.$router.push('/user/home');
-    } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
-      this.logOut()
-      this.$router.push('/access');
-    }
-  },
+  // created() {
+  //
+  //   if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === true) {
+  //     this.$router.push('/admin/home');
+  //   } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
+  //     this.logOut()
+  //     this.$router.push('/access');
+  //   }
+  //   if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER" && this.currentUser.status === true) {
+  //     this.$router.push('/user/home');
+  //   } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
+  //     this.logOut()
+  //     this.$router.push('/access');
+  //   }
+  // },
   methods: {
     logOut() {
       this.$store.dispatch('auth/logout');
@@ -141,7 +141,7 @@ export default {
               this.a = (error.response && error.response.data)
               this.messageForm = '';
               if (error.response.data === 'User has locked'){
-                this.messageForm = 'Tài khoản của bạn đã bị khóa! Vui lòng liên hệ bộ phận nhân sự';
+                this.messageForm = 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ bộ phận nhân sự!';
               } else {
                 this.messageForm = 'Sai thông tin đăng nhập! Vui lòng kiểm tra lại';
               }
