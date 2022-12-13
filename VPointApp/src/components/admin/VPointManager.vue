@@ -142,6 +142,7 @@ export default {
 
     let response = await authService.getAllUser()
     this.listU = response.data;
+    console.log(this.listU)
     let response3 = await authService.adminGetYear()
     for (let i = 0; i < response3.data.length; i++) {
       this.year.push(this.formatYear(response3.data[i].date))

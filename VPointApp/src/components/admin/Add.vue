@@ -249,11 +249,7 @@
       </el-row>
     </el-collapse-item>
       <el-form-item>
-<<<<<<< HEAD
-        <el-button type="danger" v-on:click.prevent="onSubmit('mark')">{{checkMArk === true? 'Chỉnh sửa' : 'Thêm mới'}}</el-button>
-=======
         <el-button class="btn-submit" type="danger" v-on:click.prevent="onSubmit('mark')">Nhập điểm</el-button>
->>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
       </el-form-item>
       </el-collapse>
     </el-form>

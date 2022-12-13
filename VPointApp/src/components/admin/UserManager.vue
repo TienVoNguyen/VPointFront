@@ -51,12 +51,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="staffId"
             label="Mã nhân viên"
-<<<<<<< HEAD
-
-            width="150">
-=======
             width="130">
->>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
         </el-table-column>
         <el-table-column
             prop="fullName"
@@ -71,11 +66,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="department.name"
             label="Phòng ban"
-<<<<<<< HEAD
-            width="250">
-=======
             width="150">
->>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
         </el-table-column>
         <el-table-column
             label="Quyền truy cập"
@@ -109,21 +100,6 @@ color: #246CD9;">Quản lý người dùng</h3><br>
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-<<<<<<< HEAD
-              <el-button class="btn btn-success" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id">
-                <i size="default"
-                  class="el-icon-key"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Khóa người dùng" placement="top" v-if="scope.row.id !== currentUser.id && scope.row.status === true">
-              <el-button class="btn btn-danger" type="text" @click="lockUser(scope.row.id)">
-                <i size="default" class="el-icon-lock"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Mở khóa" placement="top" v-if="scope.row.id !== currentUser.id && scope.row.status === false">
-              <el-button class="btn btn-primary" type="text" @click="unlockUser(scope.row.id)">
-                <i size="default" class="el-icon-unlock"></i>
-=======
               <el-button class="btn btn-primary-outline" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i
                   style="font-size: 20px; color: #001aff"
                   class="el-icon-key"></i>
@@ -132,7 +108,6 @@ color: #246CD9;">Quản lý người dùng</h3><br>
             <el-tooltip class="item" effect="dark" content="Xóa" placement="top" v-if="scope.row.id !== currentUser.id">
               <el-button class="btn btn-primary-outline" type="text" @click="deleteUser(scope.row.id)"><i style="font-size: 20px; color: red"
                                                                                                  class="el-icon-delete"></i>
->>>>>>> 1358560944e5799bc9df323bd1e124d75a0fa2f1
               </el-button>
             </el-tooltip>
           </template>
