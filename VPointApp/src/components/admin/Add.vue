@@ -129,7 +129,9 @@
               <el-col :span="6" :offset="4">
                 <el-form-item prop="bcsDepartment"  >
                   <p class="text-content">3. Điểm BSC bộ phận</p>
-                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment"></el-input>
+                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment">
+                    <template slot="append">%</template>
+                  </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="6">
@@ -367,6 +369,7 @@ import swal from 'sweetalert2'
           id: ''
         },
         date: null,
+        checkMArk: false,
         mark: {
           staff_id: '',
           kpi: null,
@@ -519,6 +522,8 @@ import swal from 'sweetalert2'
         markService.getMarkByUserAndDate(dataReq)
           .then(response => {
             this.mark = response.data;
+            console.log(response.data)
+            // this.checkMArk = true;
           })
           .catch (error => {
             console.log(error);

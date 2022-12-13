@@ -5,6 +5,8 @@ import UserLayout from "@/components/user/layout/UserLayout";
 import AddMark from "@/components/admin/Add";
 import UserManager from "@/components/admin/UserManager";
 import ImportExcel from "@/components/admin/ImportExcel";
+import departmentManager from "@/components/admin/department-manager";
+// import ScoringRules from "@/components/admin/ScoringRules";
 
 Vue.use(Router);
 
@@ -23,6 +25,10 @@ const router = new Router({
         {
             path: '/access',
             component: () => import("@/components/auth/AccessRights"),
+        },
+        {
+            path: '/locked',
+            component: () => import("@/components/auth/Locked"),
         },
         {
             path: '/admin',
@@ -53,6 +59,17 @@ const router = new Router({
                     path: 'user-manager',
                     name: 'UserManager',
                     component: UserManager
+                },
+                {
+                    path: 'scoring-rules',
+                    name: 'ScoringRules',
+                    component: () => import("@/components/admin/ScoringRules")
+                },
+
+                {
+                    path: 'department-manager',
+                    name: 'DepartmentManager',
+                    component: departmentManager
                 },
                 {
                     path: 'mark/:id',
@@ -109,11 +126,15 @@ router.beforeEach((to, from, next) => {
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
     const user = JSON.parse(loggedIn)
-    if (authRequired && !loggedIn) {
+
+    // if (!loggedIn && user === 'User has locked'){
+    //     next('/access');
+    // }
+     if (authRequired && !loggedIn) {
         next('/login');
     } else {
         if (to.path.startsWith('/admin')) {
-            if (user !== null && user.roles[0].authority === 'ROLE_ADMIN') {
+            if (user !== null && user.roles[0].authority === 'ROLE_ADMIN' && user.status === true) {
                 next();
             } else {
                 next('/access');

@@ -13,13 +13,30 @@ export class UserService {
         let dataURL = `${this.serverURL}/list`
         return axios.get(dataURL, {params, headers: authHeader()});
     }
+    static getAllDpm(params) {
+        let dataURL = `${this.serverURL}/department/list`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
 
     static getAllByYear(params) {
         let dataURL = `${this.serverURL}/listByYear`
         return axios.get(dataURL, {params, headers: authHeader()});
     }
 
+    static getAllQuantity() {
+        let dataURL = `${this.serverURL}/department/listQuantity`
+        return axios.get(dataURL, { headers: authHeader()});
+    }
 
+    static getDpmByName(params) {
+        let dataURL = `${this.serverURL}/department/getDpmByName`
+        return axios.get(dataURL, {params, headers: authHeader()});
+    }
+
+    static getAllSymbol() {
+        let dataURL = `${this.serverURL}/getAllSymbol`
+        return axios.get(dataURL, { headers: authHeader()});
+    }
 
     static deleteUser(userId){
         let dataURL = `${this.serverURL}/delete/${userId}`
