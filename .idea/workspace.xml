@@ -4,8 +4,6 @@
     <list default="true" id="ec85564a-452e-4652-8729-3f8d60aa55b4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/ScoringRules.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/ScoringRules.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/UserManager.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/VPointApp/src/components/admin/VPointManager.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +109,8 @@
       <workItem from="1670396354782" duration="743000" />
       <workItem from="1670750548322" duration="1820000" />
       <workItem from="1670818205784" duration="3355000" />
-      <workItem from="1670826286771" duration="1587000" />
+      <workItem from="1670826286771" duration="3301000" />
+      <workItem from="1670898019719" duration="3055000" />
     </task>
     <servers />
   </component>
