@@ -136,7 +136,7 @@
               </el-col>
               <el-col :span="6" :offset="6">
                 <p class="text-content">4. Hoạt động chung</p>
-                <el-form-item prop="jointActivities" >
+                <el-form-item >
                   <el-input placeholder="Nhập điểm hoạt động chung" type="number" v-model="mark.jointActivities"></el-input>
                 </el-form-item>
               </el-col>
@@ -157,7 +157,7 @@
                 <p class="text-content">5. Đào tạo</p>
               </el-col>
               <el-col :span="6" :offset="4">
-                <el-form-item prop="train">
+                <el-form-item>
                   <h6>5.1. Người đào tạo</h6>
                   <el-input placeholder="Nhập điểm" type="number" v-model="mark.train"></el-input>
                 </el-form-item>
@@ -172,7 +172,7 @@
               </el-col>
               <el-col :span="6" :offset="4">
                 <h6>5.3. Chương trình phát triển cùng VMG</h6>
-                <el-form-item prop="trainVmg" >
+                <el-form-item>
                   <el-input placeholder="Nhập điểm" type="number" v-model="mark.trainVmg"></el-input>
                 </el-form-item>
               </el-col>
@@ -372,7 +372,6 @@ import swal from 'sweetalert2'
         checkMArk: false,
         mark: {
           staff_id: '',
-          kpiID: 1,
           kpi: null,
           disciplineBonus: null,
           bestDepartmentMonth: false,
@@ -423,11 +422,29 @@ import swal from 'sweetalert2'
       };
     },
     methods: {
-      roundToTwo(num) {
-        return +(Math.round(num + "e+2") + "e-2");
+      getRoundValue(value) {
+        if (value === null || value == '') {
+          return null;
+        }
+        return Math.round(value);
+      },
+      getFixedValue(value) {
+        if (value === null || value == '') {
+          return null;
+        }
+        return  value.toFixed(1);
       },
       handleInputParams() {
-        this.mark.kpi = this.roundToTwo(this.mark.kpi);
+        this.mark.kpi = this.getRoundValue(this.mark.kpi);
+        this.mark.disciplineViolate = this.getRoundValue(this.mark.disciplineViolate);
+        this.mark.bcsDepartment = this.getRoundValue(this.mark.bcsDepartment)
+        this.mark.jointActivities = this.getFixedValue(this.mark.jointActivities);
+        this.mark.train = this.getFixedValue(this.mark.train);
+        this.mark.trainStaff = this.getRoundValue(this.mark.trainStaff);
+        this.mark.trainVmg = this.getFixedValue(this.mark.trainVmg);
+        this.mark.improveYear = this.getFixedValue(this.mark.improveYear);
+        this.mark.loveVmg = this.getRoundValue(this.mark.loveVmg);
+        this.mark.disciplineBonus = this.getRoundValue(this.mark.disciplineBonus);
       },
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {
@@ -444,6 +461,7 @@ import swal from 'sweetalert2'
                 )
                 return;
             }
+            console.log(11, this.mark.kpi);
             this.handleInputParams();
             let date = new Date(this.date);
             this.mark.month = date.getMonth() + 1;
