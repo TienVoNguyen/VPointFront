@@ -51,9 +51,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="staffId"
             label="Mã nhân viên"
-
             width="130">
-
         </el-table-column>
         <el-table-column
             prop="fullName"
@@ -68,7 +66,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="department.name"
             label="Phòng ban"
-            width="200">
+            width="150">
         </el-table-column>
         <el-table-column
              align="center"
@@ -99,7 +97,6 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
               <i style="font-size: 18px; color: #f8d109" @click="removeValidate(true, scope.row.id)" class="el-icon-edit"></i>
-
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
                 <i @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id" style="font-size: 18px; color: #1dad33; margin-left: 30px"
@@ -110,6 +107,7 @@ color: #246CD9;">Quản lý người dùng</h3><br>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Mở khóa" placement="top">
                 <i @click="unlockUser(scope.row.id)" v-if="scope.row.id !== currentUser.id && scope.row.status === false" style="font-size: 18px; color: dodgerblue; margin-left: 30px" class="el-icon-unlock"></i>
+
             </el-tooltip>
           </template>
         </el-table-column>

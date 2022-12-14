@@ -11,21 +11,6 @@ export default {
   name: "HomeComponent",
   data() {
     return {
-
-      b: '',
-      c: false
-    }
-  },
-  created() {
-    this.get()
-  },
-  methods: {
-    get(){
-
-      if (this.a.equals(this.b)){
-        this.c = true
-      }
-      console.log(this.c)
     }
   }
 }

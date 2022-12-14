@@ -44,6 +44,7 @@
           </p>
         </div>
         <div class="mb-4 text-right col-lg-6" style="display: flex; justify-content: end; align-items: end;">
+          <el-button type="info" plain round @click="sendMail">Gửi điểm</el-button>
           <el-button type="primary" plain round @click="exportTotal">Xuất tổng điểm</el-button>
           <el-button type="success" plain round @click="exportDetail">Xuất chi tiết điểm</el-button>
         </div>
@@ -195,6 +196,8 @@ import MarkService from "@/service/mark-service";
 import authService from "@/service/auth-service";
 import ExcelJS from "exceljs";
 import * as fs from 'file-saver';
+import ExcelService from "@/service/excel.service";
+import swal from "sweetalert2";
 
 export default {
   name: "ExportExcel",
@@ -210,6 +213,24 @@ export default {
     }
   },
   methods: {
+    sendMail() {
+      let mailDetails = []
+      this.allMark.forEach(mark => {
+        mailDetails.push({
+          staffId: mark.staffId,
+          year: mark.year,
+          month: mark.month,
+          totalPoint: mark.total !== null ? mark.total : 0
+        })
+      })
+      ExcelService.sendMail(mailDetails).then(() => {
+        swal.fire({
+          icon: 'success',
+          title: 'Gửi mail thành công',
+          confirmButtonText: 'Xong!',
+        })
+      })
+    },
     exportTotal() {
       let data = [];
       let header = ['STT', 'Mã NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'THÁNG', 'NĂM', 'Tổng điểm'];
