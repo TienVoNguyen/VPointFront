@@ -1,85 +1,70 @@
-<!--<template>-->
-<!--<div class="background">-->
-<!--  <h1 class="welcome">Chào mừng bạn đến với</h1>-->
-<!--  <h1 class="system">Hệ thống quản lý điểm V-Point</h1>-->
+<template>
+<div class="background">
+  <h1 class="welcome">Chào mừng bạn đến với</h1>
+  <h1 class="system">Hệ thống quản lý điểm V-Point</h1>
 
-<!--</div>-->
-<!--</template>-->
+</div>
+</template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "HomeComponent",-->
-<!--  data() {-->
-<!--    return {-->
+<script>
+export default {
+  name: "HomeComponent",
+  data() {
+    return {
+    }
+  }
+}
+</script>
 
-<!--      b: '',-->
-<!--      c: false-->
-<!--    }-->
-<!--  },-->
-<!--  created() {-->
-<!--    this.get()-->
-<!--  },-->
-<!--  methods: {-->
-<!--    get(){-->
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Great+Vibes');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+.background {
+  padding: 0;
+  margin: 0;
+  background-image: url('@/assets/images/anhnen1.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center center;
+  height: 730px;
+}
 
-<!--      if (this.a.equals(this.b)){-->
-<!--        this.c = true-->
-<!--      }-->
-<!--      console.log(this.c)-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+.welcome {
+  position: absolute;
+  width: 514px;
+  height: 90px;
+  left: 240px;
+  top: 158px;
+  text-align: center;
+  font-family: 'Great Vibes', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 72px;
+  line-height: 90px;
 
-<!--<style scoped>-->
-<!--@import url('https://fonts.googleapis.com/css?family=Great+Vibes');-->
-<!--@import url('https://fonts.googleapis.com/css?family=Playfair+Display');-->
-<!--.background {-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--  background-image: url('@/assets/images/anhnen1.jpg');-->
-<!--  background-repeat: no-repeat;-->
-<!--  background-attachment: fixed;-->
-<!--  background-size: cover;-->
-<!--  background-position: center center;-->
-<!--  height: 730px;-->
-<!--}-->
+  /* Black */
 
-<!--.welcome {-->
-<!--  position: absolute;-->
-<!--  width: 514px;-->
-<!--  height: 90px;-->
-<!--  left: 240px;-->
-<!--  top: 158px;-->
-<!--  text-align: center;-->
-<!--  font-family: 'Great Vibes', sans-serif;-->
-<!--  font-style: normal;-->
-<!--  font-weight: 400;-->
-<!--  font-size: 72px;-->
-<!--  line-height: 90px;-->
+  color: #000000;
+}
 
-<!--  /* Black */-->
+.system {
+  position: absolute;
+  width: 637px;
+  height: 60px;
+  left: 325px;
+  top: 251px;
 
-<!--  color: #000000;-->
-<!--}-->
+  text-align: center;
 
-<!--.system {-->
-<!--  position: absolute;-->
-<!--  width: 637px;-->
-<!--  height: 60px;-->
-<!--  left: 325px;-->
-<!--  top: 251px;-->
+  font-family: 'Playfair Display', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 45px;
+  line-height: 60px;
+  /* identical to box height */
+  /* 12 */
+  color: #ED0033;
 
-<!--  text-align: center;-->
-
-<!--  font-family: 'Playfair Display', sans-serif;-->
-<!--  font-style: normal;-->
-<!--  font-weight: 700;-->
-<!--  font-size: 45px;-->
-<!--  line-height: 60px;-->
-<!--  /* identical to box height */-->
-<!--  /* 12 */-->
-<!--  color: #ED0033;-->
-
-<!--}-->
-<!--</style>-->
+}
+</style>

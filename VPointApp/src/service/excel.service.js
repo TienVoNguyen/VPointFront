@@ -8,6 +8,10 @@ class ExcelService {
     sendMail(data) {
         return jsonRequest.post('http://localhost:8080/mailer', data, {headers: authHeader()})
     }
+
+    updateMark(id,mark) {
+        return jsonRequest.put(`mark/${id}`, mark, {headers: authHeader()})
+    }
 }
 
 export default new ExcelService();
