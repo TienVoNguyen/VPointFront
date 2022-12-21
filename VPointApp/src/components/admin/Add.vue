@@ -432,7 +432,7 @@ import swal from 'sweetalert2'
         if (value === null || value == '') {
           return null;
         }
-        return  value.toFixed(1);
+        return  Number(value).toFixed(1);
       },
       handleInputParams() {
         this.mark.kpi = this.getRoundValue(this.mark.kpi);
@@ -461,7 +461,7 @@ import swal from 'sweetalert2'
                 )
                 return;
             }
-            console.log(11, this.mark.kpi);
+            console.log(11, this.mark.improveYear);
             this.handleInputParams();
             let date = new Date(this.date);
             this.mark.month = date.getMonth() + 1;
