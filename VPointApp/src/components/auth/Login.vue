@@ -1,11 +1,10 @@
 <template>
   <div class="login-bg p-4">
-    <div class="row justify-content-center pt-lg-3">
-      <div class="col-md-12 col-lg-12">
-        <h3 class="text-white">HỆ THỐNG QUẢN LÝ ĐIỂM V-POINT</h3>
-      </div>
-      <div class="col-md-3 col-lg-5">
-        <div class="wrap">
+    <h3 class="text-semibold text-white">HỆ THỐNG QUẢN LÝ ĐIỂM V-POINT</h3>
+<!--    <div class="row justify-content-center pt-lg-3">-->
+<!--      -->
+<!--      <div class="col-md-3 col-lg-5">-->
+        <div class="d-flex justify-content-center">
           <div class="login-wrap p-md-4">
             <div class="d-flex">
               <div class="w-100">
@@ -59,8 +58,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+<!--    </div>-->
+<!--  </div>-->
 </template>
 
 <script>
@@ -87,17 +86,26 @@ export default {
       return this.$store.state.auth.user;
     },
   },
-  created() {
-
-    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
-      this.$router.push('/admin/home');
-    }
-    if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER") {
-
-      this.$router.push('/user/home');
-    }
-  },
+  // created() {
+  //
+  //   if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === true) {
+  //     this.$router.push('/admin/home');
+  //   } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
+  //     this.logOut()
+  //     this.$router.push('/access');
+  //   }
+  //   if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER" && this.currentUser.status === true) {
+  //     this.$router.push('/user/home');
+  //   } else if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN" && this.currentUser.status === false) {
+  //     this.logOut()
+  //     this.$router.push('/access');
+  //   }
+  // },
   methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    },
     handleLogin() {
       if (!this.user.email && !this.user.password) {
         this.messageForm = 'Vui lòng nhập thông tin đăng nhập';
@@ -120,18 +128,26 @@ export default {
       if (this.check === true) {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
-              if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
-                this.$router.push('/admin/home');
-              }
-              if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER") {
-                this.$router.push('/user/home');
-              }
+              console.log(this.currentUser)
+                if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_ADMIN") {
+                  this.$router.push('/admin/home');
+                }
+                if (this.loggedIn && this.currentUser.roles[0].authority === "ROLE_USER") {
+                  this.$router.push('/user/home');
+                }
             },
             error => {
+              console.log(error)
               this.a = (error.response && error.response.data)
+              this.messageForm = '';
+              if (error.response.data === 'User has locked'){
+                this.messageForm = 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ bộ phận nhân sự!';
+              } else {
+                this.messageForm = 'Sai thông tin đăng nhập! Vui lòng kiểm tra lại';
+              }
               this.messageEmail = '';
               this.messagePass = '';
-              this.messageForm = 'Sai thông tin đăng nhập. Vui lòng kiểm tra lại';
+
               this.message = ''
             }
         );

@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <div v-if="addFileStatus">
-      <h4 class="header-import">Thêm mới dữ liệu tính điểm V-Point bằng cách import file excel</h4>
+      <h4 class="header-import">Thêm mới dữ liệu tính điểm V-Point</h4>
       <b-form-file @change="addFile($event)"
                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                    v-model="file" class="mb-2"></b-form-file>
@@ -69,10 +69,10 @@
             label="NVXS Tháng"
             width="70">
           <template v-slot="scope">
-          <div class="d-flex justify-content-center">
-            <input type="checkbox" :name="scope.row.staff_id+'nvxst'" v-model="scope.row.bestDepartmentMonth"
-                   value="true">
-          </div>
+            <div class="d-flex justify-content-center">
+              <input type="checkbox" :name="scope.row.staff_id+'nvxst'" v-model="scope.row.bestDepartmentMonth"
+                     value="true">
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -172,51 +172,55 @@
             prop="disciplineViolate"
             label="Phạt">
           <template v-slot="scope">
-            <input type="number" max="0" min="-999" v-model="scope.row.disciplineViolate" style="width: 100%; border: none">
+            <input type="number" max="0" min="-999" v-model="scope.row.disciplineViolate"
+                   style="width: 100%; border: none">
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div v-if="!addFileStatus">
+      <div class="d-flex justify-content-end mb-2">
+        <b-button variant="danger" @click="sendMail" class="mr-2">Gửi Điểm</b-button>
+      </div>
       <el-table
           border
-          :data="listMark"
-          style="width: 100%">
+          :data="listMark">
         <el-table-column
             label="STT"
-            width="80">
+            width="80"
+        align="center">
           <template v-slot="scope">
-            <span>{{ scope.$index + 1 }}</span>
+            <p >{{ scope.$index + 1 }}</p>
           </template>
         </el-table-column>
         <el-table-column
             prop="staff_id"
             label="Mã nhân viên"
-            width="180">
+            width="150">
         </el-table-column>
         <el-table-column
             prop="fullName"
             label="Họ tên"
-            width="220">
+            width="200">
         </el-table-column>
         <el-table-column
             prop="department"
             label="Bộ phận"
-            width="250">
+            width="200">
         </el-table-column>
         <el-table-column
             prop="month"
             label="Tháng"
-            width="140">
+            width="80">
         </el-table-column>
         <el-table-column
             prop="year"
             label="Năm"
-            width="140">
+            width="80">
         </el-table-column>
         <el-table-column
             label="Tổng điểm"
-            width="140">
+            width="80">
           <template v-slot="scope">
             {{
               scope.row.pointKPI + scope.row.pointBestDepartmentMonth + scope.row.pointBestDepartmentQuarter + scope.row.pointBestDepartmentYear
@@ -245,8 +249,10 @@
 
 <script>
 import ExcelService from "@/service/excel.service";
-import swal from 'sweetalert2'
+import swal from 'sweetalert2';
+
 const ExcelJS = require('exceljs');
+import * as fs from 'file-saver';
 
 export default {
   name: "ImportExcel",
@@ -258,7 +264,8 @@ export default {
       addStatus: false,
       listMark: [],
       visibleTable: false,
-      addFileStatus: true
+      addFileStatus: true,
+
     }
   },
   methods: {
@@ -296,35 +303,21 @@ export default {
                 year: row.getCell('E').value,
                 month: row.getCell('F').value,
                 kpi: row.getCell('G').value,
-                kpiID: 1,
-                bestDepartmentID: 2,
                 bestDepartmentMonth: row.getCell('H').value,
-                bestDepartmentQuarterID: 16,
                 bestDepartmentQuarter: row.getCell('I').value,
-                bestDepartmentYearID: 17,
                 bestDepartmentYear: row.getCell('J').value,
-                excellentDepartmentMonthID: 9,
                 excellentDepartmentMonth: row.getCell('K').value,
-                excellentDepartmentYearID: 10,
                 excellentDepartmentYear: row.getCell('L').value,
-                bcsDepartmentID: 3,
                 bcsDepartment: row.getCell('M').value,
-                jointActivitiesID: 4,
                 jointActivities: row.getCell('N').value,
-
                 train: row.getCell('P').value,
-
                 trainStaff: row.getCell('O').value,
-                improveID: 6,
                 improve: row.getCell('Q').value,
-                trainVmgID: 12,
                 trainVmg: row.getCell('U').value,
-                loveVmgID: 7,
                 loveVmg: row.getCell('R').value,
-                disciplineBonusID: 13,
                 disciplineBonus: row.getCell('S').value,
-                disciplineViolateID: 8,
                 disciplineViolate: row.getCell('T').value,
+                backgroundClass: "success-row"
               }
               this.items.push(mark)
             }
@@ -354,31 +347,135 @@ export default {
           newMark.year = mark.year
           newMark.month = mark.month
           this.listMark.push(newMark)
-          count ++;
+          count++;
           if (this.listMark.length > 0) {
             this.addStatus = false
             this.visibleTable = true
             this.addFileStatus = false
 
           }
-        }).catch(error => {
-          err ++;
-          console.log(error)
+        }).catch(() => {
+          err++;
+          mark.backgroundClass = "warning-row"
+
         })
       }
-      if (count>0) {
+      swal.fire({
+        showDenyButton: true,
+        icon: 'info',
+        title: 'Kết quả thêm điểm',
+        text: `Thêm thành công: ${count} dòng. Thất bại: ${err} dòng.`,
+        confirmButtonText: 'Xong!',
+        denyButtonText: `Lưu kết quả`,
+      }).then((result) => {
+        if (result.isDenied) {
+          this.exportResult(markList)
+        }
+      })
+
+    },
+    exportResult(listData) {
+      let header = ['STT', 'Mã NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'NĂM', 'THÁNG', 'KPI', 'NVXS THÁNG', 'NVXS QUÝ',
+        'NVXS NĂM', 'BỘ PHẬN XS THÁNG', 'BỘ PHẬN XS NĂM', 'BSC BỘ PHẬN', 'HOẠT ĐỘNG CHUNG', 'ĐÀO TẠO GIẢNG VIÊN',
+        'THAM GIA ĐÀO TẠO', 'NV ST THÁNG', 'PHÁT TRIỂN VMG', 'I LOVE VMG', 'BONUS', 'PHẠT'];
+      let count = 1;
+      let workbook = new ExcelJS.Workbook()
+      let worksheet = workbook.addWorksheet('VPOINT')
+      let headerRow = worksheet.addRow(header)
+      headerRow.font = {
+        name: 'Time New Roman'
+      }
+      headerRow.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {argb: 'FFFFFF00'},
+          bgColor: {argb: 'FF0000FF'}
+        }
+        cell.border = {top: {style: 'thin'}, left: {style: 'thin'}, bottom: {style: 'thin'}, right: {style: 'thin'}}
+      });
+      listData.forEach(d => {
+        let row = worksheet.addRow([count++, ...Object.values(d)]);
+        row.font = {
+          color: {
+            argb: '00000000',
+          },
+          bold: false
+        }
+        if (d.backgroundClass === 'warning-row') {
+          row.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: {argb: 'F71616'},
+            bgColor: {argb: 'F71616'}
+          }
+
+        }
+        row.eachCell((cell, index) => {
+          if (index > 5 || index === 1) {
+            cell.alignment = {
+              vertical: 'middle', horizontal: 'center'
+            };
+          }
+          cell.border = {
+            top: {
+              style: 'thin'
+            },
+            left: {
+              style: 'thin'
+            },
+            bottom: {
+              style: 'thin'
+            },
+            right: {
+              style: 'thin'
+            }
+          };
+        });
+      });
+      worksheet.getColumn(1).width = 5;
+      worksheet.getColumn(2).width = 25;
+      worksheet.getColumn(3).width = 25;
+      worksheet.getColumn(4).width = 25;
+      worksheet.getColumn(5).width = 15;
+      worksheet.getColumn(6).width = 15;
+      worksheet.getColumn(7).width = 20;
+      worksheet.getColumn(8).width = 20;
+      worksheet.getColumn(9).width = 20;
+      worksheet.getColumn(10).width = 20;
+      worksheet.getColumn(11).width = 20;
+      worksheet.getColumn(12).width = 20;
+      worksheet.getColumn(13).width = 20;
+      worksheet.getColumn(14).width = 20;
+      worksheet.getColumn(15).width = 20;
+      worksheet.getColumn(16).width = 20;
+      workbook.xlsx.writeBuffer().then((mark) => {
+        let blob = new Blob([mark], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+        fs.saveAs(blob, 'result.xlsx');
+      });
+    },
+    sendMail() {
+      let mailDetails = []
+      this.listMark.forEach(mark => {
+        mailDetails.push({
+          staffId: mark.staff_id,
+          year: mark.year,
+          month: mark.month,
+          totalPoint: (mark.pointKPI + mark.pointBestDepartmentMonth + mark.pointBestDepartmentQuarter + mark.pointBestDepartmentYear
+              + mark.pointBCSDepartment + mark.pointJointActivities + mark.pointLoveVmg +
+              +mark.pointTrain + mark.pointTrainStaff + mark.pointTrainVmg + mark.pointImprove
+              + mark.pointDisciplineBonus + mark.pointDisciplineViolate + mark.pointExcellentDepartmentMonth
+              + mark.pointExcellentDepartmentMonth + mark.pointExcellentDepartmentYear)
+        })
+      })
+      ExcelService.sendMail(mailDetails).then(() => {
         swal.fire({
           icon: 'success',
-          title: 'Thành công',
-          text: `Thêm điểm thành công ${count}`
+          title: 'Gửi mail thành công',
+          confirmButtonText: 'Xong!',
         })
-      }else if (err>0)
-        swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `Không thành công ${err}`
-        })
-    },
+      })
+    }
 
   },
   mounted() {

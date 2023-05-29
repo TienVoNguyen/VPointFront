@@ -15,12 +15,14 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           <div class="row justify-content-center mb-3">
             <div class=" col-4" align="right">
               <select v-model="CateId" @change="getUserListByCateIdAndName"
-                      style="width: 250px; height: 34px; display: inherit; align-items: center;">
+                      class="input-group-text text-left" style="width: 250px; height: 34px; display: inherit; align-items: center;">
                 <option value="">Tất cả bộ phận</option>
                 <option v-for="d in departments" v-bind:value="d.id" v-bind:key="d.id">
                   {{ d.name }}
                 </option>
               </select>
+
+
             </div>
             <div class="text-right col-lg-4">
               <input placeholder="Nhập tên nhân sự" style="width: 250px; display: inherit" class="input-group-text text-left" type="text" v-model="fullName"
@@ -32,21 +34,24 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         </div>
         <div class="col-6">
           <div class="text-right">
-            <el-button type="danger" @click="removeValidateCreate(true)" style="width: 35%">Thêm nhân viên mới
+            <el-button type="danger" @click="removeValidateCreate(true)" style="width: 35%">
+              Thêm nhân viên mới
             </el-button>
           </div>
         </div>
       </div>
     </el-header>
-    <el-main >
+    <el-main>
       <el-table
+          :row-class-name="tableRowClassName"
           border
           :data="listUser"
-          style="width: auto">
+          style="width: 1350px; margin-right: auto; margin-left: auto"
+          >
         <el-table-column
             prop="staffId"
             label="Mã nhân viên"
-            width="150">
+            width="130">
         </el-table-column>
         <el-table-column
             prop="fullName"
@@ -61,9 +66,10 @@ color: #246CD9;">Quản lý người dùng</h3><br>
         <el-table-column
             prop="department.name"
             label="Phòng ban"
-            width="300">
+            width="150">
         </el-table-column>
         <el-table-column
+             align="center"
             label="Quyền truy cập"
             width="125">
           <template v-slot="scope">
@@ -73,37 +79,48 @@ color: #246CD9;">Quản lý người dùng</h3><br>
           </template>
         </el-table-column>
         <el-table-column
+            align="center"
+            label="Trạng thái"
+            width="180">
+          <template v-slot="scope">
+            <span v-if="scope.row.status === true" style="color: #1dad33">
+              {{scope.row.status === true? 'Đang hoạt động' : 'Đã tạm ngừng'}}
+            </span>
+            <span v-if="scope.row.status === false" style="color: #b82323">
+              {{scope.row.status === true? 'Đang hoạt động' : 'Đã tạm ngừng'}}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column
             align="center" class="w-100" style="width: 200px"
         label="Tùy chọn">
           <template v-slot="scope">
             <el-tooltip class="item" effect="dark" content="Sửa thông tin" placement="top">
-              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate(true, scope.row.id)" ><i style="font-size: 20px; color: #000000"
-                                                                                                            class="el-icon-edit"></i>
-              </el-button>
+              <i style="font-size: 18px; color: #f8d109" @click="removeValidate(true, scope.row.id)" class="el-icon-edit"></i>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-              <el-button class="btn btn-primary-outline" type="text" @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id"><i
-                  style="font-size: 20px; color: #001aff"
+                <i @click="removeValidate1(true, scope.row.id)" v-if="scope.row.id !== currentUser.id" style="font-size: 18px; color: #1dad33; margin-left: 30px"
                   class="el-icon-key"></i>
-              </el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Xóa" placement="top" v-if="scope.row.id !== currentUser.id">
-              <el-button class="btn btn-primary-outline" type="text" @click="deleteUser(scope.row.id)"><i style="font-size: 20px; color: red"
-                                                                                                 class="el-icon-delete"></i>
-              </el-button>
+            <el-tooltip class="item" effect="dark" content="Khóa người dùng" placement="top" >
+                <i v-if="scope.row.id !== currentUser.id && scope.row.status === true" @click="lockUser(scope.row.id)" style="font-size: 18px; color: red; margin-left: 30px" class="el-icon-lock"></i>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="Mở khóa" placement="top">
+                <i @click="unlockUser(scope.row.id)" v-if="scope.row.id !== currentUser.id && scope.row.status === false" style="font-size: 18px; color: dodgerblue; margin-left: 30px" class="el-icon-unlock"></i>
+
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
-    </el-main>
-    <br>
-    <el-footer>
       <el-pagination
           layout="prev, pager, next"
           :page-count="count"
           @current-change="handlePageChange"
           hide-on-single-page>
       </el-pagination>
+    </el-main>
+    <el-footer>
+
     </el-footer>
 
     <!-- change pass -->
@@ -338,7 +355,7 @@ export default {
         if(value === ''){
           callback(new Error('Vui lòng nhập mật khẩu'))
         } else if (!this.validPass(value)) {
-          callback('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thường')
+          callback('Mật khẩu gồm 8 ký tự trở lên có ít nhất một số và một chữ hoa và chữ thườn')
         } else {
           callback()
         }
@@ -630,6 +647,7 @@ export default {
     this.roles = response1.data;
     let response2 = await authService.getAllDepartment()
     this.departments = response2.data;
+    console.log(this.currentUser);
   },
   computed: {
     loggedIn() {
@@ -640,6 +658,13 @@ export default {
     },
   },
   methods: {
+
+    tableRowClassName({row}) {
+      if (row.status === false) {
+        return 'warning-row';
+      }
+      return '';
+    },
 
     validEmail: function (email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -687,6 +712,79 @@ export default {
       this.listUser = response.data.content;
       this.count = response.data.totalPages;
     },
+    lockUser(userId){
+      swal.fire({
+        title: 'Bạn có chắc muốn khóa người này?',
+        text: 'Dữ liệu điểm của người này vẫn được lưu trữ nhưng người này không thể đăng nhập vào hệ thống',
+
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d63049',
+        cancelButtonColor: '#33dd91',
+        confirmButtonText: 'Khóa',
+        cancelButtonText: 'Quay lại',
+      }).then(async (result) => {
+            if (result.isConfirmed) {
+              let response = await authService.lockUser(userId);
+              if (response) {
+                const params = this.getRequestParams(
+                    this.page,
+                    this.size
+                );
+                let response = await userService.getAll(params)
+                this.listUser = response.data.content
+                this.count = response.data.totalPages;
+              }
+              await swal.fire({
+                    toast: true,
+                    title: "Đã khóa!",
+                    icon: "success",
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                  }
+              );
+            }
+          }
+      );
+    },
+
+    unlockUser(userId){
+      swal.fire({
+        title: 'Mở khóa người này?',
+        // text: 'Dữ liệu điểm của người này vẫn được lưu trữ nhưng người này không thể đăng nhập vào hệ thống',
+
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#33dd91',
+        cancelButtonColor: '#d63049',
+        confirmButtonText: 'Mở khóa',
+        cancelButtonText: 'Quay lại',
+      }).then(async (result) => {
+            if (result.isConfirmed) {
+              let response = await authService.unlockUser(userId);
+              if (response) {
+                const params = this.getRequestParams(
+                    this.page,
+                    this.size
+                );
+                let response = await userService.getAll(params)
+                this.listUser = response.data.content
+                this.count = response.data.totalPages;
+              }
+              await swal.fire({
+                    toast: true,
+                    title: "Xong!",
+                    icon: "success",
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                  }
+              );
+            }
+          }
+      );
+    },
 
     handleRegister(userForm) {
       this.$refs[userForm].validate((valid) => {
@@ -699,9 +797,6 @@ export default {
               authService.createUser(formdata)
                   .then(
                       async data => {
-                        if (this.listUser.length === 10) {
-                          this.page += 1
-                        }
                         const params = this.getRequestParams(
                             this.page,
                             this.size
@@ -974,5 +1069,17 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
+.el-table .warning-row {
+  background: #fbe6fd;
+}
+
+.el-table .success-row {
+  background: #f0f9eb;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>

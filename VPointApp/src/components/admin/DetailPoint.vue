@@ -11,20 +11,20 @@
             <div class="col-4 ">
               <el-form-item prop="fullname">
                 <label for="fullname" >Họ và tên:</label>
-                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" disabled></el-input>
+                <el-input name= "fullname" v-model="user.fullName" autocomplete="off" readonly></el-input>
               </el-form-item>
             </div>
             <div class="col-4">
               <el-form-item prop="staffId">
                 <label for="staffId">Mã nhân sự:</label>
-                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" disabled></el-input>
+                <el-input name= "staffId" v-model="user.staffId" autocomplete="off" readonly></el-input>
               </el-form-item>
 
             </div>
             <div class="col-4 text-start">
               <el-form-item prop="email">
                 <label for="email">Email đăng nhập:</label>
-                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" disabled></el-input>
+                <el-input type="email" name= "email" v-model="user.email" autocomplete="off" readonly></el-input>
               </el-form-item>
 
             </div>
@@ -80,19 +80,19 @@
         <td>4</td>
         <td class="text-left">Sáng tạo</td>
         <td class="text-left">Cải tiến đổi mới</td>
-        <td>{{td6}}</td>
-        <td>{{td6}}</td>
+        <td>{{td6 + td19}}</td>
+        <td>{{td6 + td19}}</td>
       </tr>
       <tr>
         <td rowspan="2" class="vertical-center">5</td>
         <td rowspan="2" class="vertical-center text-left">Tuân thủ</td>
         <td class="text-left">Tôi yêu VMG</td>
-        <td>{{td7 + td13}}</td>
+        <td>{{td7}}</td>
         <td rowspan="2" class="vertical-center">{{td7 + td8 + td13}}</td>
       </tr>
       <tr>
         <td class="text-left">Kỷ luật</td>
-        <td>{{td8}}</td>
+        <td>{{td8+ td13}}</td>
       </tr>
       <tr >
         <th colspan="4" style="background-color: #dc3545; line-height: 25px; color: white; font-size: 20px" > Tổng điểm</th>
@@ -133,6 +133,7 @@ export default {
       td15: 0,
       td16: 0,
       td17: 0,
+      td19: 0,
     }
   },
 
@@ -216,6 +217,9 @@ export default {
         }
         if (this.Point[i].item.id === 17){
           this.td17 = this.Point[i].point
+        }
+        if (this.Point[i].item.id === 19){
+          this.td19 = this.Point[i].point
         }
       }
       console.log(this.td12)

@@ -2,10 +2,14 @@
   <el-container>
     <el-header class="mt-4 h-100">
       <h2 class="vpointheader">Xuất dữ liệu điểm V-Point</h2>
-      <div class="d-flex mt-4 justify-content-center" style="align-items: baseline;">
-        <div class="text-left  d-inline-block">
-          <p style="color: #6c757d"> Bộ phận:
-            <span style="">
+
+    </el-header>
+    <el-main class="pt-0">
+      <div class="row">
+        <div class="d-flex justify-content-center col-lg-6" style="align-items: end; margin-bottom: .5rem">
+
+            <p class="text-left" style="color: #6c757d"> Bộ phận:
+              <span >
                     <select class="form-control" v-model="department"
                             style="width: 120px; display: inherit; align-items: center;">
                       <option value="">Tất cả</option>
@@ -14,10 +18,9 @@
                       </option>
                     </select>
                   </span>
-          </p>
-        </div>
-        <p class="d-inline-block ml-4" style="color: #6c757d; margin-bottom: 2rem"> Tháng:
-          <span>
+            </p>
+          <p class="text-left" style="color: #6c757d;"> Tháng:
+            <span>
                   <select class="form-control" v-model="month"
                           style="width: 100px; display: inherit; align-items: center">
                     <option v-for="m in monthData" :key="m">
@@ -25,9 +28,9 @@
                     </option>
                   </select>
                 </span>
-        </p>
-        <p class="d-inline-block ml-4" style="color: #6c757d; margin-bottom: 2rem"> Năm:
-          <span>
+          </p>
+          <p class="text-left" style="color: #6c757d; "> Năm:
+            <span>
                   <select class="form-control" v-model="year"
                           style="width: 100px; display: inherit; align-items: center">
                     <option v-for="y in yearData" :key="y">
@@ -35,22 +38,23 @@
                     </option>
                   </select>
                 </span>
-        </p>
-        <p class="d-inline-block ml-4" style="color: #6c757d; ">
-          <el-button round @click="getParams">Tìm kiếm</el-button>
-        </p>
+          </p>
+          <p  style="color: #6c757d; ">
+            <el-button round @click="getParams">Tìm kiếm</el-button>
+          </p>
+        </div>
+        <div class="mb-4 text-right col-lg-6" style="display: flex; justify-content: end; align-items: end;">
+          <el-button type="info" plain round @click="sendMail">Gửi điểm</el-button>
+          <el-button type="primary" plain round @click="exportTotal">Xuất tổng điểm</el-button>
+          <el-button type="success" plain round @click="exportDetail">Xuất chi tiết điểm</el-button>
+        </div>
       </div>
-    </el-header>
-    <el-main>
-      <div class="mb-4 text-right">
-        <el-button type="primary" plain round @click="exportTotal">Xuất tổng điểm</el-button>
-        <el-button type="success" plain round @click="exportDetail">Xuất chi tiết điểm</el-button>
-      </div>
+
 
       <el-table border
                 :data="allMark"
                 style="width: 100%"
-                height="430">
+                height="530">
         <el-table-column
             align="center"
             label="STT"
@@ -192,6 +196,8 @@ import MarkService from "@/service/mark-service";
 import authService from "@/service/auth-service";
 import ExcelJS from "exceljs";
 import * as fs from 'file-saver';
+import ExcelService from "@/service/excel.service";
+import swal from "sweetalert2";
 
 export default {
   name: "ExportExcel",
@@ -207,9 +213,27 @@ export default {
     }
   },
   methods: {
+    sendMail() {
+      let mailDetails = []
+      this.allMark.forEach(mark => {
+        mailDetails.push({
+          staffId: mark.staffId,
+          year: mark.year,
+          month: mark.month,
+          totalPoint: mark.total !== null ? mark.total : 0
+        })
+      })
+      ExcelService.sendMail(mailDetails).then(() => {
+        swal.fire({
+          icon: 'success',
+          title: 'Gửi mail thành công',
+          confirmButtonText: 'Xong!',
+        })
+      })
+    },
     exportTotal() {
       let data = [];
-      let header = ['STT', 'Mã NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'NĂM', 'THÁNG', 'Tổng điểm'];
+      let header = ['STT', 'Mã NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'THÁNG', 'NĂM', 'Tổng điểm'];
       this.allMark.forEach(mark => {
         let newMark = {
           staffId: mark.staffId,
@@ -225,7 +249,7 @@ export default {
       this.exportFile(header, null, data);
     },
     exportDetail() {
-      const header = ['STT', 'MÃ NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'NĂM', 'THÁNG', 'TỔNG ĐIỂM', 'KPI',
+      const header = ['STT', 'MÃ NHÂN SỰ', 'BỘ PHẬN', 'HỌ VÀ TÊN', 'THÁNG', 'NĂM', 'TỔNG ĐIỂM', 'KPI',
         'NVXS, BPXS', 'BSC BỘ PHẬN', 'HOẠT ĐỘNG CHUNG', 'ĐÀO TẠO', 'SÁNG TẠO THÁNG', 'I LOVE VMG', 'BONUS', 'KỶ LUẬT']
       const subTitle = ['', '', '', '', '', '', '', 'HIỆU SUẤT CÔNG VIỆC', '', 'LÀM VIỆC NHÓM', '', 'ĐÀO TẠO',
         'SÁNG TẠO', 'TUÂN THỦ']
@@ -304,6 +328,7 @@ export default {
           },
           bold: false
         }
+
         row.eachCell((cell, index) => {
           if ( index > 5 || index === 1) {
             cell.alignment = {

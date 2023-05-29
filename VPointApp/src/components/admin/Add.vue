@@ -9,19 +9,19 @@
           <el-col :span="4">
           <el-form-item class="form-item">
             <span class="text-item">Mã nhân viên</span>
-            <el-input v-model="mark.staff_id" :disabled="true"></el-input>
+            <el-input v-model="mark.staff_id" readonly></el-input>
           </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item class="form-item">
               <span class="text-item">Tên nhân viên</span>
-              <el-input v-model="user.name" :disabled="true"></el-input>
+              <el-input v-model="user.name" readonly></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item class="form-item">
               <span class="text-item">Bộ phận</span>
-              <el-input v-model="user.department" :disabled="true" ></el-input>
+              <el-input v-model="user.department" readonly></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,7 +53,9 @@
         <el-col :span="6" :offset="4">
           <el-form-item prop="kpi" >
             <p class="text-content">1. KPI cá nhân</p>
-            <el-input placeholder="Nhập KPI(%)" type="number" v-model="mark.kpi" ></el-input>
+            <el-input placeholder="Nhập KPI(%)" type="number" v-model="mark.kpi" >
+              <template slot="append">%</template>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -127,12 +129,14 @@
               <el-col :span="6" :offset="4">
                 <el-form-item prop="bcsDepartment"  >
                   <p class="text-content">3. Điểm BSC bộ phận</p>
-                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment"></el-input>
+                  <el-input placeholder="Nhập điểm BSC bộ phận(%)" type="number" v-model="mark.bcsDepartment">
+                    <template slot="append">%</template>
+                  </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="6">
                 <p class="text-content">4. Hoạt động chung</p>
-                <el-form-item prop="jointActivities" >
+                <el-form-item >
                   <el-input placeholder="Nhập điểm hoạt động chung" type="number" v-model="mark.jointActivities"></el-input>
                 </el-form-item>
               </el-col>
@@ -153,7 +157,7 @@
                 <p class="text-content">5. Đào tạo</p>
               </el-col>
               <el-col :span="6" :offset="4">
-                <el-form-item prop="train">
+                <el-form-item>
                   <h6>5.1. Người đào tạo</h6>
                   <el-input placeholder="Nhập điểm" type="number" v-model="mark.train"></el-input>
                 </el-form-item>
@@ -161,12 +165,14 @@
               <el-col :span="6" :offset="6">
                 <el-form-item prop="trainStaff" >
                   <h6>5.2. Người tham gia đào tạo</h6>
-                  <el-input placeholder="Nhập điểm đào tạo(%)" type="number" v-model="mark.trainStaff"></el-input>
+                  <el-input placeholder="Nhập điểm đào tạo(%)" type="number" v-model="mark.trainStaff">
+                    <template slot="append">%</template>
+                  </el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6" :offset="4">
                 <h6>5.3. Chương trình phát triển cùng VMG</h6>
-                <el-form-item prop="trainVmg" >
+                <el-form-item>
                   <el-input placeholder="Nhập điểm" type="number" v-model="mark.trainVmg"></el-input>
                 </el-form-item>
               </el-col>
@@ -183,10 +189,19 @@
       <el-row>
         <el-col>
             <el-row>
+              <el-col :offset="4">
+                <p class="text-content">6. Cải tiến, đổi mới</p>
+              </el-col>
               <el-col :span="6" :offset="4">
                 <el-form-item  >
-                  <p class="text-content">6. Cải tiến đổi mới</p>
+                  <h6>6.1 Cải tiến đổi mới</h6>
                   <el-checkbox v-model="mark.improve"><span class="text-checkbox">Nhân sự có ý tưởng cải tiến đổi mới tháng</span></el-checkbox>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" :offset="6">
+                <el-form-item>
+                  <h6>6.2 Điểm cải tiến đổi mới năm</h6>
+                  <el-input placeholder="Nhập điểm" type="number" v-model="mark.improveYear"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -205,7 +220,9 @@
             <el-col :span="6" :offset="4">
               <el-form-item prop="loveVmg" >
                 <p class="text-content">7. Tôi yêu VMG</p>
-                <el-input type="number" v-model="mark.loveVmg" placeholder="Nhập điểm test(%)" ></el-input>
+                <el-input type="number" v-model="mark.loveVmg" placeholder="Nhập điểm test(%)" >
+                  <template slot="append">%</template>
+                </el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -234,7 +251,7 @@
       </el-row>
     </el-collapse-item>
       <el-form-item>
-        <el-button class="btn-submit" type="danger" v-on:click.prevent="onSubmit('mark')">Thêm mới</el-button>
+        <el-button class="btn-submit" type="danger" v-on:click.prevent="onSubmit('mark')">Nhập điểm</el-button>
       </el-form-item>
       </el-collapse>
     </el-form>
@@ -294,16 +311,6 @@ import swal from 'sweetalert2'
           }
         }, 500)
       };
-      // var checkNumber = (rule, value, callback) => {
-      //   // value = Number(value);
-      //   setTimeout(() => {
-      //     if ( value && !Number.isInteger(value)) {
-      //       callback(new Error('Hãy nhập số'));
-      //     } else {
-      //       callback();
-      //     }
-      //   }, 500);
-      // };
       var checkTrainVmg = (rule, value, callback) => {
         value = Number(value);
         setTimeout(() => {
@@ -362,38 +369,25 @@ import swal from 'sweetalert2'
           id: ''
         },
         date: null,
+        checkMArk: false,
         mark: {
           staff_id: '',
-          kpiID: 1,
           kpi: null,
           disciplineBonus: null,
-          bestDepartmentMonthID: 2,
           bestDepartmentMonth: false,
-          bestDepartmentQuarterID: 16,
           bestDepartmentQuarter: null,
-          bestDepartmentYearID: 17,
           bestDepartmentYear: null,
-          jointActivitiesID: 4,
           jointActivities: null,
-          bcsDepartmentID: 3,
           bcsDepartment: null,
-          trainID: 5,
           train: null,
-          improveID: 6,
           improve: false,
-          loveVmgID: 7,
           loveVmg: null,
-          trainStaffID: 11,
           trainStaff: null,
-          excellentDepartmentMonthID: 9,
           excellentDepartmentMonth: false,
-          excellentDepartmentYearID: 10,
           excellentDepartmentYear: false,
-          trainVmgID: 12,
           trainVmg: null,
-          disciplineBonusID: 13,
-          disciplineViolateID: 8,
           disciplineViolate: null,
+          improveYear: null,
           month: null,
           year: null
         },
@@ -428,6 +422,30 @@ import swal from 'sweetalert2'
       };
     },
     methods: {
+      getRoundValue(value) {
+        if (value === null || value == '') {
+          return null;
+        }
+        return Math.round(value);
+      },
+      getFixedValue(value) {
+        if (value === null || value == '') {
+          return null;
+        }
+        return  value.toFixed(1);
+      },
+      handleInputParams() {
+        this.mark.kpi = this.getRoundValue(this.mark.kpi);
+        this.mark.disciplineViolate = this.getRoundValue(this.mark.disciplineViolate);
+        this.mark.bcsDepartment = this.getRoundValue(this.mark.bcsDepartment)
+        this.mark.jointActivities = this.getFixedValue(this.mark.jointActivities);
+        this.mark.train = this.getFixedValue(this.mark.train);
+        this.mark.trainStaff = this.getRoundValue(this.mark.trainStaff);
+        this.mark.trainVmg = this.getFixedValue(this.mark.trainVmg);
+        this.mark.improveYear = this.getFixedValue(this.mark.improveYear);
+        this.mark.loveVmg = this.getRoundValue(this.mark.loveVmg);
+        this.mark.disciplineBonus = this.getRoundValue(this.mark.disciplineBonus);
+      },
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -443,6 +461,8 @@ import swal from 'sweetalert2'
                 )
                 return;
             }
+            console.log(11, this.mark.kpi);
+            this.handleInputParams();
             let date = new Date(this.date);
             this.mark.month = date.getMonth() + 1;
             this.mark.year = date.getFullYear();
@@ -502,6 +522,8 @@ import swal from 'sweetalert2'
         markService.getMarkByUserAndDate(dataReq)
           .then(response => {
             this.mark = response.data;
+            console.log(response.data)
+            // this.checkMArk = true;
           })
           .catch (error => {
             console.log(error);
@@ -526,18 +548,12 @@ import swal from 'sweetalert2'
   }
 
   .text-header{
-    /* margin-left: 50px; */
-    /* display: inline; */
     font-family: 'Roboto';
     font-style: normal;
     font-size: 25px;
     line-height: 29px;
     font-weight: 600;
-    /* padding-top: 25px; */
     margin: auto;
-
-    /* đỏ */
-
     color: #ED1C24;
   }
 
